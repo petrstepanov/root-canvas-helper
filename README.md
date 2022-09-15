@@ -34,13 +34,13 @@ Additionally, this library provides a few useful features, such as:
 * Library also allows adding a subtitle to the ROOT canvas. This may be useful for plots that need some extra information.
 
 <figure>
-  <img src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/multi-pad-canvas-title.png" alt="Add title for ROOT canvas with multiple pads" />
+  <img width="75%" src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/multi-pad-canvas-title.png" alt="Add title for ROOT canvas with multiple pads" />
 </figure>
 
 * Impemented rounding of the parameter values and errors inside the statistics box. Parameter values round to the first significant digit of their errors. This improves visual clarity of the data.
 
 <figure>
-  <img src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/cern-root-parameter-values-rounding.png" alt="Rounding of the parameter values for ROOT statistics box" />
+  <img width="75%" src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/cern-root-parameter-values-rounding.png" alt="Rounding of the parameter values for ROOT statistics box" />
 </figure>
 
 * Stat boxes and legends can be force aligned to canvas edges. Single edge or a combination of two (e.g. top & left, bottom & right) are supported.
