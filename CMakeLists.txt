@@ -56,6 +56,7 @@ message(STATUS "Found list of source files: ${SOURCES}")
 # TARGET: create shared library
 set(SHARED_LIB_TARGET ${PROJECT_NAME}-so)
 add_library(${SHARED_LIB_TARGET} SHARED)
+set_property(TARGET ${SHARED_LIB_TARGET} PROPERTY PUBLIC_HEADER ${HEADERS})
 
 # Tip: cmake target name and target output file name can be different. Here we tell target "<project-name>-so" produces library named "<project-name>" 
 set_target_properties(${SHARED_LIB_TARGET} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
@@ -92,14 +93,22 @@ set_target_properties(${EXECUTABLE_TARGET} PROPERTIES OUTPUT_NAME ${PROJECT_NAME
 # Set output name for the executable - trick to have library and binary with the same name 
 target_link_libraries(${EXECUTABLE_TARGET} ${SHARED_LIB_TARGET})
 
+#message(STATUS "${ROOT_BINDIR}")
+#message(STATUS "${ROOT_LIBRARY_DIR}")
+#message(STATUS "${ROOT_INCLUDE_DIRS}")
+
 # TARGET: integrate library to ROOT
+
 install(TARGETS ${EXECUTABLE_TARGET}
-        RUNTIME DESTINATION ${ROOT_DIR}/bin
-        LIBRARY DESTINATION ${ROOT_LIBRARY_DIRS}
-        PUBLIC_HEADER DESTINATION ${ROOT_DIR}/include)
-#install(FILES ${PROJECT_BINARY_DIR}/libD_${PROJECT_NAME}.rootmap
-#        DESTINATION $ENV{ROOTSYS}/lib)
-#install(FILES ${PROJECT_BINARY_DIR}/libD_${PROJECT_NAME}_rdict.pcm
-#        DESTINATION /usr/local/bin)
+        RUNTIME DESTINATION ${ROOT_BINDIR})
+
+install(TARGETS ${SHARED_LIB_TARGET}
+        LIBRARY DESTINATION ${ROOT_LIBRARY_DIR}
+        PUBLIC_HEADER DESTINATION ${ROOT_INCLUDE_DIRS})
+
+install(FILES ${PROJECT_BINARY_DIR}/lib${PROJECT_NAME}.rootmap
+       DESTINATION ${ROOT_LIBRARY_DIR})
+install(FILES ${PROJECT_BINARY_DIR}/lib${PROJECT_NAME}_rdict.pcm
+        DESTINATION ${ROOT_LIBRARY_DIR})
 
 
