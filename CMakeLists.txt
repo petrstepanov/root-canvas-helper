@@ -37,10 +37,11 @@ list(REMOVE_ITEM HEADERS ${LINKDEFH})
 message(STATUS "List of header files only: ${HEADERS}")
 
 # TARGET: generate the dictionary (extra C++ file containing custom ROOT methods)
-set(DICTIONARY_TARGET ${PROJECT_NAME}-dict)
+set(DICTIONARY_TARGET ${PROJECT_NAME})
 root_generate_dictionary(${DICTIONARY_TARGET} ${HEADERS} LINKDEF ${LINKDEFH})
 
 # Tip: name of the generated dictionary is same as target name with .cxx extension: ${DICTIONARY_TARGET}.cxx
+#      cmake automatically searches for .cpp, cxx etc files so neo need to add extension below
 set(DICTIONARY ${CMAKE_CURRENT_BINARY_DIR}/${DICTIONARY_TARGET})
 message(STATUS "Created dictionary file: ${DICTIONARY}")
 
@@ -53,15 +54,18 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
 message(STATUS "Found list of source files: ${SOURCES}")
 
 # TARGET: create shared library
-set(SHARED_LIB_TARGET ${PROJECT_NAME}-shared)
+set(SHARED_LIB_TARGET ${PROJECT_NAME}-so)
 add_library(${SHARED_LIB_TARGET} SHARED)
+
+# Tip: cmake target name and target output file name can be different. Here we tell target "<project-name>-so" produces library named "<project-name>" 
+set_target_properties(${SHARED_LIB_TARGET} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
 
 # Specify sources that shared library target should be built from. Dictionary file goes last
 target_sources(${SHARED_LIB_TARGET} PUBLIC ${SOURCES} ${DICTIONARY})
 
 # Compose list of ROOT libraries with "ROOT::" prefix - need to link them to the shared library
 set(LIB_NAMES "")
-FOREACH(X IN LISTS ROOT_LIBRARIES)
+FOREACH(X IN LISTS ${ROOT_LIBRARIES})
   get_filename_component(FILENAME ${X} NAME)
   string(REGEX REPLACE "lib([a-zA-Z0-9]+).so" "ROOT::\\1" FILENAME2 ${FILENAME})
   list(APPEND LIB_NAMES "${FILENAME2}")
@@ -74,17 +78,28 @@ list(APPEND LIB_NAMES "ROOT::RooFitCore")
 list(APPEND LIB_NAMES "ROOT::Html")
 list(APPEND LIB_NAMES "ROOT::Minuit")
 list(APPEND LIB_NAMES "ROOT::Fumili")
-message(STATUS "Found ROOT libraries: ${LIB_NAMES}")
+message(STATUS "Linking ROOT libraries: ${LIB_NAMES}")
 
 # Link found libraries to the project shared library
 target_link_libraries(${SHARED_LIB_TARGET} PUBLIC ${LIB_NAMES})
 message(STATUS "Created shared library target.")
 
-# TARGET: executable
-set(EXECUTABLE_TARGET ${PROJECT_NAME})
+# TARGET: executable name is same as target name here
+set(EXECUTABLE_TARGET ${PROJECT_NAME}-bin)
 add_executable(${EXECUTABLE_TARGET} ${PROJECT_SOURCE_DIR}/src/demo.cpp)
+set_target_properties(${EXECUTABLE_TARGET} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+
+# Set output name for the executable - trick to have library and binary with the same name 
 target_link_libraries(${EXECUTABLE_TARGET} ${SHARED_LIB_TARGET})
 
-
+# TARGET: integrate library to ROOT
+#install(TARGETS ${EXECUTABLE_TARGET}
+#        RUNTIME DESTINATION ${ROOT_DIR}/bin
+#        LIBRARY DESTINATION ${ROOT_LIBRARY_DIRS}
+#        PUBLIC_HEADER DESTINATION ${ROOT_DIR}/include)
+#install(FILES ${PROJECT_BINARY_DIR}/libD_${PROJECT_NAME}.rootmap
+#        DESTINATION $ENV{ROOTSYS}/lib)
+#install(FILES ${PROJECT_BINARY_DIR}/libD_${PROJECT_NAME}_rdict.pcm
+#        DESTINATION /usr/local/bin)
 
 
