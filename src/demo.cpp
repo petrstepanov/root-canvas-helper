@@ -32,7 +32,7 @@ void demo() {
   gStyle->SetOptFit(111);
   h->Fit("gaus");
 
-  // FEATURE 1: obtain default stat box from the canvas and align it to the left top corner
+  // FEATURE 1: obtain default statistics box from the canvas and align it
   TPave *pave = CanvasHelper::getDefaultPaveStats(pad1);
   CanvasHelper::setPaveAlignment(pave, CanvasHelper::kPaveAlignRight | CanvasHelper::kPaveAlignTop);
 
@@ -73,19 +73,23 @@ void demo() {
 
   pad4->BuildLegend();
   h1->SetTitle("Two Histograms");
-  // FEATURE 3: align a legend
+
+  // FEATURE 2: align a legend
   TLegend* legend = CanvasHelper::getDefaultLegend(pad4);
   CanvasHelper::setPaveAlignment(legend, CanvasHelper::kPaveAlignLeft | CanvasHelper::kPaveAlignTop);
 
-  // FEATURE 4: add title and/or subtitle to a multi-pad canvas
+  // FEATURE 3: add title and/or subtitle to a multi-pad canvas
   CanvasHelper::addMultiCanvasTitle(c, "Multi-Pad Canvas Title", "Canvas features a ROOT histogram and a graph.");
+
+  // FEATURE 4: add subtitle to a canvas
+  // TODO: add code
 
   // Pass canvas for processing
   CanvasHelper::getInstance()->addCanvas(c);
 
-  c->Modified();
-  c->Paint();
-  c->Update();
+//  c->Modified();
+//  c->Paint();
+//  c->Update();
 }
 
 #ifndef __CINT__

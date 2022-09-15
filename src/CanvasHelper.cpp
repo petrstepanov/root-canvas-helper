@@ -603,6 +603,17 @@ void CanvasHelper::alignAllPaves(TVirtualPad *pad) {
       TPaveText *paveText = (TPaveText*) pave;
       paveText->SetTextFont(getFont());
       paveText->SetTextSize(FONT_SIZE_NORMAL);
+    } else if (pave->InheritsFrom(TLegend::Class())) {
+      TLegend *legend = (TLegend*) pave;
+//      legend->SetTextFont(getFont());
+//      legend->SetTextSize(FONT_SIZE_NORMAL);
+      for (TObject *obj : *(legend->GetListOfPrimitives())) {
+        if (!obj->InheritsFrom(TLegendEntry::Class()))
+          continue;
+        TLegendEntry *entry = (TLegendEntry*) obj;
+        entry->SetTextFont(getFont());
+        entry->SetTextSize(FONT_SIZE_NORMAL);
+      }
     }
 
     // Round stat value/errors
@@ -995,7 +1006,7 @@ UInt_t CanvasHelper::getLegendWidthPx(TLegend *legend) {
     // maxTextLengthPx = TMath::Max(maxTextLengthPx, latexCopyWidthPx);
     latexCopy->Delete();
   }
-  return maxTextLengthPx + 50;
+  return maxTextLengthPx + 65;
 }
 
 // TODO: To be deleted! - not working well
@@ -1123,7 +1134,7 @@ void CanvasHelper::alignChildPad(TVirtualPad *canvas) {
   if (childPad == nullptr)
     return;
 
-  Double_t childPadHeightNDC = 1 - pxToNdcVertical(getFrameTopMarginPx(canvas) - 12, canvas);
+  Double_t childPadHeightNDC = 1 - pxToNdcVertical(getFrameTopMarginPx(canvas), canvas);
   childPad->SetPad(0, 0, 1, childPadHeightNDC);
   childPad->Modified();
   childPad->Update();
