@@ -24,16 +24,26 @@ This library is aimed on fixing issues outlined above. Canvas Helper converts RO
   <img src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/canvas-processed.png" alt="ROOT canvas processed with CanvasHelper" />
 </figure>
 
-A single line of code is required to make the change happen. We simply pass the canvas instance to the library:
+A single line of code is required to make the change happen. We simply pass the canvas instance to the library after all the primitives were created:
 ```
 CanvasHelper::getInstance()->addCanvas(yourCanvas);
 ```
 
 Additionally, this library provides a few useful features, such as:
-* Impemented proper rounding of the parameter values and errors in the statistics box. Parameter values always round to the first significant digit of the error.
-* Alignment of the stat box or legend to the canvas frame corners top-left, bottom-right etc...
-* Library also allows adding a subtitle to the ROOT canvas. This may be useful for plots that need some elaboration.
 * Adding a joint title for canvas that was divided into multiple pads. This was frequently asked on the ROOT forum.
+* Library also allows adding a subtitle to the ROOT canvas. This may be useful for plots that need some extra information.
+
+<figure>
+  <img src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/multi-pad-canvas-title.png" alt="Add title for ROOT canvas with multiple pads" />
+</figure>
+
+* Impemented rounding of the parameter values and errors inside the statistics box. Parameter values round to the first significant digit of their errors. This improves visual clarity of the data.
+
+<figure>
+  <img src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/cern-root-parameter-values-rounding.png" alt="Rounding of the parameter values for ROOT statistics box" />
+</figure>
+
+* Stat boxes and legends can be force aligned to canvas edges. Single edge or a combination of two (e.g. top & left, bottom & right) are supported.
 
 Another cool feature is that registered canvases and sub-pads automatically re-adjust all the dimensions and their primitives upon the resize event.
 

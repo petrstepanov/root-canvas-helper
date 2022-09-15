@@ -87,7 +87,7 @@ class CanvasHelper: public TObject {
 
     void addCanvas(TCanvas *canvas);
 
-    static void addSubtitle(const char *text, TVirtualPad *pad);
+    static void addSubtitle(TVirtualPad *pad, const char *text);
     static void setPaveAlignment(TPave *pave, UInt_t align);
 
     static TPaveStats* getDefaultPaveStats(TVirtualPad *pad);
@@ -101,7 +101,7 @@ class CanvasHelper: public TObject {
     static UInt_t getPaveTextWidthPx(TPaveText *paveText);
     static UInt_t getLegendWidthPx(TLegend *paveText);
 
-    static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle);
+    static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle = "");
 
 //    static UInt_t getTextWidthPx(TText* t);
 //    static UInt_t getTextHeightPx(TText* t);

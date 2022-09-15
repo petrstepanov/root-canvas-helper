@@ -399,7 +399,7 @@ std::pair<Double_t, Double_t> CanvasHelper::getSubtitleYNDCCoordinates(TVirtualP
   return std::make_pair(y1, y2);
 }
 
-void CanvasHelper::addSubtitle(const char *text, TVirtualPad *pad) {
+void CanvasHelper::addSubtitle(TVirtualPad *pad, const char *text) {
   std::pair<Double_t, Double_t> subtitleYCoords = getSubtitleYNDCCoordinates(pad);
   TPaveText *subtitle = new TPaveText(0, subtitleYCoords.first, 1, subtitleYCoords.second, "NBNDC"); // ndc coordinates
   subtitle->SetTextAlign(kHAlignCenter + kVAlignCenter);
@@ -1006,7 +1006,7 @@ UInt_t CanvasHelper::getLegendWidthPx(TLegend *legend) {
     // maxTextLengthPx = TMath::Max(maxTextLengthPx, latexCopyWidthPx);
     latexCopy->Delete();
   }
-  return maxTextLengthPx + 65;
+  return maxTextLengthPx + 45;
 }
 
 // TODO: To be deleted! - not working well
@@ -1117,8 +1117,8 @@ void CanvasHelper::addMultiCanvasTitle(TCanvas *canvas, const char *title, const
   t->Draw(); // Processor will align and style it later
 
   // Add subtitle text
-  if (subtitle != 0) {
-    addSubtitle(subtitle, canvas);
+  if (strlen(subtitle) > 0) {
+    addSubtitle(canvas, subtitle);
   }
 
   alignChildPad(canvas);

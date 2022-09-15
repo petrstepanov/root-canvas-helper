@@ -12,7 +12,7 @@
 
 void demo() {
 
-  #ifdef __CINT__
+#ifdef __CINT__
     // Load CanvasHelper library
     gSystem->Load("CanvasHelper_cpp.so");
   #endif
@@ -70,19 +70,18 @@ void demo() {
   h1->Draw("PLC PMC");
   h2->Draw("SAME PLC PMC");
 
-
   pad4->BuildLegend();
   h1->SetTitle("Two Histograms");
 
   // FEATURE 2: align a legend
-  TLegend* legend = CanvasHelper::getDefaultLegend(pad4);
+  TLegend *legend = CanvasHelper::getDefaultLegend(pad4);
   CanvasHelper::setPaveAlignment(legend, CanvasHelper::kPaveAlignLeft | CanvasHelper::kPaveAlignTop);
 
   // FEATURE 3: add title and/or subtitle to a multi-pad canvas
-  CanvasHelper::addMultiCanvasTitle(c, "Multi-Pad Canvas Title", "Canvas features a ROOT histogram and a graph.");
+  CanvasHelper::addMultiCanvasTitle(c, "Multi-Pad Canvas Title");
 
-  // FEATURE 4: add subtitle to a canvas
-  // TODO: add code
+  // FEATURE 4: add subtitle to a siongle canvas
+  CanvasHelper::addSubtitle(c, "Subtitle can be added to a single canvas or multi-pad canvas");
 
   // Pass canvas for processing
   CanvasHelper::getInstance()->addCanvas(c);
@@ -92,6 +91,30 @@ void demo() {
 //  c->Update();
 }
 
+void demo2() {
+  gStyle->SetOptFit(1);
+  gStyle->SetOptStat(1);
+
+  TCanvas *c1 = new TCanvas();
+  TH1F *ha = new TH1F("ha", "Default ROOT Fit Statistics Box", 200, -5, 5);
+  TF1 *f1 = new TF1("f_1", "[2]*TMath::Gaus(x,[0],[1])");
+  f1->SetParameters(-1.061234, 1.235342, 1);
+  ha->FillRandom("f_1", 100);
+  ha->Fit("gaus");
+  ha->Draw();
+
+  TCanvas *c2 = new TCanvas();
+  TH1F *hb = (TH1F*) ha->Clone("hb");
+  hb->SetTitle("Statistics Box with Rounded Parameters");
+  hb->Fit("gaus", "E");
+  hb->Draw();
+
+  TPave *pave = CanvasHelper::getDefaultPaveStats(c2);
+  CanvasHelper::setPaveAlignment(pave, CanvasHelper::kPaveAlignRight | CanvasHelper::kPaveAlignTop);
+
+  CanvasHelper::getInstance()->addCanvas(c2);
+}
+
 #ifndef __CINT__
 
 int main(int argc, char **argv) {
@@ -99,7 +122,7 @@ int main(int argc, char **argv) {
   TApplication app("demo", &argc, argv);
 
   // TODO: Call your ROOT script entry function
-  demo();
+  demo2();
 
   // Enter the event loop
   app.Run();
