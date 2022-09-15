@@ -12,7 +12,7 @@
 
 void demo() {
 
-#ifdef __CINT__
+  #ifdef __CINT__
     // Load CanvasHelper library
     gSystem->Load("CanvasHelper_cpp.so");
   #endif

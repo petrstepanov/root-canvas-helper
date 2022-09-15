@@ -37,8 +37,8 @@ Additionally, this library provides a few useful features, such as:
 
 Another cool feature is that registered canvases and sub-pads automatically re-adjust all the dimensions and their primitives upon the resize event.
 
-How to Install
---------------
+How to Use with ROOT Scripts
+----------------------------
 
 To make use of this helper class, check out the repository:
 ```
@@ -62,16 +62,25 @@ cp CanvasHelper*.pcm `root-config --libdir`
 cp CanvasHelper*.h `root-config --incdir`
 ```
 
-This is it. Now you can utilize the library. Feel free to inspect and run an example ROOT macro `demo.cpp` that demonstrates the use of the library:
+This is it. Now you can utilize the library. Feel free to inspect and run an example ROOT macro `demo.cpp` that demonstrates a few use cases:
 ```
 root demo.cpp
 ```
 
-Integrate into your ROOT script
+After the library was installed, it needs to be loaded into the interpreter session in your ROOT script:
+```
+gSystem->Load("CanvasHelper_cpp.so");
+```
+
+### Adding a multi-pad title
+
+### Adding a canvas subtitle
+
+### Aligning the statbox or legend
+
+
+Add library to a CMake-Based Project
+------------------------------------
+
+Add to a Makefile-Based Project
 -------------------------------
-
-
-Add to a ROOT-based Project
----------------------------
-
-
