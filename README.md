@@ -29,7 +29,8 @@ A single line of code is required to make the change happen. We simply pass the 
 CanvasHelper::getInstance()->addCanvas(yourCanvas);
 ```
 
-Additionally, this library provides a few useful features, such as:
+List of Fetures
+---------------
 * Adding a joint title for canvas that was divided into multiple pads. This was frequently asked on the ROOT forum.
 * Library also allows adding a subtitle to the ROOT canvas. This may be useful for plots that need some extra information.
 
@@ -51,8 +52,8 @@ Additionally, this library provides a few useful features, such as:
   <img width="85%" src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/canvas-resize.png" alt="Resizing a ROOT canvas" />
 </p>
 
-How to Use with ROOT Scripts
-----------------------------
+How to Install and Test
+-----------------------
 
 To make use of this helper class, check out the repository:
 ```
@@ -81,17 +82,12 @@ This is it. Now you can utilize the library. Feel free to inspect and run an exa
 root demo.cpp
 ```
 
+Use library in a ROOT Script
+------------------------------
 After the library was installed, it needs to be loaded into the interpreter session in your ROOT script:
 ```
 gSystem->Load("CanvasHelper_cpp.so");
 ```
-
-### Adding a multi-pad title
-
-### Adding a canvas subtitle
-
-### Aligning the statbox or legend
-
 
 Add library to a CMake-Based Project
 ------------------------------------
