@@ -87,16 +87,16 @@ message(STATUS "Created shared library target.")
 # TARGET: executable name is same as target name here
 set(EXECUTABLE_TARGET ${PROJECT_NAME}-bin)
 add_executable(${EXECUTABLE_TARGET} ${PROJECT_SOURCE_DIR}/src/demo.cpp)
-set_target_properties(${EXECUTABLE_TARGET} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+set_target_properties(${EXECUTABLE_TARGET} PROPERTIES OUTPUT_NAME ${PROJECT_NAME}-demo)
 
 # Set output name for the executable - trick to have library and binary with the same name 
 target_link_libraries(${EXECUTABLE_TARGET} ${SHARED_LIB_TARGET})
 
 # TARGET: integrate library to ROOT
-#install(TARGETS ${EXECUTABLE_TARGET}
-#        RUNTIME DESTINATION ${ROOT_DIR}/bin
-#        LIBRARY DESTINATION ${ROOT_LIBRARY_DIRS}
-#        PUBLIC_HEADER DESTINATION ${ROOT_DIR}/include)
+install(TARGETS ${EXECUTABLE_TARGET}
+        RUNTIME DESTINATION ${ROOT_DIR}/bin
+        LIBRARY DESTINATION ${ROOT_LIBRARY_DIRS}
+        PUBLIC_HEADER DESTINATION ${ROOT_DIR}/include)
 #install(FILES ${PROJECT_BINARY_DIR}/libD_${PROJECT_NAME}.rootmap
 #        DESTINATION $ENV{ROOTSYS}/lib)
 #install(FILES ${PROJECT_BINARY_DIR}/libD_${PROJECT_NAME}_rdict.pcm
