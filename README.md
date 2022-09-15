@@ -23,14 +23,14 @@ root
 
 Now that the shared library is compiled we install the `.so` library, `.pcm` dictionary and `*.h` header files. Commands below may require root persissions `sudo`:
 ```
-cp *.so `root-config --libdir`
-cp *.pcm `root-config --libdir`
-cp *.h `root-config --incdir`
+cp CanvasHelper*.so `root-config --libdir`
+cp CanvasHelper*.pcm `root-config --libdir`
+cp CanvasHelper*.h `root-config --incdir`
 ```
 
 This is it. Now you can utilize the library. Feel free to inspect and run an example ROOT macro `test.c` that demonstrates the use of the library:
 ```
-root test.c
+root demo.cpp
 ```
 
 Integrate into your ROOT script
