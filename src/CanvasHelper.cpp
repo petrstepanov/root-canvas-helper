@@ -1,4 +1,5 @@
 #include "CanvasHelper.h"
+
 #include <Rtypes.h>
 #include <TROOT.h>
 #include <TPad.h>
@@ -10,11 +11,21 @@
 #include <TPaveText.h>
 #include <TMath.h>
 #include <TStyle.h>
+#include <TGaxis.h>
 #include <TPad.h>
 #include <TSystem.h>
 #include <TPRegexp.h>
+#include <TLegendEntry.h>
+
+#include <TH1.h>
+#include <THStack.h>
+#include <TGraph.h>
+#include <TMultiGraph.h>
+#include <TF1.h>
+
 #include <iostream>
 #include <sstream>
+#include <limits>
 
 ClassImp(CanvasHelper);
 
@@ -127,15 +138,15 @@ const Int_t CanvasHelper::AXIS_LABEL_OFFSET = 6;
 // const Int_t CanvasHelper::AXIS_TITLE_OFFSET = 25;
 const Int_t CanvasHelper::AXIS_TICK_LENGTH = 20;
 
-const Int_t CanvasHelper::MARGIN_LEFT = 15;
+const Int_t CanvasHelper::MARGIN_LEFT = 25;
 const Int_t CanvasHelper::MARGIN_TOP = 30;       // In particular this is for TGaxis::PaintAxis() x10^3 label
 const Int_t CanvasHelper::MARGIN_RIGHT = 40;     // In particular this is for TGaxis::PaintAxis() x10^3 label
 const Int_t CanvasHelper::MARGIN_BOTTOM = 30;
 
 const Int_t CanvasHelper::TITLE_VSPACE = 25;
 const Int_t CanvasHelper::SUBTITLE_VSPACE = 20;
-const Int_t CanvasHelper::PAVELINE_VSPACE = 24;
-const Int_t CanvasHelper::AXISTITLE_VSPACE = 25;
+const Int_t CanvasHelper::PAVELINE_VSPACE = 22;
+const Int_t CanvasHelper::AXISTITLE_VSPACE = 20;
 
 Style_t CanvasHelper::getFont(EFontFace fontFace) {
   // https://root.cern.ch/doc/master/classTAttText.html#autotoc_md31
@@ -163,60 +174,59 @@ std::pair<TAxis*, TAxis*> CanvasHelper::getPadXYAxis(TVirtualPad *pad) {
       TGraph *graph = (TGraph*) object;
       return std::make_pair<TAxis*, TAxis*>(graph->GetXaxis(), graph->GetYaxis());
     }
-    // TODO: for TMultiGraph
+    if (object->InheritsFrom(TMultiGraph::Class())) {
+      TMultiGraph *mgraph = (TMultiGraph*) object;
+      return std::make_pair<TAxis*, TAxis*>(mgraph->GetXaxis(), mgraph->GetYaxis());
+    }
+    if (object->InheritsFrom(TF1::Class())) {
+      TF1 *func = (TF1*) object;
+      return std::make_pair<TAxis*, TAxis*>(func->GetXaxis(), func->GetYaxis());
+    }
   }
   return std::make_pair(nullptr, nullptr);
 }
 
 Double_t CanvasHelper::getYAxisMaxLabelWidthPx(TVirtualPad *pad) {
   // Obtain axis from pad (could be histogram, Stack, Graph...)
-  TAxis *axis = getPadXYAxis(pad).second;
-  if (!axis)
+  TAxis *xaxis = getPadXYAxis(pad).first;
+  TAxis *yaxis = getPadXYAxis(pad).second;
+  if (!yaxis)
     return 0;
 
-  Double_t axisMax = 100;
+  Double_t axisLabelMax = 100;
+  Double_t axisLabelMin = 100;
   if (!pad->GetLogy()) {
-    TH1 *hist = (TH1*) findObjectOnPad(TH1::Class(), pad);
-    if (hist != NULL) {
-      axisMax = hist->GetMaximum();
-    }
+    Double_t pMax = pad->GetUymax();
+    Double_t pMin = pad->GetUymin();
+    Int_t nDiv = yaxis->GetNdivisions();
+    Int_t N2 = nDiv / 100;
+    Int_t N1 = nDiv % 100;
 
-    TGraph *graph = (TGraph*) findObjectOnPad(TGraph::Class(), pad);
-    if (graph != NULL) {
-      axisMax = graph->GetMaximum();
-    }
-
-    while (axisMax / 1000 >= 11000 || axisMax / 1000 <= -11000) {
-      axisMax = axisMax / 1000;
-    }
-  }
-
-  Double_t axisMin = 100;
-  if (!pad->GetLogy()) {
-    TH1 *hist = (TH1*) findObjectOnPad(TH1::Class(), pad);
-    if (hist != NULL) {
-      axisMin = hist->GetMinimum();
-    }
-
-    TGraph *graph = (TGraph*) findObjectOnPad(TGraph::Class(), pad);
-    if (graph != NULL) {
-      axisMin = graph->GetMinimum();
-    }
-
-    while (axisMin / 1000 >= 11000 || axisMin / 1000 <= -11000) {
-      axisMin = axisMax / 1000;
-    }
+    Double_t majorDivisionSize = std::abs(pMax - pMin);
+    // We round axis maximum value to the major division step and get pretty much what the maximum label is
+    std::pair<double, double> roundedMaximum = Round::valueError(pMax, majorDivisionSize);
+    // Same with minimum value - this way we remove insignificant digits
+    std::pair<double, double> roundedMinimum = Round::valueError(pMin, majorDivisionSize);
+    axisLabelMax = roundedMaximum.first;
+    axisLabelMin = roundedMinimum.first;
   }
 
   // Determine longest axis label
   std::stringstream bufferMin;
-  bufferMin << axisMin;
+  bufferMin << axisLabelMin;
   std::string axisMinLabel = bufferMin.str();
   std::stringstream bufferMax;
-  bufferMax << axisMax;
+  bufferMax << axisLabelMax;
   std::string axisMaxLabel = bufferMax.str();
   std::string axisLongestLabel =
       (Int_t) axisMinLabel.length() > (Int_t) axisMaxLabel.length() ? axisMinLabel : axisMaxLabel;
+
+//  // Label cannot be longer than axis -> getmaxdigits()
+//  if (yaxis->GetMaxDigits() != 0 && axisLongestLabel.length() > yaxis->GetMaxDigits()) {
+//    axisLongestLabel = "";
+//    for (int i = 0; i < yaxis->GetMaxDigits(); i++)
+//      axisLongestLabel += "#";
+//  }
 
   // Determine longest label width in pixels
   TText *t = new TText(0.5, 0.5, axisLongestLabel.c_str());
@@ -288,6 +298,20 @@ void CanvasHelper::addCanvas(TCanvas *canvas) {
   canvas->Update();
 }
 
+Bool_t CanvasHelper::isChildPad(TVirtualPad *pad) {
+  // If global title was added to a multi-pad canvas
+  TPMERegexp name_re("_\\d+");
+  if (name_re.Match(pad->GetName())) {
+    return kTRUE;
+  }
+  // If global title was added to a multi-pad canvas
+  TString motherName = pad->GetMother()->GetName();
+  if (motherName.Contains("_child")) {
+    return kTRUE;
+  }
+  return kFALSE;
+}
+
 void CanvasHelper::alignTitle(TVirtualPad *pad) {
   TObject *object = pad->GetPrimitive("title");
   if (!object || !object->InheritsFrom(TPaveText::Class()))
@@ -296,8 +320,7 @@ void CanvasHelper::alignTitle(TVirtualPad *pad) {
   TPaveText *title = (TPaveText*) object;
   title->SetTextFont(getFont());
 
-  TString motherName = pad->GetMother()->GetName();
-  title->SetTextSize(motherName.Contains("_child") ? FONT_SIZE_NORMAL : FONT_SIZE_LARGE);
+  title->SetTextSize(isChildPad(pad) ? FONT_SIZE_NORMAL : FONT_SIZE_LARGE);
 
   title->SetFillStyle(kFEmpty);
   title->SetTextAlign(ETextAlign::kHAlignCenter + ETextAlign::kVAlignCenter);
@@ -309,7 +332,11 @@ void CanvasHelper::alignTitle(TVirtualPad *pad) {
   title->SetX2NDC(1);
 
   title->SetY2NDC(1 - pxToNdcVertical(MARGIN_TOP / 2 + 0, pad));
-  title->SetY1NDC(1 - pxToNdcVertical(MARGIN_TOP / 2 + TITLE_VSPACE, pad));
+
+  Double_t topTitlePadding = MARGIN_TOP / 2 + TITLE_VSPACE;
+  if (isChildPad(pad))
+    topTitlePadding /= 2;
+  title->SetY1NDC(1 - pxToNdcVertical(topTitlePadding, pad));
 }
 
 void CanvasHelper::alignSubtitle(TPaveText *subtitle, TVirtualPad *pad) {
@@ -424,6 +451,10 @@ void CanvasHelper::onCanvasResized() {
   }
 }
 
+//Int_t CanvasHelper::getNewNDivisdions(TAxis* axis, ) {
+//
+//}
+
 void CanvasHelper::processCanvas(TCanvas *canvas) {
   // Process canvas itself
   // if (canvas->IsModified()) {
@@ -481,22 +512,18 @@ void CanvasHelper::processCanvas(TCanvas *canvas) {
       TPad *childPad = (TPad*) gROOT->FindObject(childPadName);
       if (childPad) {
         if (padsWithModifiedDivisions->FindObject(childPad) == nullptr) {
-          Int_t nDiv = 0;
-          TH1 *hist = (TH1*) findObjectOnPad(TH1::Class(), childPad);
-          if (hist)
-            nDiv = hist->GetXaxis()->GetNdivisions();
-          TGraph *graph = (TGraph*) findObjectOnPad(TGraph::Class(), childPad);
-          if (graph)
-            nDiv = graph->GetXaxis()->GetNdivisions();
+          std::pair<TAxis*, TAxis*> axis = getPadXYAxis(childPad);
+          Int_t nDivX = axis.first->GetNdivisions();
+          Int_t N2x = nDivX / 100;
+          Int_t N1x = nDivX % 100;
+          N1x = N1x / divFactor + 1;
+          axis.first->SetNdivisions(N1x, N2x, 0, kTRUE);
 
-          Int_t N2 = nDiv / 100;
-          Int_t N1 = nDiv % 100;
-          N1 = N1 / divFactor + 1;
-
-          if (hist)
-            hist->GetXaxis()->SetNdivisions(N1, N2, 0, kTRUE);
-          if (graph)
-            graph->GetXaxis()->SetNdivisions(N1, N2, 0, kTRUE);
+          Int_t nDivY = axis.second->GetNdivisions();
+          Int_t N2y = nDivX / 100;
+          Int_t N1y = nDivX % 100;
+          N1x = N1y / divFactor + 1;
+          axis.second->SetNdivisions(N1y, N2y, 0, kTRUE);
 
           padsWithModifiedDivisions->Add(childPad);
 //                    childPad->Modified();
@@ -533,6 +560,13 @@ void CanvasHelper::processCanvas(TCanvas *canvas) {
 }
 
 void CanvasHelper::processPad(TVirtualPad *pad) {
+  // Remember default left margin - related to the fact that we cannot get TGaxis from canvas
+  std::string padName = pad->GetName();
+//  if (defaultPadLeftMargins.find(padName) == defaultPadLeftMargins.end()){
+//    Double_t padLeftPaddingPx = pad->GetLeftMargin()*getPadWidthPx(pad);
+//    Double_t padYAxisFontSize = getPadXYAxis(pad).second->GetLabel
+//    defaultPadLeftMargins.insert( { padName, pad->GetLeftMargin() });
+//  }
   // At this point default ROOT components are already present on the canvas
   // We are simply tweaking the sizes, distances and objects.
 
@@ -582,6 +616,9 @@ void CanvasHelper::alignAllPaves(TVirtualPad *pad) {
     if (pave->InheritsFrom(TPaveText::Class())) {
       TPaveText *paveText = (TPaveText*) pave;
       paveWidthPx = (Int_t) getPaveTextWidthPx(paveText);
+    } else if (pave->InheritsFrom(TLegend::Class())) {
+      TLegend *paveText = (TLegend*) pave;
+      paveWidthPx = (Int_t) getLegendWidthPx(paveText);
     }
 
     if (pave->TestBit(kPaveAlignLeft)) {
@@ -654,9 +691,9 @@ Int_t CanvasHelper::getFrameRightMarginPx(/*TVirtualPad *pad*/) {
 }
 
 Int_t CanvasHelper::getFrameTopMarginPx(TVirtualPad *pad) {
-  Int_t topMargin = MARGIN_TOP;
+  Int_t topMargin = isChildPad(pad) ? MARGIN_TOP / 2 : MARGIN_TOP;
   if (pad->GetPrimitive("title") != nullptr) {
-    topMargin += TITLE_VSPACE;
+    topMargin += isChildPad(pad) ? TITLE_VSPACE * 3. / 4. : TITLE_VSPACE;
   }
   if (pad->GetPrimitive("subtitle") != nullptr) {
     topMargin += SUBTITLE_VSPACE;
@@ -870,10 +907,11 @@ void CanvasHelper::convertAxisToPxSize(TAxis *axis, const char type, TVirtualPad
   axis->SetTitleSize(FONT_SIZE_NORMAL);
   // TODO: figure how to adjust Y axis offsset - maybe not set it at all??
   if (type == 'x')
-    axis->SetTitleOffset(1.5);
+    axis->SetTitleOffset(1.4);
   if (type == 'y') {
-    Double_t titleOffset = axis->GetTitleOffset();
-    axis->SetTitleOffset(titleOffset * 2);
+    Int_t padLeftMargin = getFrameLeftMarginPx(pad);
+    const Int_t coefficient = 35; // Guestimated
+    axis->SetTitleOffset(padLeftMargin / (Double_t) coefficient);
   }
 
   // Style labels
@@ -936,6 +974,28 @@ UInt_t CanvasHelper::getPaveTextWidthPx(TPaveText *paveText) {
     latexCopy->Delete();
   }
   return maxTextLengthPx + 25;
+}
+
+UInt_t CanvasHelper::getLegendWidthPx(TLegend *legend) {
+  UInt_t maxTextLengthPx = 0;
+  for (TObject *obj : *(legend->GetListOfPrimitives())) {
+    if (!obj->InheritsFrom(TLegendEntry::Class()))
+      continue;
+    TLegendEntry *entry = (TLegendEntry*) obj;
+
+    TLatex *latexCopy = new TLatex(0, 0, entry->GetLabel());
+    latexCopy->SetTextFont(getFont());
+    latexCopy->SetTextSize(FONT_SIZE_NORMAL);
+
+    UInt_t w = 0, h = 0;
+    latexCopy->GetBoundingBox(w, h);
+    maxTextLengthPx = TMath::Max(maxTextLengthPx, w);
+
+    // UInt_t latexCopyWidthPx = getTextWidthPx(latexCopy);
+    // maxTextLengthPx = TMath::Max(maxTextLengthPx, latexCopyWidthPx);
+    latexCopy->Delete();
+  }
+  return maxTextLengthPx + 50;
 }
 
 // TODO: To be deleted! - not working well

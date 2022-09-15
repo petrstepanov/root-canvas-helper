@@ -5,11 +5,9 @@
 #include <Rtypes.h>
 #include <TColor.h>
 #include <TVirtualPad.h>
-#include <TH1.h>
 #include <THStack.h>
 #include <TPaveStats.h>
 #include <TLegend.h>
-#include <TGraph.h>
 #include <TMap.h>
 #include <TQObject.h>
 #include <utility>
@@ -101,6 +99,7 @@ class CanvasHelper: public TObject {
     static Style_t getFont(EFontFace fontFace = EFontFace::Helvetica);
     static UInt_t getPaveLines(TPave *pave);
     static UInt_t getPaveTextWidthPx(TPaveText *paveText);
+    static UInt_t getLegendWidthPx(TLegend *paveText);
 
     static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle);
 
@@ -121,7 +120,7 @@ class CanvasHelper: public TObject {
     TList *registeredCanvases;
     TList *padsWithModifiedDivisions;
     std::map<std::string, std::pair<unsigned int, unsigned int>> registeredCanvasesSizes;
-
+//    std::map<std::string, double> defaultPadLeftMargins;
 //    static TGraph* findTGraphOnPad(TVirtualPad* pad);
 
     static TObject* findObjectOnPad(TClass *c, TVirtualPad *pad);
@@ -136,6 +135,8 @@ class CanvasHelper: public TObject {
 
     static Bool_t hasXAxisTitle(TVirtualPad *pad);
     static Bool_t hasYAxisTitle(TVirtualPad *pad);
+
+    static Bool_t isChildPad(TVirtualPad *pad);
 
     static void alignTitle(TVirtualPad *pad);
     static void alignSubtitle(TVirtualPad *pad);
