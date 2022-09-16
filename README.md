@@ -79,10 +79,9 @@ If ROOT was installed globally and user does not have the administrative permiss
 -DCMAKE_INSTALL_PREFIX=$HOME/.local
 ```
 Additionally user needs to add corresponding locations to the environment:
-```
-export PATH="$HOME/.local/bin:$PATH"
-export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
-export CPLUS_INCLUDE_PATH="$HOME/.local/include:$CPLUS_INCLUDE_PATH"
+* `$HOME/.local/bin` must be added to `$PATH`.
+* `$HOME/.local/lib` needs to appear in `$LD_LIBRARY_PATH`.
+* `$HOME/.local/include` should be present in `$CPLUS_INCLUDE_PATH`.
 ```
 This should do the trick.
 
