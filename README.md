@@ -66,8 +66,7 @@ mkdir -p ./root-canvas-helper-build && cd ./root-canvas-helper-build
 CMake file `CMakeLists.txt` in the project root folder includes directions to do build and install everything we need. Next we generate the `Makefile`, and invoke the `install` target that depends on other required targets (generate dictionary, create shared libaray, build and link the executable, install generated files in corresponding locations):
 ```
 cmake -DCMAKE_CXX_STANDARD=`root-config --cflags | grep -Po std=c\\+\\+\\d+ | grep -Po \\d+` ../root-canvas-helper
-make
-make install
+cmake --build . --target install
 ```
 
 Above we extract the C++ standard version that the ROOT framework was built with from the `root-config --cflags` command. We need to do it beacuse ROOT-based programs should be compiled with the same C++ standard that of the ROOT framework itself.
