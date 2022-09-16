@@ -131,10 +131,10 @@ Code Sample
 
 Below please find a snippet that demonstrates basic functionality of the library.
 ```
-
+TODO: write example use
 ```
 
-Refer to the source code and 
+Refer to the source code and let me nkow if there are any questions.
 
 Contribute and Integrate with Development Environment
 -----------------------------------------------------
