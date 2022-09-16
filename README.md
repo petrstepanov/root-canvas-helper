@@ -73,7 +73,7 @@ Above we extract the C++ standard version that the ROOT framework was built with
 
 Installation is now complete. Now users should be able to run `root demo.cpp` command to check the library features.
 
-If ROOT was installed globally and user does not have the administrative permissions, library can be installed in users home folder. This required adding following cache variable at the buildfile generation:
+**Tip**. If ROOT was installed globally and user does not have the administrative permissions, library can be installed in users home folder. This required adding following cache variable at the buildfile generation:
 ```
 -DCMAKE_INSTALL_PREFIX=$HOME/.local
 ```
