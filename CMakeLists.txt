@@ -100,21 +100,30 @@ target_link_libraries(${EXECUTABLE_TARGET} ${SHARED_LIB_TARGET})
 #message(STATUS "${ROOT_INCLUDE_DIRS}")
 
 # TARGET: integrate library to ROOT
-# We specify the install locations for different file types produced by corresponding targets 
+# Override the default install location "/usr/local/" to ROOT directory
+if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set (CMAKE_INSTALL_PREFIX "${ROOT_LIBRARY_DIR}/../"
+           CACHE PATH "default install path" FORCE)
+endif()
+message(STATUS "Installing library files in ${CMAKE_INSTALL_PREFIX}")
+  
 install(TARGETS ${EXECUTABLE_TARGET}
-        RUNTIME DESTINATION ${ROOT_BINDIR})
+        RUNTIME DESTINATION ./bin)
 
 install(TARGETS ${SHARED_LIB_TARGET}
-        LIBRARY DESTINATION ${ROOT_LIBRARY_DIR}
-        PUBLIC_HEADER DESTINATION ${ROOT_INCLUDE_DIRS})
+        LIBRARY DESTINATION ./lib}
+        PUBLIC_HEADER DESTINATION ./include)
 
 # *.rootmap file keeps track of the library dependencies so that the library can be properly reloaded later on
 install(FILES ${PROJECT_BINARY_DIR}/lib${PROJECT_NAME}.rootmap
-       DESTINATION ${ROOT_LIBRARY_DIR})
+       DESTINATION ./lib)
 # *_rdict.pcm file contains data to serialize (do I/O / store and read) library classes, without having to parse headers
 install(FILES ${PROJECT_BINARY_DIR}/lib${PROJECT_NAME}_rdict.pcm
-        DESTINATION ${ROOT_LIBRARY_DIR})
+        DESTINATION ./lib)
 # copy demo.cpp to the ${ROOTSYS}/macros - this allows for executing "root demo.cpp" independent from current working directory
 install(FILES ${PROJECT_SOURCE_DIR}/src/demo.cpp
-        DESTINATION $ENV{ROOTSYS}/macros)
+        DESTINATION ./macros)
+
+#        DESTINATION ${ROOT_LIBRARY_DIR})
+#        DESTINATION ${ROOT_INCLUDE_DIRS})
 

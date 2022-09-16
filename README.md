@@ -52,6 +52,40 @@ List of Fetures
   <img width="85%" src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/canvas-resize.png" alt="Resizing a ROOT canvas" />
 </p>
 
+Installation with CMake
+-----------------------
+
+This is the preferred installation option. type of installation is more advances but will require users to have `cmake` program installed on computer. Usually CMake is included in Linux "Development Tools" group package. Similarly, ROOT environment should be sourced in the current shell. We clone the project and create the out-of-source build folder:
+```
+mkdir -p ~/Downloads
+cd ~/Downloads
+git clone https://github.com/petrstepanov/root-canvas-helper
+mkdir -p ./root-canvas-helper-build && cd ./root-canvas-helper-build
+```
+
+CMake file `CMakeLists.txt` in the project root folder includes directions to do build and install everything we need. Next we generate the `Makefile`, and invoke the `install` target that depends on other required targets (generate dictionary, create shared libaray, build and link the executable, install generated files in corresponding locations):
+```
+cmake -DCMAKE_CXX_STANDARD=`root-config --cflags | grep -Po std=c\\+\\+\\d+ | grep -Po \\d+` ../root-canvas-helper
+make
+make install
+```
+
+Above we extract the C++ standard version that the ROOT framework was built with from the `root-config --cflags` command. We need to do it beacuse ROOT-based programs should be compiled with the same C++ standard that of the ROOT framework itself.
+
+Installation is now complete. Now users should be able to run `root demo.cpp` command to check the library features.
+
+If ROOT was installed globally and user does not have the administrative permissions, library can be installed in users home folder. This required adding following cache variable at the buildfile generation:
+```
+-DCMAKE_INSTALL_PREFIX=$HOME/.local
+```
+Additionally user needs to add corresponding locations to the environment:
+```
+export PATH="$HOME/.local/bin:$PATH"
+export LD_LIBRARY_PATH="$HOME/.local/lib:$LD_LIBRARY_PATH"
+export CPLUS_INCLUDE_PATH="$HOME/.local/include:$CPLUS_INCLUDE_PATH"
+```
+This should do the trick.
+
 Manual Installation
 -------------------
 
@@ -82,27 +116,6 @@ Now that the library is installed and `demo.cpp` script is located in ROOT `macr
 root demo.cpp
 ```
 
-Installation with CMake
------------------------
-
-This type of installation is more advances but will require users to have `cmake` program installed on computer. Usually CMake is included in Linux "Development Tools" group package. Similarly, ROOT environment should be sourced in the current shell. We clone the project and create the out-of-source build folder:
-```
-mkdir -p ~/Downloads
-cd ~/Downloads
-git clone https://github.com/petrstepanov/root-canvas-helper
-mkdir -p ./root-canvas-helper-build && cd ./root-canvas-helper-build
-```
-
-CMake file `CMakeLists.txt` in the project root folder includes directions to do build and install everything we need. Next we generate the `Makefile`, and invoke the `install` target that depends on other required targets (generate dictionary, create shared libaray, build and link the executable, install generated files in corresponding locations):
-```
-cmake -DCMAKE_CXX_STANDARD=`root-config --cflags | grep -Po std=c\\+\\+\\d+ | grep -Po \\d+` ../root-canvas-helper
-make
-make install
-```
-
-Tip: above we extract the C++ standard version that the ROOT framework was built with from the `root-config --cflags` command. We need to do so because all ROOT-based programs should be compiled with the same C++ standard that of the ROOT framework itself.
-
-Installation is now complete. Now users should be able to run `root demo.cpp` command to check the library features.
 
 Use library in a ROOT Macro or ROOT-Based program
 --------------------------------------------------
