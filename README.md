@@ -81,7 +81,6 @@ Additionally user needs to add corresponding locations to the environment:
 * `$HOME/.local/bin` must be added to `$PATH`.
 * `$HOME/.local/lib` needs to appear in `$LD_LIBRARY_PATH`.
 * `$HOME/.local/include` should be present in `$CPLUS_INCLUDE_PATH`.
-```
 
 This should do the trick.
 
