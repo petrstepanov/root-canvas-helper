@@ -56,6 +56,8 @@ message(STATUS "Found list of source files: ${SOURCES}")
 # TARGET: create shared library
 set(SHARED_LIB_TARGET ${PROJECT_NAME}-so)
 add_library(${SHARED_LIB_TARGET} SHARED)
+
+# Tip: specify PUBLIC_HEADER library files (used on the install step)
 set_property(TARGET ${SHARED_LIB_TARGET} PROPERTY PUBLIC_HEADER ${HEADERS})
 
 # Tip: cmake target name and target output file name can be different. Here we tell target "<project-name>-so" produces library named "<project-name>" 
@@ -98,7 +100,7 @@ target_link_libraries(${EXECUTABLE_TARGET} ${SHARED_LIB_TARGET})
 #message(STATUS "${ROOT_INCLUDE_DIRS}")
 
 # TARGET: integrate library to ROOT
-
+# We specify the install locations for different file types produced by corresponding targets 
 install(TARGETS ${EXECUTABLE_TARGET}
         RUNTIME DESTINATION ${ROOT_BINDIR})
 
@@ -106,9 +108,13 @@ install(TARGETS ${SHARED_LIB_TARGET}
         LIBRARY DESTINATION ${ROOT_LIBRARY_DIR}
         PUBLIC_HEADER DESTINATION ${ROOT_INCLUDE_DIRS})
 
+# *.rootmap file keeps track of the library dependencies so that the library can be properly reloaded later on
 install(FILES ${PROJECT_BINARY_DIR}/lib${PROJECT_NAME}.rootmap
        DESTINATION ${ROOT_LIBRARY_DIR})
+# *_rdict.pcm file contains data to serialize (do I/O / store and read) library classes, without having to parse headers
 install(FILES ${PROJECT_BINARY_DIR}/lib${PROJECT_NAME}_rdict.pcm
         DESTINATION ${ROOT_LIBRARY_DIR})
-
+# copy demo.cpp to the ${ROOTSYS}/macros - this allows for executing "root demo.cpp" independent from current working directory
+install(FILES ${PROJECT_SOURCE_DIR}/src/demo.cpp
+        DESTINATION $ENV{ROOTSYS}/macros)
 

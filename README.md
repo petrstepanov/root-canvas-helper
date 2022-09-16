@@ -52,15 +52,15 @@ List of Fetures
   <img width="85%" src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/canvas-resize.png" alt="Resizing a ROOT canvas" />
 </p>
 
-How to Install and Test
------------------------
+Manual Installation
+-------------------
 
-To make use of this helper class, check out the repository:
+To make use of this helper class, first make sure your ROOT environmant is set up in the shell process `source <your-root-install-location>/bin/thisroot.*`). It is required for the `root-config` executable to be included in the system `PATH` environment variable. Next check out the repository:
 ```
 mkdir -p ~/Downloads
 cd ~/Downloads
 git clone https://github.com/petrstepanov/root-canvas-helper
-cd .root-canvas-helper
+cd ./root-canvas-helper/src
 ```
 
 Next, enter the Cling interpreter shell and compile a shared library from sources:
@@ -70,17 +70,37 @@ root
 .q
 ```
 
-Now that the shared library is compiled we install the `.so` library, `.pcm` dictionary and `*.h` header files. Commands below may require root persissions `sudo`:
+Now that the shared library is compiled we install the `.so` library, `.pcm` dictionary and `*.h` header files. Having ROOT directories already sources in the system environment, we simply integrate the library, its public header, and other files into the ROOT system folder. Commands below may require root persissions `sudo`:
 ```
-cp CanvasHelper*.so `root-config --libdir`
-cp CanvasHelper*.pcm `root-config --libdir`
+cp CanvasHelper*.so CanvasHelper*.pcm CanvasHelper*.d `root-config --libdir`
 cp CanvasHelper*.h `root-config --incdir`
+cp demo.cpp $ROOTSYS/macros
 ```
 
-This is it. Now you can utilize the library. Feel free to inspect and run an example ROOT macro `demo.cpp` that demonstrates a few use cases:
+Now that the library is installed and `demo.cpp` script is located in ROOT `macros` folder, user should be able to run the `demo.cpp` independent of the current working folder location:
 ```
 root demo.cpp
 ```
+
+Installation with CMake
+-----------------------
+
+This type of installation is more advances but will require users to have `cmake` program installed on computer. Usually CMake is included in Linux "Development Tools" group package. Similarly, ROOT environment should be sourced in the current shell. We clone the project and create the out-of-source build folder:
+```
+mkdir -p ~/Downloads
+cd ~/Downloads
+git clone https://github.com/petrstepanov/root-canvas-helper
+mkdir -p ./root-canvas-helper-build && cd ./root-canvas-helper-build
+```
+
+CMake file `CMakeLists.txt` in the project root folder includes directions to do build and install everything we need. Next we generate the `Makefile`, and invoke the `install` target that depends on other required targets (generate dictionary, create shared libaray, build and link the executable, install generated files in corresponding locations):
+```
+cmake ../root-canvas-helper
+make
+make install
+```
+
+Installation is complete. Now users should be able to run `root demo.cpp` command to check the library features.
 
 Use library in a ROOT Script
 ------------------------------
@@ -89,8 +109,8 @@ After the library was installed, it needs to be loaded into the interpreter sess
 gSystem->Load("CanvasHelper_cpp.so");
 ```
 
-Add library to a CMake-Based Project
-------------------------------------
+Contribute and Integrate with Development Environment
+-----------------------------------------------------
 
 Add to a Makefile-Based Project
 -------------------------------
