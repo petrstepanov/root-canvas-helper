@@ -95,7 +95,7 @@ mkdir -p ./root-canvas-helper-build && cd ./root-canvas-helper-build
 
 CMake file `CMakeLists.txt` in the project root folder includes directions to do build and install everything we need. Next we generate the `Makefile`, and invoke the `install` target that depends on other required targets (generate dictionary, create shared libaray, build and link the executable, install generated files in corresponding locations):
 ```
-cmake -CMAKE_CXX_STANDARD=`root-config --cflags | grep -Po std=c\\+\\+\\d+ | grep -Po \\d+` ../root-canvas-helper
+cmake -DCMAKE_CXX_STANDARD=`root-config --cflags | grep -Po std=c\\+\\+\\d+ | grep -Po \\d+` ../root-canvas-helper
 make
 make install
 ```
@@ -114,6 +114,16 @@ After the library was installed, it needs to be loaded into the interpreter sess
 ```
 
 If developing a ROOT-based project (not a ROOT macro script), corresponding library header file needs to be included `#include <CanvasHelper.h>`. Additionally, the ROOT-based program needs to be link against the Canvas Helper shared library installed in `$ROOTSYS/lib`.
+
+Code Sample
+-----------------------------------------------------
+
+Below please find a snippet that demonstrates basic functionality of the library.
+```
+
+```
+
+Refer to the source code and 
 
 Contribute and Integrate with Development Environment
 -----------------------------------------------------
