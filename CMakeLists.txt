@@ -111,7 +111,7 @@ install(TARGETS ${EXECUTABLE_TARGET}
         RUNTIME DESTINATION ./bin)
 
 install(TARGETS ${SHARED_LIB_TARGET}
-        LIBRARY DESTINATION ./lib}
+        LIBRARY DESTINATION ./lib
         PUBLIC_HEADER DESTINATION ./include)
 
 # *.rootmap file keeps track of the library dependencies so that the library can be properly reloaded later on
