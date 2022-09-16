@@ -95,22 +95,31 @@ mkdir -p ./root-canvas-helper-build && cd ./root-canvas-helper-build
 
 CMake file `CMakeLists.txt` in the project root folder includes directions to do build and install everything we need. Next we generate the `Makefile`, and invoke the `install` target that depends on other required targets (generate dictionary, create shared libaray, build and link the executable, install generated files in corresponding locations):
 ```
-cmake ../root-canvas-helper
+cmake -CMAKE_CXX_STANDARD=`root-config --cflags | grep -Po std=c\\+\\+\\d+ | grep -Po \\d+` ../root-canvas-helper
 make
 make install
 ```
 
-Installation is complete. Now users should be able to run `root demo.cpp` command to check the library features.
+Tip: above we extract the C++ standard version that the ROOT framework was built with from the `root-config --cflags` command. We need to do so because all ROOT-based programs should be compiled with the same C++ standard that of the ROOT framework itself.
 
-Use library in a ROOT Script
-------------------------------
+Installation is now complete. Now users should be able to run `root demo.cpp` command to check the library features.
+
+Use library in a ROOT Macro or ROOT-Based program
+--------------------------------------------------
 After the library was installed, it needs to be loaded into the interpreter session in your ROOT script:
 ```
-gSystem->Load("CanvasHelper_cpp.so");
+#ifdef __CINT__
+  gSystem->Load("CanvasHelper_cpp.so");
+#endif
 ```
+
+If developing a ROOT-based project (not a ROOT macro script), corresponding library header file needs to be included `#include <CanvasHelper.h>`. Additionally, the ROOT-based program needs to be link against the Canvas Helper shared library installed in `$ROOTSYS/lib`.
 
 Contribute and Integrate with Development Environment
 -----------------------------------------------------
 
-Add to a Makefile-Based Project
--------------------------------
+Feel free to contribute or suggest any useful features. Library can be compiled with debug symbols and/or imported to the IDE of your choice. Following CMake variable should be specified to successfully build the library in the IDE:
+
+```
+-DCMAKE_CXX_STANDARD=<root-cxx-standard-version> -DROOT_DIR=<path-to-root-compiled-with-debug-symbols>/cmake
+```
