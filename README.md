@@ -121,5 +121,8 @@ Contribute and Integrate with Development Environment
 Feel free to contribute or suggest any useful features. Library can be compiled with debug symbols and/or imported to the IDE of your choice. Following CMake variable should be specified to successfully build the library in the IDE:
 
 ```
--DCMAKE_CXX_STANDARD=<root-cxx-standard-version> -DROOT_DIR=<path-to-root-compiled-with-debug-symbols>/cmake
+CMAKE_CXX_STANDARD=<root-cxx-standard-version> 
+ROOT_DIR=<path-to-root-compiled-with-debug-symbols>/cmake
 ```
+
+Thank you for your attention.
