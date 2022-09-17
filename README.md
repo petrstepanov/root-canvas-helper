@@ -90,6 +90,7 @@ Manual Installation
 -------------------
 
 To make use of this helper class, first make sure your ROOT environmant is set up in the shell process `source <your-root-install-location>/bin/thisroot.*`). It is required for the `root-config` executable to be included in the system `PATH` environment variable. Next check out the repository:
+
 ```
 mkdir -p ~/Downloads
 cd ~/Downloads
@@ -98,6 +99,7 @@ cd ./root-canvas-helper/src
 ```
 
 Next, enter the Cling interpreter shell and compile a shared library from sources:
+
 ```
 root
 .L CanvasHelper.cpp+
@@ -105,21 +107,24 @@ root
 ```
 
 Now that the shared library is compiled we install the `.so` library, `.pcm` dictionary and `*.h` header files. Having ROOT directories already sources in the system environment, we simply integrate the library, its public header, and other files into the ROOT system folder. Commands below may require root persissions `sudo`:
+
 ```
 cp CanvasHelper*.so CanvasHelper*.pcm CanvasHelper*.d `root-config --libdir`
 cp CanvasHelper*.h `root-config --incdir`
 cp demo.cpp $ROOTSYS/macros
 ```
 
-Now that the library is installed and `demo.cpp` script is located in ROOT `macros` folder, user should be able to run the `demo.cpp` independent of the current working folder location:
+Now that the library is installed and `canvasHelperDemo.cpp` script is located in ROOT `macros` folder, user should be able to run the demo macros independent of the current working folder location:
+
 ```
-root demo.cpp
+root canvasHelperDemo.cpp
 ```
 
 
 Use library in a ROOT Macro or ROOT-Based program
 --------------------------------------------------
 After the library was installed, it needs to be loaded into the interpreter session in your ROOT script:
+
 ```
 #ifdef __CINT__
   gSystem->Load("CanvasHelper_cpp.so");
@@ -138,14 +143,21 @@ TODO: write example use
 
 Refer to the source code and let me nkow if there are any questions.
 
-Contribute and Integrate with Development Environment
------------------------------------------------------
+How to Contribute
+-----------------
 
 Feel free to contribute or suggest any useful features. Library can be compiled with debug symbols and/or imported to the IDE of your choice. Following CMake variable should be specified to successfully build the library in the IDE:
 
 ```
-CMAKE_CXX_STANDARD=<root-cxx-standard-version> 
+CMAKE_BUILD_TYPE:=Debug
 ROOT_DIR=<path-to-root-compiled-with-debug-symbols>/cmake
 ```
 
-Thank you for your attention.
+How to Integrate Library in your ROOT-Based CMake project
+---------------------------------------------------------
+
+Please refer to this GitHub repository to find an example of integration of this library into a CMake-Based project:
+
+https://github.com/petrstepanov/light-guides/tree/main/draw
+
+Thank you for your attention!
