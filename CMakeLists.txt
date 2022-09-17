@@ -6,7 +6,7 @@
 cmake_minimum_required(VERSION 3.13 FATAL_ERROR)
 
 # This is your project statement. You should always list languages
-project(canvas-helper LANGUAGES CXX)
+project(CanvasHelper LANGUAGES CXX)
 
 # ROOT 6.10+ supports config file discovery
 #find_package(ROOT REQUIRED COMPONENTS RooFit RooFitCore Gui)
@@ -53,44 +53,49 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS
                   ${PROJECT_SOURCE_DIR}/src/*.c)
 message(STATUS "Found list of source files: ${SOURCES}")
 
+# Compose list of ROOT libraries with "ROOT::" prefix - need to link them to the shared library
+# Append required ROOT libs to the list
+set(LIB_NAMES "")
+list(APPEND LIB_NAMES "ROOT::Core")
+list(APPEND LIB_NAMES "ROOT::Gpad")
+
 # TARGET: create shared library
 set(SHARED_LIB_TARGET ${PROJECT_NAME}-so)
+
+# Option 1: use ROOT_LINKER_LIBRARY function (works)
+# ROOT_LINKER_LIBRARY(${SHARED_LIB_TARGET} ${SOURCES} ${DICTIONARY} DEPENDENCIES ${LIB_NAMES})
+
+# Option 2: create library manually
 add_library(${SHARED_LIB_TARGET} SHARED)
 
+# Tip: ROOT-based programs should be built with the same standard as ROOT itself
+set_property(TARGET ${SHARED_LIB_TARGET} PROPERTY CXX_STANDARD ${ROOT_CXX_STANDARD})
 # Tip: specify PUBLIC_HEADER library files (used on the install step)
 set_property(TARGET ${SHARED_LIB_TARGET} PROPERTY PUBLIC_HEADER ${HEADERS})
-
 # Tip: cmake target name and target output file name can be different. Here we tell target "<project-name>-so" produces library named "<project-name>" 
-set_target_properties(${SHARED_LIB_TARGET} PROPERTIES OUTPUT_NAME ${PROJECT_NAME})
+set_property(TARGET ${SHARED_LIB_TARGET} PROPERTY OUTPUT_NAME ${PROJECT_NAME})
+
+# Tip: multiple properties can be set with: set_target_properties(${SHARED_LIB_TARGET} PROPERTIES OUTPUT_NAME ${PROJECT_NAME}) 
 
 # Specify sources that shared library target should be built from. Dictionary file goes last
 target_sources(${SHARED_LIB_TARGET} PUBLIC ${SOURCES} ${DICTIONARY})
-
-# Compose list of ROOT libraries with "ROOT::" prefix - need to link them to the shared library
-set(LIB_NAMES "")
-FOREACH(X IN LISTS ${ROOT_LIBRARIES})
-  get_filename_component(FILENAME ${X} NAME)
-  string(REGEX REPLACE "lib([a-zA-Z0-9]+).so" "ROOT::\\1" FILENAME2 ${FILENAME})
-  list(APPEND LIB_NAMES "${FILENAME2}")
-ENDFOREACH()
-
-# Manually append extra ROOT libraries (why missing?)
-list(APPEND LIB_NAMES "ROOT::Gui")
-list(APPEND LIB_NAMES "ROOT::RooFit")
-list(APPEND LIB_NAMES "ROOT::RooFitCore")
-list(APPEND LIB_NAMES "ROOT::Html")
-list(APPEND LIB_NAMES "ROOT::Minuit")
-list(APPEND LIB_NAMES "ROOT::Fumili")
-message(STATUS "Linking ROOT libraries: ${LIB_NAMES}")
 
 # Link found libraries to the project shared library
 target_link_libraries(${SHARED_LIB_TARGET} PUBLIC ${LIB_NAMES})
 message(STATUS "Created shared library target.")
 
 # TARGET: executable name is same as target name here
+# File containing the main() cpp function
+set(MAIN_CPP "${PROJECT_SOURCE_DIR}/src/canvasHelperDemo.cpp")
+
 set(EXECUTABLE_TARGET ${PROJECT_NAME}-bin)
-add_executable(${EXECUTABLE_TARGET} ${PROJECT_SOURCE_DIR}/src/demo.cpp)
-set_target_properties(${EXECUTABLE_TARGET} PROPERTIES OUTPUT_NAME ${PROJECT_NAME}-demo)
+add_executable(${EXECUTABLE_TARGET} ${MAIN_CPP})
+
+# Specify CMake standard: 
+set_property(TARGET ${SHARED_LIB_TARGET} PROPERTY CXX_STANDARD ${ROOT_CXX_STANDARD})
+# Compose executable name - striup path and extension from the "main()" file
+get_filename_component(EXECUTABLE_NAME "${MAIN_CPP}" NAME_WE)
+set_property(TARGET ${EXECUTABLE_TARGET} PROPERTY OUTPUT_NAME ${EXECUTABLE_NAME})
 
 # Set output name for the executable - trick to have library and binary with the same name 
 target_link_libraries(${EXECUTABLE_TARGET} ${SHARED_LIB_TARGET})
@@ -120,10 +125,6 @@ install(FILES ${PROJECT_BINARY_DIR}/lib${PROJECT_NAME}.rootmap
 # *_rdict.pcm file contains data to serialize (do I/O / store and read) library classes, without having to parse headers
 install(FILES ${PROJECT_BINARY_DIR}/lib${PROJECT_NAME}_rdict.pcm
         DESTINATION ./lib)
-# copy demo.cpp to the ${ROOTSYS}/macros - this allows for executing "root demo.cpp" independent from current working directory
-install(FILES ${PROJECT_SOURCE_DIR}/src/demo.cpp
+# copy canvasHelperDemo.cpp to the ${ROOTSYS}/macros - this allows for executing "root canvasHelperDemo.cpp" independent from current working directory
+install(FILES ${MAIN_CPP}
         DESTINATION ./macros)
-
-#        DESTINATION ${ROOT_LIBRARY_DIR})
-#        DESTINATION ${ROOT_INCLUDE_DIRS})
-

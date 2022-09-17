@@ -10,7 +10,7 @@
 #include <TGraph.h>
 #include <TRandom3.h>
 
-void demo() {
+void canvasHelperDemo() {
 
 #ifdef __CINT__
     // Load CanvasHelper library
@@ -91,7 +91,7 @@ void demo() {
 //  c->Update();
 }
 
-void demo2() {
+void canvasHelperDemo2() {
   gStyle->SetOptFit(1);
   gStyle->SetOptStat(1);
 
@@ -122,7 +122,7 @@ int main(int argc, char **argv) {
   TApplication app("demo", &argc, argv);
 
   // TODO: Call your ROOT script entry function
-  demo2();
+  canvasHelperDemo();
 
   // Enter the event loop
   app.Run();
