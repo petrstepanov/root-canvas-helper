@@ -10,12 +10,7 @@
 #include <TGraph.h>
 #include <TRandom3.h>
 
-void canvasHelperDemo() {
-
-#ifdef __CINT__
-    // Load CanvasHelper library
-    gSystem->Load("CanvasHelper_cpp.so");
-  #endif
+void demo1() {
 
   // Instantiate and divide canvas
   TCanvas *c = new TCanvas();
@@ -85,13 +80,9 @@ void canvasHelperDemo() {
 
   // Pass canvas for processing
   CanvasHelper::getInstance()->addCanvas(c);
-
-//  c->Modified();
-//  c->Paint();
-//  c->Update();
 }
 
-void canvasHelperDemo2() {
+void demo2() {
   gStyle->SetOptFit(1);
   gStyle->SetOptStat(1);
 
@@ -100,14 +91,14 @@ void canvasHelperDemo2() {
   TF1 *f1 = new TF1("f_1", "[2]*TMath::Gaus(x,[0],[1])");
   f1->SetParameters(-1.061234, 1.235342, 1);
   ha->FillRandom("f_1", 100);
-  ha->Fit("gaus");
   ha->Draw();
+  ha->Fit("gaus");
 
   TCanvas *c2 = new TCanvas();
   TH1F *hb = (TH1F*) ha->Clone("hb");
   hb->SetTitle("Statistics Box with Rounded Parameters");
-  hb->Fit("gaus", "E");
   hb->Draw();
+  hb->Fit("gaus", "E");
 
   TPave *pave = CanvasHelper::getDefaultPaveStats(c2);
   CanvasHelper::setPaveAlignment(pave, CanvasHelper::kPaveAlignRight | CanvasHelper::kPaveAlignTop);
@@ -115,20 +106,26 @@ void canvasHelperDemo2() {
   CanvasHelper::getInstance()->addCanvas(c2);
 }
 
-#ifndef __CINT__
+void canvasHelperDemo() {
+  #ifdef __CINT__
+    // Load CanvasHelper library
+    gSystem->Load("CanvasHelper");
+  #endif
 
-int main(int argc, char **argv) {
-  // Instantiate TApplication
-  TApplication app("demo", &argc, argv);
-
-  // TODO: Call your ROOT script entry function
-  canvasHelperDemo();
-
-  // Enter the event loop
-  app.Run();
-
-  // Return success
-  return 0;
+  demo1();
+  demo2();
 }
 
+#ifndef __CINT__
+  int main(int argc, char **argv) {
+    // Instantiate TApplication
+    TApplication app("demo", &argc, argv);
+
+    // TODO: Call the ROOT macro entry function
+    canvasHelperDemo();
+
+    // Enter the event loop
+    app.Run();
+    return 0;
+  }
 #endif

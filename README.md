@@ -52,8 +52,8 @@ List of Fetures
   <img width="85%" src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/canvas-resize.png" alt="Resizing a ROOT canvas" />
 </p>
 
-Installation with CMake
------------------------
+Installation with CMake • Preferred
+-----------------------------------
 
 This is the preferred installation option. Installation depends on prerequisites:
 * Have `cmake` version 3.XX program installed on computer. Usually CMake is included in Linux "Development Tools" group package. On older distributions CMake v3.XX may be named `cmake3`.
@@ -101,8 +101,8 @@ echo "setenv CPLUS_INCLUDE_PATH $HOME/.local/include:$CPLUS_INCLUDE_PATH" >> $HO
 
 This should do the trick.
 
-Manual Installation
--------------------
+Manual Installation • Optional
+------------------------------
 
 This is an alternative way of building the the library with Cling interpreter. Check out the repository:
 
