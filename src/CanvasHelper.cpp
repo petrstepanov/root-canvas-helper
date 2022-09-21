@@ -23,6 +23,7 @@
 #include <TMultiGraph.h>
 #include <TF1.h>
 
+#include <string>
 #include <iostream>
 #include <sstream>
 #include <limits>
@@ -30,71 +31,71 @@
 ClassImp(CanvasHelper);
 
 namespace Round {
-int getFirstDigit(double number) {
-  // We obtain the first digit of the error (always positive)
-  // Like they teached in MEPhI
-  number = std::abs(number);
-  if (number == 1)
-    return 1;
-  if (number > 1) {
-    while (number >= 10) {
-      number = number / 10;
+  int getFirstDigit(double number) {
+    // We obtain the first digit of the error (always positive)
+    // Like they teached in MEPhI
+    number = std::abs(number);
+    if (number == 1)
+      return 1;
+    if (number > 1) {
+      while (number >= 10) {
+        number = number / 10;
+      }
+    } else if (number < 1) {
+      while (number < 1) {
+        number = number * 10;
+      }
     }
-  } else if (number < 1) {
-    while (number < 1) {
-      number = number * 10;
-    }
+    return (int) number;
   }
-  return (int) number;
-}
 
-std::pair<double, double> valueError(const double value, const double error) {
-  // First we find the decimal point shift
-  int decimalPointShift = int(log10(error)); // This will give "-0.6" for 0.0234 error, "3" for
-  // For 0 < error < 1 we need to manually shift to the right
-  if (error < 1)
-    decimalPointShift--;
-  // MEPhI - keep second digit if first is "1"
-  if (getFirstDigit(error) == 1)
-    decimalPointShift--;
+  std::pair<double, double> valueError(const double value, const double error) {
+    // First we find the decimal point shift
+    int decimalPointShift = int(log10(error)); // This will give "-0.6" for 0.0234 error, "3" for
+    // For 0 < error < 1 we need to manually shift to the right
+    if (error < 1)
+      decimalPointShift--;
+    // MEPhI - keep second digit if first is "1"
+    if (getFirstDigit(error) == 1)
+      decimalPointShift--;
 
-  // Round error
-  double errorRounded = round(error * pow(10, (double) -decimalPointShift));
-  double errorReverted = errorRounded * pow(10, (double) decimalPointShift);
+    // Round error
+    double errorRounded = round(error * pow(10, (double) -decimalPointShift));
+    double errorReverted = errorRounded * pow(10, (double) decimalPointShift);
 
-  // Do the same operation with value
-  double valueRounded = int(value * pow(10, (double) -decimalPointShift));
-  double valueReverted = valueRounded * pow(10, (double) decimalPointShift);
+    // Do the same operation with value
+    double valueRounded = int(value * pow(10, (double) -decimalPointShift));
+    double valueReverted = valueRounded * pow(10, (double) decimalPointShift);
 
-  return std::make_pair(valueReverted, errorReverted);
-}
+    return std::make_pair(valueReverted, errorReverted);
+  }
 
-void paveTextValueErrors(TPaveText *pave) {
-  for (TObject *object : *(pave->GetListOfLines())) {
-    if (object->InheritsFrom(TText::Class())) {
-      TText *text = (TText*) object;
-      TString s(text->GetTitle());
+  void paveTextValueErrors(TPaveText *pave) {
+    for (TObject *object : *(pave->GetListOfLines())) {
+      if (object->InheritsFrom(TText::Class())) {
+        TText *text = (TText*) object;
+        TString s(text->GetTitle());
 
-      TObjArray *subStrL = TPRegexp("^(.*=) (.*) #pm (.*)$").MatchS(s);
-      const Int_t nrSubStr = subStrL->GetLast() + 1;
-      if (nrSubStr == 4) {
-        const TString before = ((TObjString*) subStrL->At(1))->GetString();
-        const TString value = ((TObjString*) subStrL->At(2))->GetString();
-        const TString error = ((TObjString*) subStrL->At(3))->GetString();
-        // const TString after  = ((TObjString *)subStrL->At(4))->GetString();
-        Double_t val = atof(value.Data());
-        Double_t err = atof(error.Data());
-        std::pair<Double_t, Double_t> pair = Round::valueError(val, err);
+        TObjArray *subStrL = TPRegexp("^(.*=) (.*) #pm (.*)$").MatchS(s);
+        const Int_t nrSubStr = subStrL->GetLast() + 1;
+        if (nrSubStr == 4) {
+          const TString before = ((TObjString*) subStrL->At(1))->GetString();
+          const TString value = ((TObjString*) subStrL->At(2))->GetString();
+          const TString error = ((TObjString*) subStrL->At(3))->GetString();
+          // const TString after  = ((TObjString *)subStrL->At(4))->GetString();
+          Double_t val = atof(value.Data());
+          Double_t err = atof(error.Data());
+          std::pair<Double_t, Double_t> pair = Round::valueError(val, err);
 
-        std::stringstream buffer;
-        buffer << before << " " << pair.first << " #pm " << pair.second;
+          std::stringstream buffer;
+          buffer << before << " " << pair.first << " #pm " << pair.second;
 
-        TString newText = buffer.str().c_str();
-        text->SetTitle(newText.Data());
+          TString newText(buffer.str().c_str());
+          text->SetTitle(newText.Data());
+        }
       }
     }
   }
-}
 }
 
 // Instance
@@ -104,7 +105,7 @@ CanvasHelper *CanvasHelper::fgInstance = nullptr;
 CanvasHelper::CanvasHelper() {
   // canvasesToBeExported = new TMap();
   registeredCanvases = new TList();
-  padsWithModifiedDivisions = new TList();
+//  padsWithModifiedDivisions = new TList();
   // Only accept resized signals from TCanvas. Child pads will also send these signals
   // However we want to omit them because they will duplicate the functinoality
   TQObject::Connect(TCanvas::Class_Name(), "Resized()", this->Class_Name(), this, "onCanvasResized()");
@@ -500,42 +501,6 @@ void CanvasHelper::processCanvas(TCanvas *canvas) {
     }
   }
 
-  // Reduce number of divisions for child pads - once for each pad
-  if (nChildPads > 1) {
-    Int_t divFactor = 2;
-    if (nChildPads >= 5)
-      divFactor = 3;
-    if (nChildPads >= 10)
-      divFactor = 4;
-    for (Int_t i = 1;; i++) {
-      TString childPadName = TString::Format("%s_%d", canvas->GetName(), i);
-      TPad *childPad = (TPad*) gROOT->FindObject(childPadName);
-      if (childPad) {
-        if (padsWithModifiedDivisions->FindObject(childPad) == nullptr) {
-          std::pair<TAxis*, TAxis*> axis = getPadXYAxis(childPad);
-          Int_t nDivX = axis.first->GetNdivisions();
-          Int_t N2x = nDivX / 100;
-          Int_t N1x = nDivX % 100;
-          N1x = N1x / divFactor + 1;
-          axis.first->SetNdivisions(N1x, N2x, 0, kTRUE);
-
-          Int_t nDivY = axis.second->GetNdivisions();
-          Int_t N2y = nDivX / 100;
-          Int_t N1y = nDivX % 100;
-          N1x = N1y / divFactor + 1;
-          axis.second->SetNdivisions(N1y, N2y, 0, kTRUE);
-
-          padsWithModifiedDivisions->Add(childPad);
-//                    childPad->Modified();
-//                    childPad->Paint();
-//                    childPad->Update();
-        }
-      } else {
-        break;
-      }
-    }
-  }
-
   // Update pad itself only if it has no child pads - wrong
 //    if (nChildPads == 0){
 //        std::cout << "  No child pads. Processing Canvas itself..." << std::endl;
@@ -580,6 +545,8 @@ void CanvasHelper::processPad(TVirtualPad *pad) {
   alignSubtitle(pad);
   alignAllPaves(pad);
   setPadMargins(pad);
+
+  setPadNDivisions(pad);
 
   pad->Modified();
   pad->Paint();
@@ -753,6 +720,32 @@ void CanvasHelper::setPadMargins(TVirtualPad *pad) {
   // if (frame) frame->SetY2(pxToNdcVertical(bottomMargin, pad));
 }
 
+void CanvasHelper::setPadNDivisions(TVirtualPad *pad) {
+  std::pair<TAxis*, TAxis*> axis = getPadXYAxis(pad);
+
+  // For x axis
+  if (axis.first) {
+    // Get whatever minor divisions were originally (refer to documentation)
+    Int_t nDivX = axis.first->GetNdivisions();
+    Int_t nDivXMinor = nDivX / 100;
+    // Set one major division per 75 px
+    Int_t width = getPadWidthPx(pad);
+    Int_t nDivXMajor = width / 75;
+    axis.first->SetNdivisions(nDivXMajor, nDivXMinor, 0, kTRUE);
+  }
+
+  // For y axis
+  if (axis.second) {
+    // Get whatever minor divisions were originally (refer to documentation)
+    Int_t nDivY = axis.second->GetNdivisions();
+    Int_t nDivYMinor = nDivY / 100;
+    // Set one major division per 75 px
+    Int_t height = getPadWidthPx(pad);
+    Int_t nDivYMajor = height / 75;
+    axis.second->SetNdivisions(nDivYMajor, nDivYMinor, 0, kTRUE);
+  }
+}
+
 void CanvasHelper::setPaveAlignment(TPave *pave, UInt_t align) {
   // Bitwise operands in C++
   // https://www.geeksforgeeks.org/bitwise-operators-in-c-cpp/
@@ -799,16 +792,21 @@ TObject* CanvasHelper::findObjectOnPad(TClass *c, TVirtualPad *pad) {
 }
 
 TPaveStats* CanvasHelper::getDefaultPaveStats(TVirtualPad *pad) {
-  // Update Pad - in case the histogram was just drawn - need to update
-  pad->Update();
+  // Update Pad - in case the histogram was just drawn - need to update otherwise no primitives
+  if (pad->IsModified()) {
+    pad->Update();
+  }
 
   // SCENARIO 1: Statistics box is produced by histogram. See line THistPainter.cxx:8628 "stats->SetParent(fH);"
   // https://root.cern.ch/doc/master/classTPaveStats.html#autotoc_md223
   if (pad->GetPrimitive("stats") && ((TPaveStats*) pad->GetPrimitive("stats"))->GetParent()->InheritsFrom("TH1")) {
+    TH1 *hist = (TH1*) findObjectOnPad(TH1::Class(), pad);
     TPaveStats *pave = (TPaveStats*) (pad->GetPrimitive("stats"));
     pave->SetName("mystats");                     // rename to "mystats"
-    ((TH1*) pave->GetParent())->SetStats(kFALSE); // disconnect from the histogram.
+    hist->GetListOfFunctions()->Remove(pave);    // disconnect from the graph
+    hist->SetStats(kFALSE); // disconnect from the histogram.
     pad->GetListOfPrimitives()->Add(pave);        // attach to pad primitives
+    pave->SetParent(pad);
     return pave;
   }
 
@@ -823,6 +821,7 @@ TPaveStats* CanvasHelper::getDefaultPaveStats(TVirtualPad *pad) {
       graph->GetListOfFunctions()->Remove(pave);    // disconnect from the graph
       graph->SetStats(kFALSE);
       pad->GetListOfPrimitives()->Add(pave);        // attach to pad primitives
+      pave->SetParent(pad);
       return pave;
     }
   }

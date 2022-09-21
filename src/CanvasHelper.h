@@ -148,6 +148,7 @@ class CanvasHelper: public TObject {
     void processPad(TVirtualPad *pad);
     static void setPadMargins(TVirtualPad *pad);
 
+    static void setPadNDivisions(TVirtualPad* pad);
     void convertAxisToPxSize(TAxis *axis, const char type, TVirtualPad *pad);
 
     static Double_t getPadWidthPx(TVirtualPad *pad);

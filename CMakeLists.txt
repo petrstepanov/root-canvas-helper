@@ -15,10 +15,9 @@ project(CanvasHelper LANGUAGES CXX)
 find_package(ROOT CONFIG REQUIRED)
 
 # Obtain ROOT CXX standard
-message(STATUS "ROOT_CXX_FLAGS: ${ROOT_CXX_FLAGS}")
 string(REGEX MATCH "-std=c\\+\\+([0-9]+)" ROOT_CXX_STANDARD "${ROOT_CXX_FLAGS}")
 set(ROOT_CXX_STANDARD "${CMAKE_MATCH_1}")
-message(STATUS "ROOT_CXX_STANDARD: ${ROOT_CXX_STANDARD}")
+message(STATUS "Found ROOT CXX standard: ${ROOT_CXX_STANDARD}")
 
 # For setting project in IDE via CMake generators
 include_directories(${ROOT_INCLUDE_DIR}
