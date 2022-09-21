@@ -109,27 +109,34 @@ target_link_libraries(${EXECUTABLE_TARGET} ${SHARED_LIB_TARGET})
 #message(STATUS "${ROOT_LIBRARY_DIR}")
 #message(STATUS "${ROOT_INCLUDE_DIRS}")
 
-# TARGET: integrate library to ROOT
-# Override the default install location "/usr/local/" to ROOT directory
+# TARGET: integrate library into ROOT
 if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
-    set (CMAKE_INSTALL_PREFIX "${ROOT_LIBRARY_DIR}/../"
-           CACHE PATH "default install path" FORCE)
+    set(DEST_BIN "${ROOT_BINDIR}")
+    set(DEST_LIB "${ROOT_LIBRARY_DIR}")
+    set(DEST_INC "${ROOT_INCLUDE_DIRS}")
+else()
+    set(DEST_BIN "${CMAKE_INSTALL_PREFIX}/bin")
+    set(DEST_LIB "${CMAKE_INSTALL_PREFIX}/lib")
+    set(DEST_INC "${CMAKE_INSTALL_PREFIX}/include")
 endif()
-message(STATUS "Installing library files in ${CMAKE_INSTALL_PREFIX}")
-  
+
+message(STATUS "Installing binaries in ${DEST_BIN}")
+message(STATUS "Installing libraries in ${DEST_LIB}")
+message(STATUS "Installing headers in ${DEST_INC}")
+
 install(TARGETS ${EXECUTABLE_TARGET}
-        RUNTIME DESTINATION ./bin)
+        RUNTIME DESTINATION ${DEST_BIN})
 
 install(TARGETS ${SHARED_LIB_TARGET}
-        LIBRARY DESTINATION ./lib
-        PUBLIC_HEADER DESTINATION ./include)
+        LIBRARY DESTINATION ${DEST_LIB}
+        PUBLIC_HEADER DESTINATION ${DEST_INC})
 
 # *.rootmap file keeps track of the library dependencies so that the library can be properly reloaded later on
 install(FILES ${PROJECT_BINARY_DIR}/lib${PROJECT_NAME}.rootmap
-       DESTINATION ./lib)
+       DESTINATION ${DEST_LIB})
 # *_rdict.pcm file contains data to serialize (do I/O / store and read) library classes, without having to parse headers
 install(FILES ${PROJECT_BINARY_DIR}/lib${PROJECT_NAME}_rdict.pcm
-        DESTINATION ./lib)
+        DESTINATION ${DEST_LIB})
 # copy canvasHelperDemo.cpp to the ${ROOTSYS}/macros - this allows for executing "root canvasHelperDemo.cpp" independent from current working directory
-install(FILES ${MAIN_CPP}
-        DESTINATION ./macros)
+# install(FILES ${MAIN_CPP}
+#        DESTINATION ./macros)
