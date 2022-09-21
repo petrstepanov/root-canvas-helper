@@ -739,9 +739,9 @@ void CanvasHelper::setPadNDivisions(TVirtualPad *pad) {
     // Get whatever minor divisions were originally (refer to documentation)
     Int_t nDivY = axis.second->GetNdivisions();
     Int_t nDivYMinor = nDivY / 100;
-    // Set one major division per 100 px
+    // Set one major division per 50 px
     Int_t height = getPadHeightPx(pad);
-    Int_t nDivYMajor = height / 75;
+    Int_t nDivYMajor = height / 50;
     axis.second->SetNdivisions(nDivYMajor, nDivYMinor, 0, kTRUE);
   }
 }
