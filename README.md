@@ -55,50 +55,64 @@ List of Fetures
 Installation with CMake
 -----------------------
 
-This is the preferred installation option. type of installation is more advances but will require users to have `cmake` program installed on computer. Usually CMake is included in Linux "Development Tools" group package. Similarly, ROOT environment should be sourced in the current shell. We clone the project and create the out-of-source build folder:
+This is the preferred installation option. Installation depends on prerequisites:
+* Have `cmake` version 3.XX program installed on computer. Usually CMake is included in Linux "Development Tools" group package. On older distributions CMake v3.XX may be named `cmake3`.
+* ROOT environment should be sourced in the current shell. Tested with ROOT v6.26.XX.
+
+First we download the repository and create an out-of-source build folder.
 
 ```
-mkdir -p ~/Downloads
-cd ~/Downloads
+mkdir -p ~/Downloads && cd ~/Downloads
 git clone https://github.com/petrstepanov/root-canvas-helper
 mkdir -p ./root-canvas-helper-build && cd ./root-canvas-helper-build
 ```
 
-CMake file `CMakeLists.txt` in the project root folder includes directions to do build and install everything we need. Next we generate the `Makefile`, and invoke the `install` target that depends on other required targets (generate dictionary, create shared libaray, build and link the executable, install generated files in corresponding locations):
+Next we invoke CMake. It ensures that all the dependencies are satisfied and generates GNU `Makefile`. Finally, we execute Makefile's `install` target:
 
 ```
 cmake ../root-canvas-helper
 cmake --build . --target install
 ```
 
-C++ standard is automatically determined and set in `CMakeLists.txt`. Installation is now complete. Now users should be able to run `root canvasHelperDemo.cpp` command to check the library features.
+Makefile generates dictionary, builds shared libaray, compiles code into object files, links the executable, and installs corresponding files files in required locations. 
 
-**Tip**. If ROOT was installed globally and user does not have the administrative permissions, library can be installed in users home folder. This required adding following cache variable at the buildfile generation:
+**Tip**. If above command requires administrator privilleges that current user does not have, the install prefix can be changed to a local install:
 
 ```
--DCMAKE_INSTALL_PREFIX=$HOME/.local
+cmake -DCMAKE_INSTALL_PREFIX=$HOME/.local ../root-canvas-helper
+cmake --build . --target install
 ```
 
-Additionally user needs to add corresponding locations to the environment:
-* `$HOME/.local/bin` must be added to `$PATH`.
-* `$HOME/.local/lib` needs to appear in `$LD_LIBRARY_PATH`.
-* `$HOME/.local/include` should be present in `$CPLUS_INCLUDE_PATH`.
+Additionally, `$PATH`, `$LD_LIBRARY_PATH`, and  `$CPLUS_INCLUDE_PATH` environemnt variables need to be modified for the library to be discoverable. Below please find an example how to do it in BASH and CSH shells:
+
+### BASH Shell
+```
+echo "export PATH=$HOME/.local/bin:$PATH" >> $HOME/.bashrc
+echo "export LD_LIBRARY_PATH=$HOME/.local/lib:$LD_LIBRARY_PATH" >> $HOME/.bashrc
+echo "export CPLUS_INCLUDE_PATH=$HOME/.local/include:$CPLUS_INCLUDE_PATH" >> $HOME/.bashrc
+```
+
+### CSH-Based Shells
+```
+echo "setenv PATH $HOME/.local/bin:$PATH" >> $HOME/.cshrc
+echo "setenv LD_LIBRARY_PATH $HOME/.local/lib:$LD_LIBRARY_PATH" >> $HOME/.cshrc
+echo "setenv CPLUS_INCLUDE_PATH $HOME/.local/include:$CPLUS_INCLUDE_PATH" >> $HOME/.cshrc
+```
 
 This should do the trick.
 
 Manual Installation
 -------------------
 
-To make use of this helper class, first make sure your ROOT environmant is set up in the shell process `source <your-root-install-location>/bin/thisroot.*`). It is required for the `root-config` executable to be included in the system `PATH` environment variable. Next check out the repository:
+This is an alternative way of building the the library with Cling interpreter. Check out the repository:
 
 ```
-mkdir -p ~/Downloads
-cd ~/Downloads
+mkdir -p ~/Downloads && cd ~/Downloads
 git clone https://github.com/petrstepanov/root-canvas-helper
 cd ./root-canvas-helper/src
 ```
 
-Next, enter the Cling interpreter shell and compile a shared library from sources:
+Make sure your ROOT environment is set up. Next, enter the Cling interpreter shell and compile a shared library from sources:
 
 ```
 root
@@ -106,15 +120,15 @@ root
 .q
 ```
 
-Now that the shared library is compiled we install the `.so` library, `.pcm` dictionary and `*.h` header files. Having ROOT directories already sources in the system environment, we simply integrate the library, its public header, and other files into the ROOT system folder. Commands below may require root persissions `sudo`:
+Now that the shared library is compiled we install the `.so` library, `.pcm` dictionary and `*.h` header files. Commands below may require administrative persissions:
 
 ```
 cp CanvasHelper*.so CanvasHelper*.pcm CanvasHelper*.d `root-config --libdir`
 cp CanvasHelper*.h `root-config --incdir`
-cp demo.cpp $ROOTSYS/macros
+cp canvasHelperDemo.cpp $ROOTSYS/macros
 ```
 
-Now that the library is installed and `canvasHelperDemo.cpp` script is located in ROOT `macros` folder, user should be able to run the demo macros independent of the current working folder location:
+Now that the library is installed, user should be able to run the demo macros:
 
 ```
 root canvasHelperDemo.cpp
@@ -134,14 +148,14 @@ After the library was installed, it needs to be loaded into the interpreter sess
 If developing a ROOT-based project (not a ROOT macro script), corresponding library header file needs to be included `#include <CanvasHelper.h>`. Additionally, the ROOT-based program needs to be link against the Canvas Helper shared library installed in `$ROOTSYS/lib`.
 
 Code Sample
------------------------------------------------------
+-----------
 
 Below please find a snippet that demonstrates basic functionality of the library.
 ```
 TODO: write example use
 ```
 
-Refer to the source code and let me nkow if there are any questions.
+Refer to the Api documentation for the full functionality here: https://github.com/petrstepanov/root-canvas-helper/blob/main/Api.md
 
 How to Contribute
 -----------------
