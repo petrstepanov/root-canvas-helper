@@ -134,9 +134,10 @@ Now that the library is installed, user should be able to run the demo macros:
 root canvasHelperDemo.cpp
 ```
 
+How to Use the Library
+----------------------
 
-Use library in a ROOT Macro or ROOT-Based program
---------------------------------------------------
+### In a ROOT Macro
 After the library was installed, it needs to be loaded into the interpreter session in your ROOT script:
 
 ```
@@ -144,6 +145,8 @@ After the library was installed, it needs to be loaded into the interpreter sess
   gSystem->Load("CanvasHelper");
 #endif
 ```
+
+### In a ROOT-based Program
 
 If developing a ROOT-based project (not a ROOT macro script), corresponding library header file needs to be included `#include <CanvasHelper.h>`. Program needs to be link against the CanvasHelper shared library. Library should be discoverable witn CMake's `find_library(...)`. function.
 
@@ -164,8 +167,8 @@ CMAKE_BUILD_TYPE:=Debug
 ROOT_DIR=<path-to-root-compiled-with-debug-symbols>/cmake
 ```
 
-How to Integrate Library in your ROOT-Based CMake project
----------------------------------------------------------
+How Add to CMake Project
+------------------------
 
 Please refer to this GitHub repository to find an example of integration of this library into a CMake-Based project:
 

@@ -57,6 +57,7 @@ class CanvasHelper: public TObject {
 
     /**
      * @brief Add subtitle to the canvas.
+     * lololo
      * @param pad Canvas object.
      * @param text Subtitle text. Can use TLatex syntax.
      *
