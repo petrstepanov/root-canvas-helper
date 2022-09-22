@@ -1,6 +1,9 @@
 Helper Class for CERN ROOT Canvas
 =================================
 
+Project homepage:
+https://petrstepanov.com/root-canvas-helper/
+
 By default, ROOT graphics on the canvas scales according to the canvas size. The bigger the canvas size is - the larger corresponding fonts, paddings are. This approach works good for canvases that contain one or two sub-pads. However, when ROOT canvas is divided into a higher number of sub-pads, say, 3x3, 5x5 or more, following issues take place:
 
 * Absolute pixel font size on every child pad becomes too small and almost unreadable.
@@ -153,9 +156,11 @@ If developing a ROOT-based project (not a ROOT macro script), corresponding libr
 Documentation and Code Samples
 ------------------------------
 
-Please refer to the api documentation to get familiar with more functinoality: https://github.com/petrstepanov/root-canvas-helper/blob/main/api.md
+Please refer to the Doxygen documentation to get familiar with all functionality: 
+https://petrstepanov.com/root-canvas-helper/classCanvasHelper.html
 
-Find a demo ROOT macros utilizing the CanvasHepler library here: https://github.com/petrstepanov/root-canvas-helper/blob/main/src/canvasHelperDemo.cpp
+Find a demo ROOT macros utilizing the CanvasHepler library here:
+https://github.com/petrstepanov/root-canvas-helper/blob/main/src/canvasHelperDemo.cpp
 
 How to Contribute
 -----------------
