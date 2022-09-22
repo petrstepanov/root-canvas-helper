@@ -14,12 +14,28 @@
 #include <map>
 #include <string>
 
+/**
+ * @namespace Round
+ * Used for rounding parameter values in the ROOT statistics box to the first (or second) value of the corresponding error
+ */
+namespace Round {
+  int getFirstDigit();
+  std::pair<double, double> valueError(const double value, const double error);
+  void paveTextValueErrors(TPaveText *pave);
+}
+
+/**
+ * @class CanvasHelper CanvasHelper.h "CanvasHelper.h"
+ * One and only library class represented by a singleton.
+ */
 class CanvasHelper: public TObject {
   public:
     /**
      * @brief Obtain an instance of the CanvasHelper class.
      *
-     * @return singleton instance.
+     * @code{.cpp}
+     * CanvasHelper* canvasHelper = CavasHelper::getInstance();
+     * @endcode
      */
     static CanvasHelper* getInstance();
 
@@ -29,30 +45,104 @@ class CanvasHelper: public TObject {
     virtual ~CanvasHelper();
 
     /**
-     * @brief Register user's canvas for processing.
+     * @brief Register your canvas for processing.
+     * Canvas needs to be added after all the primitives are drawn on it.
+     * @param canvas Canvas to be processed.
+     *
+     * @code{.cpp}
+     * CavasHelper::getInstance()->addCanvas(myCanvas);
+     * @endcode
      */
     void addCanvas(TCanvas *canvas);
 
     /**
-     * @brief Add subtitle to a canvas.
-
+     * @brief Add subtitle to the canvas.
      * @param pad Canvas object.
-     * @param text Subtitle char* string.
+     * @param text Subtitle text. Can use TLatex syntax.
+     *
+     * @code{.cpp}
+     * CavasHelper::addSubtitle(myCanvas, "Sample Subtitle Text");
+     * @endcode
      */
-    static void addSubtitle(TVirtualPad* pad, const char* text);
+    static void addSubtitle(TVirtualPad *pad, const char *text);
 
+    /**
+     * Used to set alignment options (bits) for ROOT stats boxes and legends.
+     * Horizontal and vertical emum variables can be combined.
+     */
     enum EPaveAlignBits {
-      kPaveAlignLeft = BIT(14), kPaveAlignRight = BIT(15), kPaveAlignTop = BIT(16), kPaveAlignBottom = BIT(17)
+      kPaveAlignLeft = BIT(14),    ///< align pave to the left frame border
+      kPaveAlignRight = BIT(15),   ///< align pave to the right frame border
+      kPaveAlignTop = BIT(16),     ///< align pave to the top frame border
+      kPaveAlignBottom = BIT(17)   ///< align pave to the bottom frame border
     };
 
+    /**
+     * @brief Used to specify TPave's alignment on the ROOT canvas.
+     * Emum variables can be combined:
+     * @param pave Statistic box, legend or other TPave
+     * @param align Binary combination of EPaveAlignBits
+     *
+     * @code{.cpp}
+     * TPave *pave = CanvasHelper::getDefaultPaveStats(myCanvas);
+     * CanvasHelper::setPaveAlignment(pave, kPaveAlignLeft | kPaveAlignTop);
+     * @endcode
+     *
+     */
     static void setPaveAlignment(TPave *pave, UInt_t align);
 
+    /**
+     * @brief Used to obtain default ROOT statistics box from a canvas with histogram, graph etc.
+     * Finds TPave in the histogram (graph) list of primitives. Detaches TPave and attaches to the canvas. Returns a pointer to the TPave.
+     * @param pad Canvas or a sub-pad containing statistics box.
+     *
+     * @code{.cpp}
+     * TPaveStats *pave = CanvasHelper::getDefaultPaveStats(myCanvas);
+     * @endcode
+     *
+     */
     static TPaveStats* getDefaultPaveStats(TVirtualPad *pad);
+
+    /**
+     * @brief Used to obtain default ROOT legend from a canvas.
+     * @param pad Canvas or a sub-pad containing the legend.
+     *
+     * @code{.cpp}
+     * TLegend *pave = getDefaultLegend::getDefaultLegend(myCanvas);
+     * @endcode
+     *
+     */
     static TLegend* getDefaultLegend(TVirtualPad *pad);
 
+    /**
+     * @brief Used to add a line to the default canvas (pad) statistics box.
+     * @param text String of text to be added. Use `=` as a spacer between left and right-aligned substrings. TLatex is also supported.
+     * @param pad Canvas or a sub-pad containing the legend.
+     *
+     * @code{.cpp}
+     * CanvasHelper::addTextToStats("Resolution, % = 10.1 #pm 0.2", myCanvas);
+     * @endcode
+     */
     static void addTextToStats(const char *text, TVirtualPad *pad);
+
+    /**
+     * @brief Used to add a line to a custom specific statistics box on a canvas (pad).
+     * @param text String of text to be added.
+     * @param stats Specific statistics box to add a line to.
+     * @param pad Canvas or a sub-pad containing the legend.
+     *
+     * @code{.cpp}
+     * CanvasHelper::addTextToStats("Resolution, % = 10.1 #pm 0.2", myStatBox, myCanvas);
+     * @endcode
+     */
     static void addTextToStats(const char *text, TPaveStats *stats, TVirtualPad *pad);
 
+    /**
+     * @brief Adding a multi-pad canvas title. Optionally supprts subtitle too.
+     * @param canvas ROOT canvas divided into a number of sub-pads.
+     * @param title String to be used as title.
+     * @param subtitle String to be used as sub-title.
+     */
     static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle = "");
 
   protected:
@@ -84,12 +174,6 @@ class CanvasHelper: public TObject {
       SymbolItalic = 15
     };
 
-    namespace Round {
-      int getFirstDigit();
-      std::pair<double, double> valueError(const double value, const double error);
-      void paveTextValueErrors(TPaveText *pave);
-    }
-
     // Font sizes in pixels
     static const Int_t FONT_SIZE_NORMAL;
     static const Int_t FONT_SIZE_SMALL;
@@ -118,8 +202,6 @@ class CanvasHelper: public TObject {
     static UInt_t getPaveLines(TPave *pave);
     static UInt_t getPaveTextWidthPx(TPaveText *paveText);
     static UInt_t getLegendWidthPx(TLegend *paveText);
-
-  private:
 
     // Slot for canvas resizing
     void onCanvasResized();
