@@ -141,11 +141,11 @@ After the library was installed, it needs to be loaded into the interpreter sess
 
 ```
 #ifdef __CINT__
-  gSystem->Load("CanvasHelper_cpp.so");
+  gSystem->Load("CanvasHelper");
 #endif
 ```
 
-If developing a ROOT-based project (not a ROOT macro script), corresponding library header file needs to be included `#include <CanvasHelper.h>`. Additionally, the ROOT-based program needs to be link against the Canvas Helper shared library installed in `$ROOTSYS/lib`.
+If developing a ROOT-based project (not a ROOT macro script), corresponding library header file needs to be included `#include <CanvasHelper.h>`. Program needs to be link against the CanvasHelper shared library. Library should be discoverable witn CMake's `find_library(...)`. function.
 
 Code Sample
 -----------

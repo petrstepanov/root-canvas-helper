@@ -7,3 +7,6 @@
 # Eclipse
 .cproject
 .project
+
+# Doxygen
+docs

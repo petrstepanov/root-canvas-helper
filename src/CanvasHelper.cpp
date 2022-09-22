@@ -113,6 +113,7 @@ CanvasHelper::CanvasHelper() {
 
 // Destructor
 CanvasHelper::~CanvasHelper() {
+  delete fgInstance;
 }
 
 // Instance provider

@@ -14,52 +14,81 @@
 #include <map>
 #include <string>
 
-struct Margin {
-    Double_t left;
-    Double_t right;
-    Double_t bottom;
-    Double_t top;
-};
-
-enum EFontFace {
-  TimesItalic = 1,
-  TimesBold = 2,
-  TimesBoldItalic = 3,
-  Helvetica = 4,
-  HelveticaItalic = 5,
-  HelveticaBold = 6,
-  HelveticaBoldItalic = 7,
-  Courier = 8,
-  CourierItalic = 9,
-  CourierBold = 10,
-  CourierBoldItalic = 11,
-  Symbol = 12,
-  Times = 13,
-  Wingdings = 14,
-  SymbolItalic = 15
-};
-
-namespace Round {
-int getFirstDigit();
-std::pair<double, double> valueError(const double value, const double error);
-void paveTextValueErrors(TPaveText *pave);
-}
-
 class CanvasHelper: public TObject {
   public:
+    /**
+     * @brief Obtain an instance of the CanvasHelper class.
+     *
+     * @return singleton instance.
+     */
     static CanvasHelper* getInstance();
+
+    /**
+     * @brief Class destructor.
+     */
     virtual ~CanvasHelper();
 
-  protected:
-    CanvasHelper();
+    /**
+     * @brief Register user's canvas for processing.
+     */
+    void addCanvas(TCanvas *canvas);
 
-    // Had to make public? or use this??
-  public:
-    static CanvasHelper *fgInstance;
+    /**
+     * @brief Add subtitle to a canvas.
+
+     * @param pad Canvas object.
+     * @param text Subtitle char* string.
+     */
+    static void addSubtitle(TVirtualPad* pad, const char* text);
 
     enum EPaveAlignBits {
       kPaveAlignLeft = BIT(14), kPaveAlignRight = BIT(15), kPaveAlignTop = BIT(16), kPaveAlignBottom = BIT(17)
     };
+
+    static void setPaveAlignment(TPave *pave, UInt_t align);
+
+    static TPaveStats* getDefaultPaveStats(TVirtualPad *pad);
+    static TLegend* getDefaultLegend(TVirtualPad *pad);
+
+    static void addTextToStats(const char *text, TVirtualPad *pad);
+    static void addTextToStats(const char *text, TPaveStats *stats, TVirtualPad *pad);
+
+    static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle = "");
+
+  protected:
+    CanvasHelper();
+    static CanvasHelper *fgInstance;
+
+    struct Margin {
+        Double_t left;
+        Double_t right;
+        Double_t bottom;
+        Double_t top;
+    };
+
+    enum EFontFace {
+      TimesItalic = 1,
+      TimesBold = 2,
+      TimesBoldItalic = 3,
+      Helvetica = 4,
+      HelveticaItalic = 5,
+      HelveticaBold = 6,
+      HelveticaBoldItalic = 7,
+      Courier = 8,
+      CourierItalic = 9,
+      CourierBold = 10,
+      CourierBoldItalic = 11,
+      Symbol = 12,
+      Times = 13,
+      Wingdings = 14,
+      SymbolItalic = 15
+    };
+
+    namespace Round {
+      int getFirstDigit();
+      std::pair<double, double> valueError(const double value, const double error);
+      void paveTextValueErrors(TPaveText *pave);
+    }
 
     // Font sizes in pixels
     static const Int_t FONT_SIZE_NORMAL;
@@ -85,35 +114,16 @@ class CanvasHelper: public TObject {
     static const Int_t PAVELINE_VSPACE;
     static const Int_t AXISTITLE_VSPACE;
 
-    void addCanvas(TCanvas *canvas);
-
-    static void addSubtitle(TVirtualPad *pad, const char *text);
-    static void setPaveAlignment(TPave *pave, UInt_t align);
-
-    static TPaveStats* getDefaultPaveStats(TVirtualPad *pad);
-    static TLegend* getDefaultLegend(TVirtualPad *pad);
-
-    static void addTextToStats(const char *text, TVirtualPad *pad);
-    static void addTextToStats(const char *text, TPaveStats *stats, TVirtualPad *pad);
-
     static Style_t getFont(EFontFace fontFace = EFontFace::Helvetica);
     static UInt_t getPaveLines(TPave *pave);
     static UInt_t getPaveTextWidthPx(TPaveText *paveText);
     static UInt_t getLegendWidthPx(TLegend *paveText);
 
-    static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle = "");
+  private:
 
-//    static UInt_t getTextWidthPx(TText* t);
-//    static UInt_t getTextHeightPx(TText* t);
-//    static std::pair<UInt_t, UInt_t> getTextSizePx(TText* t);
-
-// Slot for canvas resizing
+    // Slot for canvas resizing
     void onCanvasResized();
 
-//    void canvasReady(TCanvas*);      // *SIGNAL*
-//    void exportCanvas(TCanvas* canvas, const char* filename);
-
-  private:
     // TMap *canvasesToBeExported;
     static std::pair<Double_t, Double_t> getSubtitleYNDCCoordinates(TVirtualPad *pad);
 
@@ -148,7 +158,7 @@ class CanvasHelper: public TObject {
     void processPad(TVirtualPad *pad);
     static void setPadMargins(TVirtualPad *pad);
 
-    static void setPadNDivisions(TVirtualPad* pad);
+    static void setPadNDivisions(TVirtualPad *pad);
     void convertAxisToPxSize(TAxis *axis, const char type, TVirtualPad *pad);
 
     static Double_t getPadWidthPx(TVirtualPad *pad);
