@@ -147,15 +147,12 @@ After the library was installed, it needs to be loaded into the interpreter sess
 
 If developing a ROOT-based project (not a ROOT macro script), corresponding library header file needs to be included `#include <CanvasHelper.h>`. Program needs to be link against the CanvasHelper shared library. Library should be discoverable witn CMake's `find_library(...)`. function.
 
-Code Sample
------------
+Documentation and Code Samples
+------------------------------
 
-Below please find a snippet that demonstrates basic functionality of the library.
-```
-TODO: write example use
-```
+Please refer to the api documentation to get familiar with more functinoality: https://github.com/petrstepanov/root-canvas-helper/blob/main/api.md
 
-Refer to the Api documentation for the full functionality here: https://github.com/petrstepanov/root-canvas-helper/blob/main/Api.md
+Find a demo ROOT macros utilizing the CanvasHepler library here: https://github.com/petrstepanov/root-canvas-helper/blob/main/src/canvasHelperDemo.cpp
 
 How to Contribute
 -----------------
