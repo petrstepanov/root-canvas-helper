@@ -921,7 +921,10 @@ void CanvasHelper::convertAxisToPxSize(TAxis *axis, const char type, TVirtualPad
     axis->SetTitleOffset(1.4);
   if (type == 'y') {
     Int_t padLeftMargin = getFrameLeftMarginPx(pad);
-    const Int_t coefficient = 35; // Guestimated
+    Double_t coefficient = 40; // Guestimated
+    // Extra ratio seems to be needed - guestimated to be ratio of the frame width to pad width ???
+    // Double_t ratio = 1/(1-pad->GetLeftMargin()-pad->GetRightMargin())/2;
+    // coefficient = coefficient*ratio;
     axis->SetTitleOffset(padLeftMargin / (Double_t) coefficient);
   }
 

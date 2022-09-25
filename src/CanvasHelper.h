@@ -204,9 +204,6 @@ class CanvasHelper: public TObject {
     static UInt_t getPaveTextWidthPx(TPaveText *paveText);
     static UInt_t getLegendWidthPx(TLegend *paveText);
 
-    // Slot for canvas resizing
-    void onCanvasResized();
-
     // TMap *canvasesToBeExported;
     static std::pair<Double_t, Double_t> getSubtitleYNDCCoordinates(TVirtualPad *pad);
 
@@ -258,7 +255,11 @@ class CanvasHelper: public TObject {
 
     static TFrame* getPadFrame(TVirtualPad *pad);
 
-  public:ClassDef(CanvasHelper, 0)
+  public:
+    // Slot for canvas resizing (need to be public)
+    void onCanvasResized();
+    //
+  ClassDef(CanvasHelper, 0)
 };
 
 #endif

@@ -1,8 +1,9 @@
 Helper Class for CERN ROOT Canvas
 =================================
 
-Project homepage:
-https://petrstepanov.com/root-canvas-helper/
+<p><img src="https://unpkg.com/ionicons@5.5.2/dist/svg/home-sharp.svg" width="24" height="24"> Project homepage: <a href="https://petrstepanov.com/root-canvas-helper/">https://petrstepanov.com/root-canvas-helper</a></p>
+
+<p><img src="https://unpkg.com/ionicons@5.5.2/dist/svg/logo-github.svg" width="24" height="24"> Github repository: <a href="https://github.com/petrstepanov/root-canvas-helper">https://github.com/petrstepanov/root-canvas-helper</a></p>
 
 By default, ROOT graphics on the canvas scales according to the canvas size. The bigger the canvas size is - the larger corresponding fonts, paddings are. This approach works good for canvases that contain one or two sub-pads. However, when ROOT canvas is divided into a higher number of sub-pads, say, 3x3, 5x5 or more, following issues take place:
 
