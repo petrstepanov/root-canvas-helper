@@ -283,30 +283,20 @@ Double_t CanvasHelper::getPadHeightPx(TVirtualPad *virtualPad) {
 void CanvasHelper::addCanvas(TCanvas *canvas) {
   if (canvas == nullptr) return;
 
+  // Update Pad - in case the histogram was just drawn - need to update otherwise no primitives
   // Force unconditionally paint canvas
-  canvas->Paint();
+  canvas->cd()->Paint();
 
-  // Weird but this makes TTF::GetTextExtent() to return correct value
+  // Weird but this makes TTF::GetTextExtent() return correct value
   TText *t = new TText(1.5, 0.5, "Hi!");
   t->SetNDC();
   t->SetTextFont(getFont());
   t->SetTextSize(FONT_SIZE_NORMAL);
   canvas->GetListOfPrimitives()->Add(t);
-
-  // Tip: after say histogram was drawn on canvas it removes all the primitives on it.
-  // and top margin not calculated correctly
-  // Update Pad - in case the histogram was just drawn - need to update otherwise no primitives
-  // Petr Stepanov: hack, not sure why need to update twice for the
-  // canvas->Paint();
-  canvas->Modified();
-  canvas->Update();
+  canvas->Paint();
 
   registeredCanvases.insert( { canvas, { canvas->GetWw(), canvas->GetWh() } });
   processCanvas(canvas);
-
-  // Refresh canvas
-  canvas->Modified();
-  canvas->Update();
 }
 
 Bool_t CanvasHelper::isChildPad(TVirtualPad *pad) {
@@ -925,12 +915,10 @@ void CanvasHelper::convertAxisToPxSize(TAxis *axis, const char type, TVirtualPad
   if (type == 'x')
     axis->SetTitleOffset(1.4);
   if (type == 'y') {
-    Int_t padLeftMargin = getFrameLeftMarginPx(pad);
-    Double_t coefficient = 40; // Guestimated
+    Double_t titleOffsetPx = (Double_t)getFrameLeftMarginPx(pad) - (Double_t)MARGIN_LEFT + 8;
+    Double_t coefficient = 26.; // Guestimated
     // Extra ratio seems to be needed - guestimated to be ratio of the frame width to pad width ???
-    // Double_t ratio = 1/(1-pad->GetLeftMargin()-pad->GetRightMargin())/2;
-    // coefficient = coefficient*ratio;
-    axis->SetTitleOffset((Double_t) padLeftMargin / coefficient);
+    axis->SetTitleOffset(titleOffsetPx / coefficient);
   }
 
   // Style labels

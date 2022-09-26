@@ -110,18 +110,29 @@ void demo2() {
 }
 
 void demo3() {
+
   // Instantiate and divide canvas
   TCanvas *c = new TCanvas();
   c->SetWindowSize(850, 650);
 
+  // Divide canvas and leave no spacing between pads (looks better)
+  c->Divide(1, 2, 1E-5, 1E-5);
+
   // PAD 1: draw histogram and fit it
+  TVirtualPad *pad1 = c->cd(1);
   TH1 *h = new TH1D("hist", "Histogram from a Gaussian;Coordinate, m;Events", 100, -5, 15);
   h->FillRandom("gaus", 10000);
   h->Draw();
 
-  // Align pave stats
-  // TPave *pave = CanvasHelper::getDefaultPaveStats(c);
-  // CanvasHelper::setPaveAlignment(pave, kPaveAlignRight | kPaveAlignTop);
+  // FEATURE 1: obtain default statistics box from the canvas and align it
+  TPave *pave = CanvasHelper::getDefaultPaveStats(pad1);
+  CanvasHelper::setPaveAlignment(pave, kPaveAlignRight | kPaveAlignTop);
+
+  // PAD 2: draw a graph
+  c->cd(2);
+  TH1 *h2 = new TH1D("hist", "Histogram from a Gaussian;Coordinate, m;Events", 100, 3, 15);
+  h2->FillRandom("gaus", 10000);
+  h2->Draw();
 
   // Pass canvas for processing
   CanvasHelper::getInstance()->addCanvas(c);
