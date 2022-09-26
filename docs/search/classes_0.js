@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['canvashelper_17',['CanvasHelper',['../classCanvasHelper.html',1,'']]]
+  ['canvashelper_13',['CanvasHelper',['../classCanvasHelper.html',1,'']]]
 ];

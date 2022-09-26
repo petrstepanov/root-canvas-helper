@@ -25,6 +25,31 @@ namespace Round {
 }
 
 /**
+ * Enum is used to set alignment options (bits) for ROOT stats boxes and legends.
+ * Horizontal and vertical emum variables can be combined.
+ */
+enum EPaveAlignBits {
+  kPaveAlignLeft = BIT(14),    ///< align pave to the left frame border
+  kPaveAlignRight = BIT(15),   ///< align pave to the right frame border
+  kPaveAlignTop = BIT(16),     ///< align pave to the top frame border
+  kPaveAlignBottom = BIT(17)   ///< align pave to the bottom frame border
+};
+
+/**
+ * Enum is used to specify file formats to export canvas to. Formats can be passed as bit manipulation:
+ *
+ * @code{.cpp}
+ * CavasHelper::saveCanvas(myCanvas, kCanvasPng | kCanvasPs);
+ * @endcode*
+ */
+enum ECanvasFormatBits {
+  kFormatPng = BIT(14),      ///< save canvas as .png
+  kFormatPs = BIT(15),       ///< save canvas as .ps
+  kFormatROOT = BIT(16),     ///< save canvas as .root
+  kFormatC = BIT(17)         ///< save canvas as .c
+};
+
+/**
  * @class CanvasHelper CanvasHelper.h "CanvasHelper.h"
  * One and only library class represented by a singleton.
  */
@@ -66,17 +91,6 @@ class CanvasHelper: public TObject {
      * @endcode
      */
     static void addSubtitle(TVirtualPad *pad, const char *text);
-
-    /**
-     * Used to set alignment options (bits) for ROOT stats boxes and legends.
-     * Horizontal and vertical emum variables can be combined.
-     */
-    enum EPaveAlignBits {
-      kPaveAlignLeft = BIT(14),    ///< align pave to the left frame border
-      kPaveAlignRight = BIT(15),   ///< align pave to the right frame border
-      kPaveAlignTop = BIT(16),     ///< align pave to the top frame border
-      kPaveAlignBottom = BIT(17)   ///< align pave to the bottom frame border
-    };
 
     /**
      * @brief Used to specify TPave's alignment on the ROOT canvas.
@@ -145,6 +159,15 @@ class CanvasHelper: public TObject {
      * @param subtitle String to be used as sub-title.
      */
     static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle = "");
+
+    /**
+     * Function saves canvas to disk in certain format. Formats are manipulated as bits:
+     *
+     * @code{.cpp}
+     * CavasHelper::saveCanvas(myCanvas, kCanvasPng | kCanvasPs | kCanvasRoot | kCanvasC);
+     * @endcode*
+     */
+    static void saveCanvas(TCanvas *canvas, UInt_t format);
 
   protected:
     CanvasHelper();
@@ -260,6 +283,7 @@ class CanvasHelper: public TObject {
     void onCanvasResized();
     //
   ClassDef(CanvasHelper, 0)
-};
+}
+;
 
 #endif

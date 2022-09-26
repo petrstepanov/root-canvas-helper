@@ -84,7 +84,6 @@ $(document).ready(function(){initNavTree('classCanvasHelper.html',''); initResiz
 
 <div class="header">
   <div class="summary">
-<a href="#pub-types">Public Types</a> &#124;
 <a href="#pub-methods">Public Member Functions</a> &#124;
 <a href="#pub-static-methods">Static Public Member Functions</a> &#124;
 <a href="classCanvasHelper-members.html">List of all members</a>  </div>
@@ -97,15 +96,6 @@ $(document).ready(function(){initNavTree('classCanvasHelper.html',''); initResiz
 
 <p>Inherits TObject.</p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-types"></a>
-Public Types</h2></td></tr>
-<tr class="memitem:aed359e291be7f893286cbef53e08b574"><td class="memItemLeft" align="right" valign="top">enum &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574">EPaveAlignBits</a> { <a class="el" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a85b63fb902d3878290495450c58b9958">kPaveAlignLeft</a> = BIT(14)
-, <a class="el" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48f7101920c205733301ff03c92ab5b4">kPaveAlignRight</a> = BIT(15)
-, <a class="el" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48fb201d9bb44168fbcbfad7910ca28f">kPaveAlignTop</a> = BIT(16)
-, <a class="el" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a319cc02280b64381b93a2c68406412c3">kPaveAlignBottom</a> = BIT(17)
- }</td></tr>
-<tr class="separator:aed359e291be7f893286cbef53e08b574"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
 <tr class="memitem:a3622f03eea23e8b740f12f8177c74cc3"><td class="memItemLeft" align="right" valign="top"><a id="a3622f03eea23e8b740f12f8177c74cc3"></a>
@@ -142,36 +132,12 @@ Static Public Member Functions</h2></td></tr>
 <tr class="memitem:a54c6bfbbc89c8dd87da2461c239e3c4c"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCanvasHelper.html#a54c6bfbbc89c8dd87da2461c239e3c4c">addMultiCanvasTitle</a> (TCanvas *canvas, const char *title, const char *subtitle=&quot;&quot;)</td></tr>
 <tr class="memdesc:a54c6bfbbc89c8dd87da2461c239e3c4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Adding a multi-pad canvas title. Optionally supprts subtitle too.  <a href="classCanvasHelper.html#a54c6bfbbc89c8dd87da2461c239e3c4c">More...</a><br /></td></tr>
 <tr class="separator:a54c6bfbbc89c8dd87da2461c239e3c4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a73326e8957bd854e62b4ca47f3329198"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classCanvasHelper.html#a73326e8957bd854e62b4ca47f3329198">saveCanvas</a> (TCanvas *canvas, UInt_t format)</td></tr>
+<tr class="separator:a73326e8957bd854e62b4ca47f3329198"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>One and only library class represented by a singleton. </p>
-</div><h2 class="groupheader">Member Enumeration Documentation</h2>
-<a id="aed359e291be7f893286cbef53e08b574"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aed359e291be7f893286cbef53e08b574">&#9670;&nbsp;</a></span>EPaveAlignBits</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">enum <a class="el" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574">CanvasHelper::EPaveAlignBits</a></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Used to set alignment options (bits) for ROOT stats boxes and legends. Horizontal and vertical emum variables can be combined. </p>
-<table class="fieldtable">
-<tr><th colspan="2">Enumerator</th></tr><tr><td class="fieldname"><a id="aed359e291be7f893286cbef53e08b574a85b63fb902d3878290495450c58b9958"></a>kPaveAlignLeft&#160;</td><td class="fielddoc"><p>align pave to the left frame border </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aed359e291be7f893286cbef53e08b574a48f7101920c205733301ff03c92ab5b4"></a>kPaveAlignRight&#160;</td><td class="fielddoc"><p>align pave to the right frame border </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aed359e291be7f893286cbef53e08b574a48fb201d9bb44168fbcbfad7910ca28f"></a>kPaveAlignTop&#160;</td><td class="fielddoc"><p>align pave to the top frame border </p>
-</td></tr>
-<tr><td class="fieldname"><a id="aed359e291be7f893286cbef53e08b574a319cc02280b64381b93a2c68406412c3"></a>kPaveAlignBottom&#160;</td><td class="fielddoc"><p>align pave to the bottom frame border </p>
-</td></tr>
-</table>
-
-</div>
-</div>
-<h2 class="groupheader">Member Function Documentation</h2>
+</div><h2 class="groupheader">Member Function Documentation</h2>
 <a id="ade239b7879bfff344d7da95aba9f133a"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ade239b7879bfff344d7da95aba9f133a">&#9670;&nbsp;</a></span>addCanvas()</h2>
 
@@ -347,7 +313,7 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <div class="fragment"><div class="line"><a class="code" href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">CanvasHelper::addTextToStats</a>(<span class="stringliteral">&quot;Resolution, % = 10.1 #pm 0.2&quot;</span>, myStatBox, myCanvas);</div>
-<div class="ttc" id="aclassCanvasHelper_html_aa47453ce54f7b8b0ca9c037f13396ad9"><div class="ttname"><a href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">CanvasHelper::addTextToStats</a></div><div class="ttdeci">static void addTextToStats(const char *text, TVirtualPad *pad)</div><div class="ttdoc">Used to add a line to the default canvas (pad) statistics box.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:850</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_aa47453ce54f7b8b0ca9c037f13396ad9"><div class="ttname"><a href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">CanvasHelper::addTextToStats</a></div><div class="ttdeci">static void addTextToStats(const char *text, TVirtualPad *pad)</div><div class="ttdoc">Used to add a line to the default canvas (pad) statistics box.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:873</div></div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -464,7 +430,7 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <div class="fragment"><div class="line">TPaveStats *pave = <a class="code" href="classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb">CanvasHelper::getDefaultPaveStats</a>(myCanvas);</div>
-<div class="ttc" id="aclassCanvasHelper_html_ad3b55570532953d9dad1c64e4cd254fb"><div class="ttname"><a href="classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb">CanvasHelper::getDefaultPaveStats</a></div><div class="ttdeci">static TPaveStats * getDefaultPaveStats(TVirtualPad *pad)</div><div class="ttdoc">Used to obtain default ROOT statistics box from a canvas with histogram, graph etc....</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:795</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_ad3b55570532953d9dad1c64e4cd254fb"><div class="ttname"><a href="classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb">CanvasHelper::getDefaultPaveStats</a></div><div class="ttdeci">static TPaveStats * getDefaultPaveStats(TVirtualPad *pad)</div><div class="ttdoc">Used to obtain default ROOT statistics box from a canvas with histogram, graph etc....</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:818</div></div>
 </div><!-- fragment --> 
 </div>
 </div>
@@ -493,8 +459,47 @@ Static Public Member Functions</h2></td></tr>
 
 <p>Obtain an instance of the <a class="el" href="classCanvasHelper.html">CanvasHelper</a> class. </p>
 <div class="fragment"><div class="line"><a class="code" href="classCanvasHelper.html">CanvasHelper</a>* canvasHelper = CavasHelper::getInstance();</div>
-<div class="ttc" id="aclassCanvasHelper_html"><div class="ttname"><a href="classCanvasHelper.html">CanvasHelper</a></div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:31</div></div>
+<div class="ttc" id="aclassCanvasHelper_html"><div class="ttname"><a href="classCanvasHelper.html">CanvasHelper</a></div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:56</div></div>
 </div><!-- fragment --> 
+</div>
+</div>
+<a id="a73326e8957bd854e62b4ca47f3329198"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a73326e8957bd854e62b4ca47f3329198">&#9670;&nbsp;</a></span>saveCanvas()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void CanvasHelper::saveCanvas </td>
+          <td>(</td>
+          <td class="paramtype">TCanvas *&#160;</td>
+          <td class="paramname"><em>canvas</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">UInt_t&#160;</td>
+          <td class="paramname"><em>format</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Function saves canvas to disk in certain format. Formats are manipulated as bits:</p>
+<div class="fragment"><div class="line">CavasHelper::saveCanvas(myCanvas, kCanvasPng | kCanvasPs | kCanvasRoot | kCanvasC);</div>
+</div><!-- fragment --><p>* </p>
+
 </div>
 </div>
 <a id="a6249df318a5752838c6d01d8e4f76a1c"></a>
@@ -540,10 +545,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 <div class="fragment"><div class="line">TPave *pave = <a class="code" href="classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb">CanvasHelper::getDefaultPaveStats</a>(myCanvas);</div>
-<div class="line"><a class="code" href="classCanvasHelper.html#a6249df318a5752838c6d01d8e4f76a1c">CanvasHelper::setPaveAlignment</a>(pave, <a class="code" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a85b63fb902d3878290495450c58b9958">kPaveAlignLeft</a> | <a class="code" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48fb201d9bb44168fbcbfad7910ca28f">kPaveAlignTop</a>);</div>
+<div class="line"><a class="code" href="classCanvasHelper.html#a6249df318a5752838c6d01d8e4f76a1c">CanvasHelper::setPaveAlignment</a>(pave, kPaveAlignLeft | kPaveAlignTop);</div>
 <div class="ttc" id="aclassCanvasHelper_html_a6249df318a5752838c6d01d8e4f76a1c"><div class="ttname"><a href="classCanvasHelper.html#a6249df318a5752838c6d01d8e4f76a1c">CanvasHelper::setPaveAlignment</a></div><div class="ttdeci">static void setPaveAlignment(TPave *pave, UInt_t align)</div><div class="ttdoc">Used to specify TPave's alignment on the ROOT canvas. Emum variables can be combined:</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:750</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_aed359e291be7f893286cbef53e08b574a48fb201d9bb44168fbcbfad7910ca28f"><div class="ttname"><a href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48fb201d9bb44168fbcbfad7910ca28f">CanvasHelper::kPaveAlignTop</a></div><div class="ttdeci">@ kPaveAlignTop</div><div class="ttdoc">align pave to the top frame border</div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:77</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_aed359e291be7f893286cbef53e08b574a85b63fb902d3878290495450c58b9958"><div class="ttname"><a href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a85b63fb902d3878290495450c58b9958">CanvasHelper::kPaveAlignLeft</a></div><div class="ttdeci">@ kPaveAlignLeft</div><div class="ttdoc">align pave to the left frame border</div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:75</div></div>
 </div><!-- fragment --> 
 </div>
 </div>

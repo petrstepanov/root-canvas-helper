@@ -90,7 +90,7 @@ namespace Round {
           std::stringstream buffer;
           buffer << before << " " << pair.first << " #pm " << pair.second;
 
-          TString newText(buffer.str().c_str());
+          TString newText((buffer.str()).c_str());
           text->SetTitle(newText.Data());
         }
       }
@@ -766,6 +766,29 @@ void CanvasHelper::setPaveAlignment(TPave *pave, UInt_t align) {
   if ((align & kPaveAlignBottom) == kPaveAlignBottom) {
     pave->SetBit(EPaveAlignBits::kPaveAlignTop, kFALSE);
     pave->SetBit(kPaveAlignBottom, kTRUE);
+  }
+}
+
+void CanvasHelper::saveCanvas(TCanvas *canvas, UInt_t format) {
+  if ((format & kFormatC) == kFormatC) {
+    TString fileName = canvas->GetName();
+    fileName += ".c";
+    canvas->SaveAs(fileName);
+  }
+  if ((format & kFormatPng) == kFormatPng) {
+    TString fileName = canvas->GetName();
+    fileName += ".png";
+    canvas->SaveAs(fileName);
+  }
+  if ((format & kFormatPs) == kFormatPs) {
+    TString fileName = canvas->GetName();
+    fileName += ".ps";
+    canvas->SaveAs(fileName);
+  }
+  if ((format & kFormatROOT) == kFormatROOT) {
+    TString fileName = canvas->GetName();
+    fileName += ".root";
+    canvas->SaveAs(fileName);
   }
 }
 

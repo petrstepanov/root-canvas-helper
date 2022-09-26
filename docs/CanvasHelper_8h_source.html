@@ -109,167 +109,173 @@ $(document).ready(function(){initNavTree('CanvasHelper_8h_source.html',''); init
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keywordtype">void</span> paveTextValueErrors(TPaveText *pave);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;}</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="classCanvasHelper.html">   31</a></span>&#160;<span class="keyword">class </span><a class="code" href="classCanvasHelper.html">CanvasHelper</a>: <span class="keyword">public</span> TObject {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    <span class="keyword">static</span> <a class="code" href="classCanvasHelper.html">CanvasHelper</a>* <a class="code" href="classCanvasHelper.html#a7842890600af84bdbc3c7ba5f8f0e52d">getInstance</a>();</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classCanvasHelper.html#a3622f03eea23e8b740f12f8177c74cc3">~CanvasHelper</a>();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#ade239b7879bfff344d7da95aba9f133a">addCanvas</a>(TCanvas *canvas);</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#a590ef712443b8ee990ae896724a00e0e">addSubtitle</a>(TVirtualPad *pad, <span class="keyword">const</span> <span class="keywordtype">char</span> *text);</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno"><a class="line" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574">   74</a></span>&#160;    <span class="keyword">enum</span> <a class="code" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574">EPaveAlignBits</a> {</div>
-<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a85b63fb902d3878290495450c58b9958">   75</a></span>&#160;      <a class="code" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a85b63fb902d3878290495450c58b9958">kPaveAlignLeft</a> = BIT(14),    </div>
-<div class="line"><a name="l00076"></a><span class="lineno"><a class="line" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48f7101920c205733301ff03c92ab5b4">   76</a></span>&#160;      <a class="code" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48f7101920c205733301ff03c92ab5b4">kPaveAlignRight</a> = BIT(15),   </div>
-<div class="line"><a name="l00077"></a><span class="lineno"><a class="line" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48fb201d9bb44168fbcbfad7910ca28f">   77</a></span>&#160;      <a class="code" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48fb201d9bb44168fbcbfad7910ca28f">kPaveAlignTop</a> = BIT(16),     </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      <a class="code" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a319cc02280b64381b93a2c68406412c3">kPaveAlignBottom</a> = BIT(17)   </div>
-<div class="line"><a name="l00079"></a><span class="lineno"><a class="line" href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a319cc02280b64381b93a2c68406412c3">   79</a></span>&#160;    };</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#a6249df318a5752838c6d01d8e4f76a1c">setPaveAlignment</a>(TPave *pave, UInt_t align);</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">enum</span> EPaveAlignBits {</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  kPaveAlignLeft = BIT(14),    </div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  kPaveAlignRight = BIT(15),   </div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  kPaveAlignTop = BIT(16),     </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  kPaveAlignBottom = BIT(17)   </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;};</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="keyword">enum</span> ECanvasFormatBits {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  kFormatPng = BIT(14),      </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  kFormatPs = BIT(15),       </div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  kFormatROOT = BIT(16),     </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  kFormatC = BIT(17)         </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="classCanvasHelper.html">   56</a></span>&#160;<span class="keyword">class </span><a class="code" href="classCanvasHelper.html">CanvasHelper</a>: <span class="keyword">public</span> TObject {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    <span class="keyword">static</span> <a class="code" href="classCanvasHelper.html">CanvasHelper</a>* <a class="code" href="classCanvasHelper.html#a7842890600af84bdbc3c7ba5f8f0e52d">getInstance</a>();</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160; </div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="keyword">virtual</span> <a class="code" href="classCanvasHelper.html#a3622f03eea23e8b740f12f8177c74cc3">~CanvasHelper</a>();</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#ade239b7879bfff344d7da95aba9f133a">addCanvas</a>(TCanvas *canvas);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#a590ef712443b8ee990ae896724a00e0e">addSubtitle</a>(TVirtualPad *pad, <span class="keyword">const</span> <span class="keywordtype">char</span> *text);</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <span class="keyword">static</span> TPaveStats* <a class="code" href="classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb">getDefaultPaveStats</a>(TVirtualPad *pad);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    <span class="keyword">static</span> TLegend* <a class="code" href="classCanvasHelper.html#afe7472640147b085cc66efe9552b3da0">getDefaultLegend</a>(TVirtualPad *pad);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">addTextToStats</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *text, TVirtualPad *pad);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160; </div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">addTextToStats</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *text, TPaveStats *stats, TVirtualPad *pad);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#a54c6bfbbc89c8dd87da2461c239e3c4c">addMultiCanvasTitle</a>(TCanvas *canvas, <span class="keyword">const</span> <span class="keywordtype">char</span> *title, <span class="keyword">const</span> <span class="keywordtype">char</span> *subtitle = <span class="stringliteral">&quot;&quot;</span>);</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160; </div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <span class="keyword">protected</span>:</div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    <a class="code" href="classCanvasHelper.html">CanvasHelper</a>();</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;    <span class="keyword">static</span> <a class="code" href="classCanvasHelper.html">CanvasHelper</a> *fgInstance;</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keyword">struct </span>Margin {</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;        Double_t left;</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;        Double_t right;</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;        Double_t bottom;</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        Double_t top;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    };</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keyword">enum</span> EFontFace {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      TimesItalic = 1,</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;      TimesBold = 2,</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      TimesBoldItalic = 3,</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;      Helvetica = 4,</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;      HelveticaItalic = 5,</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;      HelveticaBold = 6,</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;      HelveticaBoldItalic = 7,</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      Courier = 8,</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;      CourierItalic = 9,</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      CourierBold = 10,</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      CourierBoldItalic = 11,</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      Symbol = 12,</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;      Times = 13,</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;      Wingdings = 14,</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;      SymbolItalic = 15</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    };</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="comment">// Font sizes in pixels</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_NORMAL;</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_SMALL;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_SMALLER;</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_LARGE;</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_LARGER;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_HUGE;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160; </div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Double_t LINE_HEIGHT;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment">//    static const Int_t AXIS_TITLE_OFFSET;</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t AXIS_LABEL_OFFSET;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t AXIS_TICK_LENGTH;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t MARGIN_LEFT;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t MARGIN_TOP;</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t MARGIN_RIGHT;</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t MARGIN_BOTTOM;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t TITLE_VSPACE;</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t SUBTITLE_VSPACE;</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t PAVELINE_VSPACE;</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t AXISTITLE_VSPACE;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keyword">static</span> Style_t getFont(EFontFace fontFace = EFontFace::Helvetica);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keyword">static</span> UInt_t getPaveLines(TPave *pave);</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keyword">static</span> UInt_t getPaveTextWidthPx(TPaveText *paveText);</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keyword">static</span> UInt_t getLegendWidthPx(TLegend *paveText);</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160; </div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="comment">// TMap *canvasesToBeExported;</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    <span class="keyword">static</span> std::pair&lt;Double_t, Double_t&gt; getSubtitleYNDCCoordinates(TVirtualPad *pad);</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160; </div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    TList *registeredCanvases;</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    TList *padsWithModifiedDivisions;</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    std::map&lt;std::string, std::pair&lt;unsigned int, unsigned int&gt;&gt; registeredCanvasesSizes;</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment">//    std::map&lt;std::string, double&gt; defaultPadLeftMargins;</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment">//    static TGraph* findTGraphOnPad(TVirtualPad* pad);</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160; </div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keyword">static</span> TObject* findObjectOnPad(TClass *c, TVirtualPad *pad);</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="comment">// static TObject* findObjectOnPad(const char* name, TVirtualPad* pad);</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160; </div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignChildPad(TVirtualPad *pad);</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keyword">static</span> Int_t getFrameLeftMarginPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keyword">static</span> Int_t getFrameRightMarginPx(<span class="comment">/*TVirtualPad* pad*/</span>);</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keyword">static</span> Int_t getFrameTopMarginPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keyword">static</span> Int_t getFrameBottomMarginPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160; </div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keyword">static</span> Bool_t hasXAxisTitle(TVirtualPad *pad);</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keyword">static</span> Bool_t hasYAxisTitle(TVirtualPad *pad);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    <span class="keyword">static</span> Bool_t isChildPad(TVirtualPad *pad);</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignTitle(TVirtualPad *pad);</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignSubtitle(TVirtualPad *pad);</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignSubtitle(TPaveText *subtitle, TVirtualPad *pad);</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignAllPaves(TVirtualPad *pad);</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="comment">// static void alignAxisTitles(TVirtualPad* pad);</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160; </div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keywordtype">void</span> processCanvas(TCanvas *canvas);</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="keywordtype">void</span> processPad(TVirtualPad *pad);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> setPadMargins(TVirtualPad *pad);</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160; </div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> setPadNDivisions(TVirtualPad *pad);</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keywordtype">void</span> convertAxisToPxSize(TAxis *axis, <span class="keyword">const</span> <span class="keywordtype">char</span> type, TVirtualPad *pad);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#a6249df318a5752838c6d01d8e4f76a1c">setPaveAlignment</a>(TPave *pave, UInt_t align);</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="keyword">static</span> TPaveStats* <a class="code" href="classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb">getDefaultPaveStats</a>(TVirtualPad *pad);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    <span class="keyword">static</span> TLegend* <a class="code" href="classCanvasHelper.html#afe7472640147b085cc66efe9552b3da0">getDefaultLegend</a>(TVirtualPad *pad);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">addTextToStats</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *text, TVirtualPad *pad);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">addTextToStats</a>(<span class="keyword">const</span> <span class="keywordtype">char</span> *text, TPaveStats *stats, TVirtualPad *pad);</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160; </div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#a54c6bfbbc89c8dd87da2461c239e3c4c">addMultiCanvasTitle</a>(TCanvas *canvas, <span class="keyword">const</span> <span class="keywordtype">char</span> *title, <span class="keyword">const</span> <span class="keywordtype">char</span> *subtitle = <span class="stringliteral">&quot;&quot;</span>);</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> <a class="code" href="classCanvasHelper.html#a73326e8957bd854e62b4ca47f3329198">saveCanvas</a>(TCanvas *canvas, UInt_t format);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160; </div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  <span class="keyword">protected</span>:</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    <a class="code" href="classCanvasHelper.html">CanvasHelper</a>();</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="keyword">static</span> <a class="code" href="classCanvasHelper.html">CanvasHelper</a> *fgInstance;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keyword">struct </span>Margin {</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        Double_t left;</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        Double_t right;</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        Double_t bottom;</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        Double_t top;</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    };</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160; </div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    <span class="keyword">enum</span> EFontFace {</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;      TimesItalic = 1,</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      TimesBold = 2,</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;      TimesBoldItalic = 3,</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      Helvetica = 4,</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;      HelveticaItalic = 5,</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;      HelveticaBold = 6,</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      HelveticaBoldItalic = 7,</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      Courier = 8,</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;      CourierItalic = 9,</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;      CourierBold = 10,</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      CourierBoldItalic = 11,</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      Symbol = 12,</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      Times = 13,</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      Wingdings = 14,</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      SymbolItalic = 15</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    };</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160; </div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    <span class="comment">// Font sizes in pixels</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_NORMAL;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_SMALL;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_SMALLER;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_LARGE;</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_LARGER;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t FONT_SIZE_HUGE;</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Double_t LINE_HEIGHT;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">//    static const Int_t AXIS_TITLE_OFFSET;</span></div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t AXIS_LABEL_OFFSET;</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t AXIS_TICK_LENGTH;</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160; </div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t MARGIN_LEFT;</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t MARGIN_TOP;</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t MARGIN_RIGHT;</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t MARGIN_BOTTOM;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160; </div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t TITLE_VSPACE;</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t SUBTITLE_VSPACE;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t PAVELINE_VSPACE;</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="keyword">static</span> <span class="keyword">const</span> Int_t AXISTITLE_VSPACE;</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keyword">static</span> Style_t getFont(EFontFace fontFace = EFontFace::Helvetica);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keyword">static</span> UInt_t getPaveLines(TPave *pave);</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    <span class="keyword">static</span> UInt_t getPaveTextWidthPx(TPaveText *paveText);</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    <span class="keyword">static</span> UInt_t getLegendWidthPx(TLegend *paveText);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160; </div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="comment">// TMap *canvasesToBeExported;</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keyword">static</span> std::pair&lt;Double_t, Double_t&gt; getSubtitleYNDCCoordinates(TVirtualPad *pad);</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    TList *registeredCanvases;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    TList *padsWithModifiedDivisions;</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    std::map&lt;std::string, std::pair&lt;unsigned int, unsigned int&gt;&gt; registeredCanvasesSizes;</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="comment">//    std::map&lt;std::string, double&gt; defaultPadLeftMargins;</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment">//    static TGraph* findTGraphOnPad(TVirtualPad* pad);</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="keyword">static</span> TObject* findObjectOnPad(TClass *c, TVirtualPad *pad);</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="comment">// static TObject* findObjectOnPad(const char* name, TVirtualPad* pad);</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignChildPad(TVirtualPad *pad);</div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keyword">static</span> Double_t getPadWidthPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keyword">static</span> Double_t getPadHeightPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keyword">static</span> std::pair&lt;TAxis*, TAxis*&gt; getPadXYAxis(TVirtualPad *pad);</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keyword">static</span> Double_t getYAxisMaxLabelWidthPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;<span class="comment">//    Double_t getLabelHeigthPx();</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;    <span class="keyword">static</span> Double_t pxToNdcHorizontal(Int_t px, TVirtualPad *pad);</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keyword">static</span> Double_t pxToNdcVertical(Int_t py, TVirtualPad *pad);</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keyword">static</span> Int_t getFrameLeftMarginPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keyword">static</span> Int_t getFrameRightMarginPx(<span class="comment">/*TVirtualPad* pad*/</span>);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keyword">static</span> Int_t getFrameTopMarginPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keyword">static</span> Int_t getFrameBottomMarginPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keyword">static</span> Bool_t hasXAxisTitle(TVirtualPad *pad);</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keyword">static</span> Bool_t hasYAxisTitle(TVirtualPad *pad);</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keyword">static</span> Bool_t isChildPad(TVirtualPad *pad);</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">char</span> subtitleObjectName[] = <span class="stringliteral">&quot;subtitle&quot;</span>;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keyword">static</span> TFrame* getPadFrame(TVirtualPad *pad);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="comment">// Slot for canvas resizing (need to be public)</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keywordtype">void</span> onCanvasResized();</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  ClassDef(<a class="code" href="classCanvasHelper.html">CanvasHelper</a>, 0)</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;};</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="ttc" id="aclassCanvasHelper_html"><div class="ttname"><a href="classCanvasHelper.html">CanvasHelper</a></div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:31</div></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignTitle(TVirtualPad *pad);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignSubtitle(TVirtualPad *pad);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignSubtitle(TPaveText *subtitle, TVirtualPad *pad);</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignAllPaves(TVirtualPad *pad);</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="comment">// static void alignAxisTitles(TVirtualPad* pad);</span></div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keywordtype">void</span> processCanvas(TCanvas *canvas);</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keywordtype">void</span> processPad(TVirtualPad *pad);</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> setPadMargins(TVirtualPad *pad);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> setPadNDivisions(TVirtualPad *pad);</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordtype">void</span> convertAxisToPxSize(TAxis *axis, <span class="keyword">const</span> <span class="keywordtype">char</span> type, TVirtualPad *pad);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keyword">static</span> Double_t getPadWidthPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keyword">static</span> Double_t getPadHeightPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="keyword">static</span> std::pair&lt;TAxis*, TAxis*&gt; getPadXYAxis(TVirtualPad *pad);</div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keyword">static</span> Double_t getYAxisMaxLabelWidthPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">//    Double_t getLabelHeigthPx();</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keyword">static</span> Double_t pxToNdcHorizontal(Int_t px, TVirtualPad *pad);</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keyword">static</span> Double_t pxToNdcVertical(Int_t py, TVirtualPad *pad);</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160; </div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">char</span> subtitleObjectName[] = <span class="stringliteral">&quot;subtitle&quot;</span>;</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keyword">static</span> TFrame* getPadFrame(TVirtualPad *pad);</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="comment">// Slot for canvas resizing (need to be public)</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordtype">void</span> onCanvasResized();</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <span class="comment">//</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;  ClassDef(<a class="code" href="classCanvasHelper.html">CanvasHelper</a>, 0)</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;}</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;;</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="ttc" id="aclassCanvasHelper_html"><div class="ttname"><a href="classCanvasHelper.html">CanvasHelper</a></div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:56</div></div>
 <div class="ttc" id="aclassCanvasHelper_html_a3622f03eea23e8b740f12f8177c74cc3"><div class="ttname"><a href="classCanvasHelper.html#a3622f03eea23e8b740f12f8177c74cc3">CanvasHelper::~CanvasHelper</a></div><div class="ttdeci">virtual ~CanvasHelper()</div><div class="ttdoc">Class destructor.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:115</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_a54c6bfbbc89c8dd87da2461c239e3c4c"><div class="ttname"><a href="classCanvasHelper.html#a54c6bfbbc89c8dd87da2461c239e3c4c">CanvasHelper::addMultiCanvasTitle</a></div><div class="ttdeci">static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle=&quot;&quot;)</div><div class="ttdoc">Adding a multi-pad canvas title. Optionally supprts subtitle too.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:1055</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_a54c6bfbbc89c8dd87da2461c239e3c4c"><div class="ttname"><a href="classCanvasHelper.html#a54c6bfbbc89c8dd87da2461c239e3c4c">CanvasHelper::addMultiCanvasTitle</a></div><div class="ttdeci">static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle=&quot;&quot;)</div><div class="ttdoc">Adding a multi-pad canvas title. Optionally supprts subtitle too.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:1078</div></div>
 <div class="ttc" id="aclassCanvasHelper_html_a590ef712443b8ee990ae896724a00e0e"><div class="ttname"><a href="classCanvasHelper.html#a590ef712443b8ee990ae896724a00e0e">CanvasHelper::addSubtitle</a></div><div class="ttdeci">static void addSubtitle(TVirtualPad *pad, const char *text)</div><div class="ttdoc">Add subtitle to the canvas. lololo.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:404</div></div>
 <div class="ttc" id="aclassCanvasHelper_html_a6249df318a5752838c6d01d8e4f76a1c"><div class="ttname"><a href="classCanvasHelper.html#a6249df318a5752838c6d01d8e4f76a1c">CanvasHelper::setPaveAlignment</a></div><div class="ttdeci">static void setPaveAlignment(TPave *pave, UInt_t align)</div><div class="ttdoc">Used to specify TPave's alignment on the ROOT canvas. Emum variables can be combined:</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:750</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_a73326e8957bd854e62b4ca47f3329198"><div class="ttname"><a href="classCanvasHelper.html#a73326e8957bd854e62b4ca47f3329198">CanvasHelper::saveCanvas</a></div><div class="ttdeci">static void saveCanvas(TCanvas *canvas, UInt_t format)</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:772</div></div>
 <div class="ttc" id="aclassCanvasHelper_html_a7842890600af84bdbc3c7ba5f8f0e52d"><div class="ttname"><a href="classCanvasHelper.html#a7842890600af84bdbc3c7ba5f8f0e52d">CanvasHelper::getInstance</a></div><div class="ttdeci">static CanvasHelper * getInstance()</div><div class="ttdoc">Obtain an instance of the CanvasHelper class.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:120</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_aa47453ce54f7b8b0ca9c037f13396ad9"><div class="ttname"><a href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">CanvasHelper::addTextToStats</a></div><div class="ttdeci">static void addTextToStats(const char *text, TVirtualPad *pad)</div><div class="ttdoc">Used to add a line to the default canvas (pad) statistics box.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:850</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_ad3b55570532953d9dad1c64e4cd254fb"><div class="ttname"><a href="classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb">CanvasHelper::getDefaultPaveStats</a></div><div class="ttdeci">static TPaveStats * getDefaultPaveStats(TVirtualPad *pad)</div><div class="ttdoc">Used to obtain default ROOT statistics box from a canvas with histogram, graph etc....</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:795</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_aa47453ce54f7b8b0ca9c037f13396ad9"><div class="ttname"><a href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">CanvasHelper::addTextToStats</a></div><div class="ttdeci">static void addTextToStats(const char *text, TVirtualPad *pad)</div><div class="ttdoc">Used to add a line to the default canvas (pad) statistics box.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:873</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_ad3b55570532953d9dad1c64e4cd254fb"><div class="ttname"><a href="classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb">CanvasHelper::getDefaultPaveStats</a></div><div class="ttdeci">static TPaveStats * getDefaultPaveStats(TVirtualPad *pad)</div><div class="ttdoc">Used to obtain default ROOT statistics box from a canvas with histogram, graph etc....</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:818</div></div>
 <div class="ttc" id="aclassCanvasHelper_html_ade239b7879bfff344d7da95aba9f133a"><div class="ttname"><a href="classCanvasHelper.html#ade239b7879bfff344d7da95aba9f133a">CanvasHelper::addCanvas</a></div><div class="ttdeci">void addCanvas(TCanvas *canvas)</div><div class="ttdoc">Register your canvas for processing. Canvas needs to be added after all the primitives are drawn on i...</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:283</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_aed359e291be7f893286cbef53e08b574"><div class="ttname"><a href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574">CanvasHelper::EPaveAlignBits</a></div><div class="ttdeci">EPaveAlignBits</div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:74</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_aed359e291be7f893286cbef53e08b574a319cc02280b64381b93a2c68406412c3"><div class="ttname"><a href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a319cc02280b64381b93a2c68406412c3">CanvasHelper::kPaveAlignBottom</a></div><div class="ttdeci">@ kPaveAlignBottom</div><div class="ttdoc">align pave to the bottom frame border</div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:78</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_aed359e291be7f893286cbef53e08b574a48f7101920c205733301ff03c92ab5b4"><div class="ttname"><a href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48f7101920c205733301ff03c92ab5b4">CanvasHelper::kPaveAlignRight</a></div><div class="ttdeci">@ kPaveAlignRight</div><div class="ttdoc">align pave to the right frame border</div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:76</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_aed359e291be7f893286cbef53e08b574a48fb201d9bb44168fbcbfad7910ca28f"><div class="ttname"><a href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48fb201d9bb44168fbcbfad7910ca28f">CanvasHelper::kPaveAlignTop</a></div><div class="ttdeci">@ kPaveAlignTop</div><div class="ttdoc">align pave to the top frame border</div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:77</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_aed359e291be7f893286cbef53e08b574a85b63fb902d3878290495450c58b9958"><div class="ttname"><a href="classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a85b63fb902d3878290495450c58b9958">CanvasHelper::kPaveAlignLeft</a></div><div class="ttdeci">@ kPaveAlignLeft</div><div class="ttdoc">align pave to the left frame border</div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:75</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_afe7472640147b085cc66efe9552b3da0"><div class="ttname"><a href="classCanvasHelper.html#afe7472640147b085cc66efe9552b3da0">CanvasHelper::getDefaultLegend</a></div><div class="ttdeci">static TLegend * getDefaultLegend(TVirtualPad *pad)</div><div class="ttdoc">Used to obtain default ROOT legend from a canvas.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:844</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_afe7472640147b085cc66efe9552b3da0"><div class="ttname"><a href="classCanvasHelper.html#afe7472640147b085cc66efe9552b3da0">CanvasHelper::getDefaultLegend</a></div><div class="ttdeci">static TLegend * getDefaultLegend(TVirtualPad *pad)</div><div class="ttdoc">Used to obtain default ROOT legend from a canvas.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:867</div></div>
 <div class="ttc" id="anamespaceRound_html"><div class="ttname"><a href="namespaceRound.html">Round</a></div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:33</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->

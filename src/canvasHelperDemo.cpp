@@ -29,7 +29,7 @@ void demo1() {
 
   // FEATURE 1: obtain default statistics box from the canvas and align it
   TPave *pave = CanvasHelper::getDefaultPaveStats(pad1);
-  CanvasHelper::setPaveAlignment(pave, CanvasHelper::kPaveAlignRight | CanvasHelper::kPaveAlignTop);
+  CanvasHelper::setPaveAlignment(pave, kPaveAlignRight | kPaveAlignTop);
 
   // PAD 2: draw a graph
   c->cd(2);
@@ -70,7 +70,7 @@ void demo1() {
 
   // FEATURE 2: align a legend
   TLegend *legend = CanvasHelper::getDefaultLegend(pad4);
-  CanvasHelper::setPaveAlignment(legend, CanvasHelper::kPaveAlignLeft | CanvasHelper::kPaveAlignTop);
+  CanvasHelper::setPaveAlignment(legend, kPaveAlignLeft | kPaveAlignTop);
 
   // FEATURE 3: add title and/or subtitle to a multi-pad canvas
   CanvasHelper::addMultiCanvasTitle(c, "Multi-Pad Canvas Title");
@@ -80,6 +80,9 @@ void demo1() {
 
   // Pass canvas for processing
   CanvasHelper::getInstance()->addCanvas(c);
+
+  // Save Canvas to PNG and PS
+  CanvasHelper::saveCanvas(c, kFormatPng | kFormatPs);
 }
 
 void demo2() {
@@ -101,7 +104,7 @@ void demo2() {
   hb->Fit("gaus", "E");
 
   TPave *pave = CanvasHelper::getDefaultPaveStats(c2);
-  CanvasHelper::setPaveAlignment(pave, CanvasHelper::kPaveAlignRight | CanvasHelper::kPaveAlignTop);
+  CanvasHelper::setPaveAlignment(pave, kPaveAlignRight | kPaveAlignTop);
 
   CanvasHelper::getInstance()->addCanvas(c2);
 }

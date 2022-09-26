@@ -1,7 +1,5 @@
 var searchData=
 [
-  ['kpavealignbottom_10',['kPaveAlignBottom',['../classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a319cc02280b64381b93a2c68406412c3',1,'CanvasHelper']]],
-  ['kpavealignleft_11',['kPaveAlignLeft',['../classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a85b63fb902d3878290495450c58b9958',1,'CanvasHelper']]],
-  ['kpavealignright_12',['kPaveAlignRight',['../classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48f7101920c205733301ff03c92ab5b4',1,'CanvasHelper']]],
-  ['kpavealigntop_13',['kPaveAlignTop',['../classCanvasHelper.html#aed359e291be7f893286cbef53e08b574a48fb201d9bb44168fbcbfad7910ca28f',1,'CanvasHelper']]]
+  ['savecanvas_10',['saveCanvas',['../classCanvasHelper.html#a73326e8957bd854e62b4ca47f3329198',1,'CanvasHelper']]],
+  ['setpavealignment_11',['setPaveAlignment',['../classCanvasHelper.html#a6249df318a5752838c6d01d8e4f76a1c',1,'CanvasHelper']]]
 ];
