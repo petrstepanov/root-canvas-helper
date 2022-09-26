@@ -230,9 +230,7 @@ class CanvasHelper: public TObject {
     // TMap *canvasesToBeExported;
     static std::pair<Double_t, Double_t> getSubtitleYNDCCoordinates(TVirtualPad *pad);
 
-    TList *registeredCanvases;
-    TList *padsWithModifiedDivisions;
-    std::map<std::string, std::pair<unsigned int, unsigned int>> registeredCanvasesSizes;
+    std::map<TCanvas*, std::pair<unsigned int, unsigned int>> registeredCanvases;
 //    std::map<std::string, double> defaultPadLeftMargins;
 //    static TGraph* findTGraphOnPad(TVirtualPad* pad);
 

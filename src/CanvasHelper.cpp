@@ -28,6 +28,9 @@
 #include <sstream>
 #include <limits>
 
+#include <chrono>
+#include <thread>
+
 ClassImp(CanvasHelper);
 
 namespace Round {
@@ -103,11 +106,7 @@ CanvasHelper *CanvasHelper::fgInstance = nullptr;
 
 // Constructor
 CanvasHelper::CanvasHelper() {
-  // canvasesToBeExported = new TMap();
-  registeredCanvases = new TList();
-//  padsWithModifiedDivisions = new TList();
-  // Only accept resized signals from TCanvas. Child pads will also send these signals
-  // However we want to omit them because they will duplicate the functinoality
+  // Only accept resized signals from TCanvas. Child pads will also send these signals. However we want to omit them
   TQObject::Connect(TCanvas::Class_Name(), "Resized()", this->Class_Name(), this, "onCanvasResized()");
 }
 
@@ -151,6 +150,7 @@ const Int_t CanvasHelper::PAVELINE_VSPACE = 22;
 const Int_t CanvasHelper::AXISTITLE_VSPACE = 20;
 
 Style_t CanvasHelper::getFont(EFontFace fontFace) {
+  // Default font face is 4
   // https://root.cern.ch/doc/master/classTAttText.html#autotoc_md31
   const Int_t precision = 3; // scalable and rotatable fonts (if "1" then problems rendering, "3" - non scalable fonts look bad on big screens)
   return (Int_t) fontFace * 10 + precision;
@@ -235,7 +235,7 @@ Double_t CanvasHelper::getYAxisMaxLabelWidthPx(TVirtualPad *pad) {
   t->SetNDC();
   t->SetTextFont(getFont());
   t->SetTextSize(FONT_SIZE_NORMAL);
-  t->SetTextSizePixels(FONT_SIZE_NORMAL);
+  // t->SetTextSizePixels(FONT_SIZE_NORMAL);
   // t->Draw();
   UInt_t w = 0, h = 0;
   t->GetBoundingBox(w, h);
@@ -281,22 +281,34 @@ Double_t CanvasHelper::getPadHeightPx(TVirtualPad *virtualPad) {
 }
 
 void CanvasHelper::addCanvas(TCanvas *canvas) {
-  // Tip: after say histogram was drawn on canvas it removes all the primitives on it.
-  // and top margin not calculated correctly
-  // Maybe Paint() will help - yes it did!
-  canvas->Paint();
-  canvas->Update();
-
   if (canvas == nullptr) {
     canvas = gROOT->MakeDefCanvas();
   }
-  registeredCanvases->Add(canvas);
-  registeredCanvasesSizes.insert( { canvas->GetName(), { canvas->GetWw(), canvas->GetWh() } });
+
+  if (canvas->IsModified()) {
+    canvas->Update();
+  }
+  // Weird but this makes TTF::GetTextExtent() to return correct value
+  TText *t = new TText(1.5, 0.5, "Hi!");
+  t->SetNDC();
+  t->SetTextFont(getFont());
+  t->SetTextSize(FONT_SIZE_NORMAL);
+  canvas->GetListOfPrimitives()->Add(t);
+
+  // Tip: after say histogram was drawn on canvas it removes all the primitives on it.
+  // and top margin not calculated correctly
+  // Update Pad - in case the histogram was just drawn - need to update otherwise no primitives
+  // Petr Stepanov: hack, not sure why need to update twice for the
+  canvas->Paint();
+  canvas->Modified();
+  canvas->Update();
+
+  registeredCanvases.insert( { canvas, { canvas->GetWw(), canvas->GetWh() } });
   processCanvas(canvas);
 
-  // Refresh canvas - copied code from the ROOT GUI Refresh button
-  canvas->Modified(kTRUE);
+  // Refresh canvas unconditionally
   canvas->Paint();
+  canvas->Modified();
   canvas->Update();
 }
 
@@ -430,41 +442,21 @@ void CanvasHelper::addSubtitle(TVirtualPad *pad, const char *text) {
 void CanvasHelper::onCanvasResized() {
   // Every Pad will emit this signal. Supposedly child canvas pads as well.
   // We need to listen to only parent canvas signal to eliminate doing things multiple times
-
-//  TSeqCollection* canvases = gROOT->GetListOfCanvases();
-//  if (canvases == nullptr) return;
-
-  TIter next(registeredCanvases);
-  TObject *object;
-  while ((object = next())) {
-    if (object != nullptr && object->InheritsFrom(TCanvas::Class())) {
-      TCanvas *canvas = (TCanvas*) object;
-
-      // Only process canvas if its size changed. Otherwise we would process all canvases upon one resize...
-      UInt_t newWidth = canvas->GetWw();
-      UInt_t newHeight = canvas->GetWh();
-      UInt_t oldWidth = registeredCanvasesSizes[canvas->GetName()].first;
-      UInt_t oldHeight = registeredCanvasesSizes[canvas->GetName()].second;
-      if (newWidth != oldWidth || newHeight != oldHeight) {
-        processCanvas(canvas);
-        registeredCanvasesSizes[canvas->GetName()] = { newWidth, newHeight };
-      }
+  for (auto const &entry : registeredCanvases) {
+    UInt_t currentWidth = entry.first->GetWw();
+    UInt_t currentHeight = entry.first->GetWh();
+    UInt_t oldWidth = entry.second.first;
+    UInt_t oldHeight = entry.second.second;
+    if (currentWidth != oldWidth || currentHeight != oldHeight) {
+      processCanvas(entry.first);
+      registeredCanvases[entry.first] = { currentWidth, currentHeight };
     }
   }
 }
 
-//Int_t CanvasHelper::getNewNDivisdions(TAxis* axis, ) {
-//
-//}
-
 void CanvasHelper::processCanvas(TCanvas *canvas) {
   // Process canvas itself
-  // if (canvas->IsModified()) {
   std::cout << "Processing canvas \"" << canvas->GetName() << "\"" << std::endl;
-  // }
-
-  // canvas->Paint();
-  // canvas->Update();
 
   // If canvas has multi-title added, align child canvas with sub-pads
   alignChildPad(canvas);
@@ -474,29 +466,23 @@ void CanvasHelper::processCanvas(TCanvas *canvas) {
   for (Int_t i = 1;; i++) {
     TString childPadName = TString::Format("%s_%d", canvas->GetName(), i);
     TPad *childPad = (TPad*) gROOT->FindObject(childPadName);
+    // We are looking up pads via name not getPad() because getPad() may also give us "_child" pad produces via AddMultiTitle()
+    // TVirtualPad *childPad = canvas->GetPad(1);
     if (childPad) {
-      std::cout << "  Found child pad \"" << childPadName << "\". Processing..." << std::endl;
-      nChildPads++;
+      std::cout << "  Found child pad \"" << childPad->GetName() << "\". Processing..." << std::endl;
+      nChildPads = i;
     } else {
       break;
     }
   }
-
-  // TODO: If canvas has sub-pads - align them
 
   // Find and process child pads
   for (Int_t i = 1;; i++) {
     TString childPadName = TString::Format("%s_%d", canvas->GetName(), i);
     TPad *childPad = (TPad*) gROOT->FindObject(childPadName);
     if (childPad) {
-      processPad(childPad);
-
-      // Quicker redraw
       childPad->SetFillStyle(EFillStyle::kFEmpty);
-      // TODO: need?
-      childPad->Modified();
-      childPad->Paint();
-      childPad->Update();
+      processPad(childPad);
     } else {
       break;
     }
@@ -527,7 +513,7 @@ void CanvasHelper::processCanvas(TCanvas *canvas) {
 
 void CanvasHelper::processPad(TVirtualPad *pad) {
   // Remember default left margin - related to the fact that we cannot get TGaxis from canvas
-  std::string padName = pad->GetName();
+//  std::string padName = pad->GetName();
 //  if (defaultPadLeftMargins.find(padName) == defaultPadLeftMargins.end()){
 //    Double_t padLeftPaddingPx = pad->GetLeftMargin()*getPadWidthPx(pad);
 //    Double_t padYAxisFontSize = getPadXYAxis(pad).second->GetLabel
@@ -550,7 +536,6 @@ void CanvasHelper::processPad(TVirtualPad *pad) {
   setPadNDivisions(pad);
 
   pad->Modified();
-  pad->Paint();
   pad->Update();
 }
 
@@ -948,7 +933,7 @@ void CanvasHelper::convertAxisToPxSize(TAxis *axis, const char type, TVirtualPad
     // Extra ratio seems to be needed - guestimated to be ratio of the frame width to pad width ???
     // Double_t ratio = 1/(1-pad->GetLeftMargin()-pad->GetRightMargin())/2;
     // coefficient = coefficient*ratio;
-    axis->SetTitleOffset(padLeftMargin / (Double_t) coefficient);
+    axis->SetTitleOffset((Double_t) padLeftMargin / coefficient);
   }
 
   // Style labels

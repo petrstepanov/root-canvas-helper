@@ -109,14 +109,33 @@ void demo2() {
   CanvasHelper::getInstance()->addCanvas(c2);
 }
 
+void demo3() {
+  // Instantiate and divide canvas
+  TCanvas *c = new TCanvas();
+  c->SetWindowSize(850, 650);
+
+  // PAD 1: draw histogram and fit it
+  TH1 *h = new TH1D("hist", "Histogram from a Gaussian;Coordinate, m;Events", 100, -5, 15);
+  h->FillRandom("gaus", 10000);
+  h->Draw();
+
+  // Align pave stats
+  // TPave *pave = CanvasHelper::getDefaultPaveStats(c);
+  // CanvasHelper::setPaveAlignment(pave, kPaveAlignRight | kPaveAlignTop);
+
+  // Pass canvas for processing
+  CanvasHelper::getInstance()->addCanvas(c);
+}
+
 void canvasHelperDemo() {
   #ifdef __CINT__
     // Load CanvasHelper library
     gSystem->Load("CanvasHelper");
   #endif
 
-  demo1();
-  demo2();
+  // demo1();
+  // demo2();
+    demo3();
 }
 
 #ifndef __CINT__
