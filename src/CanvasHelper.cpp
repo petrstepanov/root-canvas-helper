@@ -281,13 +281,11 @@ Double_t CanvasHelper::getPadHeightPx(TVirtualPad *virtualPad) {
 }
 
 void CanvasHelper::addCanvas(TCanvas *canvas) {
-  if (canvas == nullptr) {
-    canvas = gROOT->MakeDefCanvas();
-  }
+  if (canvas == nullptr) return;
 
-  if (canvas->IsModified()) {
-    canvas->Update();
-  }
+  // Force unconditionally paint canvas
+  canvas->Paint();
+
   // Weird but this makes TTF::GetTextExtent() to return correct value
   TText *t = new TText(1.5, 0.5, "Hi!");
   t->SetNDC();
@@ -299,15 +297,14 @@ void CanvasHelper::addCanvas(TCanvas *canvas) {
   // and top margin not calculated correctly
   // Update Pad - in case the histogram was just drawn - need to update otherwise no primitives
   // Petr Stepanov: hack, not sure why need to update twice for the
-  canvas->Paint();
+  // canvas->Paint();
   canvas->Modified();
   canvas->Update();
 
   registeredCanvases.insert( { canvas, { canvas->GetWw(), canvas->GetWh() } });
   processCanvas(canvas);
 
-  // Refresh canvas unconditionally
-  canvas->Paint();
+  // Refresh canvas
   canvas->Modified();
   canvas->Update();
 }
