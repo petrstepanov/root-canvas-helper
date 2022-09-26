@@ -56,6 +56,11 @@ List of Fetures
   <img width="85%" src="https://raw.githubusercontent.com/petrstepanov/root-canvas-helper/main/resources/canvas-resize.png" alt="Resizing a ROOT canvas" />
 </p>
 
+* Additionally, a shortcut to save the canvas was implemented as
+```
+CanvasHelper::saveCanvas(myCanvas, kFormatPng | kFormatPs | kFormatRoot);
+```
+
 Installation with CMake • Preferred
 -----------------------------------
 

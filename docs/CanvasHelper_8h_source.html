@@ -208,75 +208,73 @@ $(document).ready(function(){initNavTree('CanvasHelper_8h_source.html',''); init
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    <span class="comment">// TMap *canvasesToBeExported;</span></div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keyword">static</span> std::pair&lt;Double_t, Double_t&gt; getSubtitleYNDCCoordinates(TVirtualPad *pad);</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    TList *registeredCanvases;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    TList *padsWithModifiedDivisions;</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    std::map&lt;std::string, std::pair&lt;unsigned int, unsigned int&gt;&gt; registeredCanvasesSizes;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;<span class="comment">//    std::map&lt;std::string, double&gt; defaultPadLeftMargins;</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment">//    static TGraph* findTGraphOnPad(TVirtualPad* pad);</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;    <span class="keyword">static</span> TObject* findObjectOnPad(TClass *c, TVirtualPad *pad);</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="comment">// static TObject* findObjectOnPad(const char* name, TVirtualPad* pad);</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    std::map&lt;TCanvas*, std::pair&lt;unsigned int, unsigned int&gt;&gt; registeredCanvases;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;<span class="comment">//    std::map&lt;std::string, double&gt; defaultPadLeftMargins;</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;<span class="comment">//    static TGraph* findTGraphOnPad(TVirtualPad* pad);</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160; </div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    <span class="keyword">static</span> TObject* findObjectOnPad(TClass *c, TVirtualPad *pad);</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;    <span class="comment">// static TObject* findObjectOnPad(const char* name, TVirtualPad* pad);</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160; </div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignChildPad(TVirtualPad *pad);</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160; </div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignChildPad(TVirtualPad *pad);</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keyword">static</span> Int_t getFrameLeftMarginPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keyword">static</span> Int_t getFrameRightMarginPx(<span class="comment">/*TVirtualPad* pad*/</span>);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keyword">static</span> Int_t getFrameTopMarginPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keyword">static</span> Int_t getFrameBottomMarginPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keyword">static</span> Bool_t hasXAxisTitle(TVirtualPad *pad);</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keyword">static</span> Bool_t hasYAxisTitle(TVirtualPad *pad);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    <span class="keyword">static</span> Int_t getFrameLeftMarginPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keyword">static</span> Int_t getFrameRightMarginPx(<span class="comment">/*TVirtualPad* pad*/</span>);</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keyword">static</span> Int_t getFrameTopMarginPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keyword">static</span> Int_t getFrameBottomMarginPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160; </div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keyword">static</span> Bool_t hasXAxisTitle(TVirtualPad *pad);</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keyword">static</span> Bool_t hasYAxisTitle(TVirtualPad *pad);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160; </div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;    <span class="keyword">static</span> Bool_t isChildPad(TVirtualPad *pad);</div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keyword">static</span> Bool_t isChildPad(TVirtualPad *pad);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignTitle(TVirtualPad *pad);</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignSubtitle(TVirtualPad *pad);</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignSubtitle(TPaveText *subtitle, TVirtualPad *pad);</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignAllPaves(TVirtualPad *pad);</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="comment">// static void alignAxisTitles(TVirtualPad* pad);</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keywordtype">void</span> processCanvas(TCanvas *canvas);</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="keywordtype">void</span> processPad(TVirtualPad *pad);</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> setPadMargins(TVirtualPad *pad);</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> setPadNDivisions(TVirtualPad *pad);</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordtype">void</span> convertAxisToPxSize(TAxis *axis, <span class="keyword">const</span> <span class="keywordtype">char</span> type, TVirtualPad *pad);</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160; </div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keyword">static</span> Double_t getPadWidthPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keyword">static</span> Double_t getPadHeightPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="keyword">static</span> std::pair&lt;TAxis*, TAxis*&gt; getPadXYAxis(TVirtualPad *pad);</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keyword">static</span> Double_t getYAxisMaxLabelWidthPx(TVirtualPad *pad);</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">//    Double_t getLabelHeigthPx();</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160; </div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    <span class="keyword">static</span> Double_t pxToNdcHorizontal(Int_t px, TVirtualPad *pad);</div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keyword">static</span> Double_t pxToNdcVertical(Int_t py, TVirtualPad *pad);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignTitle(TVirtualPad *pad);</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignSubtitle(TVirtualPad *pad);</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignSubtitle(TPaveText *subtitle, TVirtualPad *pad);</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> alignAllPaves(TVirtualPad *pad);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    <span class="comment">// static void alignAxisTitles(TVirtualPad* pad);</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keywordtype">void</span> processCanvas(TCanvas *canvas);</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keywordtype">void</span> processPad(TVirtualPad *pad);</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> setPadMargins(TVirtualPad *pad);</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="keyword">static</span> <span class="keywordtype">void</span> setPadNDivisions(TVirtualPad *pad);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <span class="keywordtype">void</span> convertAxisToPxSize(TAxis *axis, <span class="keyword">const</span> <span class="keywordtype">char</span> type, TVirtualPad *pad);</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keyword">static</span> Double_t getPadWidthPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <span class="keyword">static</span> Double_t getPadHeightPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keyword">static</span> std::pair&lt;TAxis*, TAxis*&gt; getPadXYAxis(TVirtualPad *pad);</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="keyword">static</span> Double_t getYAxisMaxLabelWidthPx(TVirtualPad *pad);</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment">//    Double_t getLabelHeigthPx();</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keyword">static</span> Double_t pxToNdcHorizontal(Int_t px, TVirtualPad *pad);</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keyword">static</span> Double_t pxToNdcVertical(Int_t py, TVirtualPad *pad);</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160; </div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">char</span> subtitleObjectName[] = <span class="stringliteral">&quot;subtitle&quot;</span>;</div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160; </div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keyword">static</span> constexpr <span class="keywordtype">char</span> subtitleObjectName[] = <span class="stringliteral">&quot;subtitle&quot;</span>;</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    <span class="keyword">static</span> TFrame* getPadFrame(TVirtualPad *pad);</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160; </div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;    <span class="keyword">static</span> TFrame* getPadFrame(TVirtualPad *pad);</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;  <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="comment">// Slot for canvas resizing (need to be public)</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;    <span class="keywordtype">void</span> onCanvasResized();</div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;  ClassDef(<a class="code" href="classCanvasHelper.html">CanvasHelper</a>, 0)</div>
-<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;}</div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;;</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;  <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;    <span class="comment">// Slot for canvas resizing (need to be public)</span></div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;    <span class="keywordtype">void</span> onCanvasResized();</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;    <span class="comment">//</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;  ClassDef(<a class="code" href="classCanvasHelper.html">CanvasHelper</a>, 0)</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;}</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;;</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160; </div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="ttc" id="aclassCanvasHelper_html"><div class="ttname"><a href="classCanvasHelper.html">CanvasHelper</a></div><div class="ttdef"><b>Definition:</b> CanvasHelper.h:56</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_a3622f03eea23e8b740f12f8177c74cc3"><div class="ttname"><a href="classCanvasHelper.html#a3622f03eea23e8b740f12f8177c74cc3">CanvasHelper::~CanvasHelper</a></div><div class="ttdeci">virtual ~CanvasHelper()</div><div class="ttdoc">Class destructor.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:115</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_a54c6bfbbc89c8dd87da2461c239e3c4c"><div class="ttname"><a href="classCanvasHelper.html#a54c6bfbbc89c8dd87da2461c239e3c4c">CanvasHelper::addMultiCanvasTitle</a></div><div class="ttdeci">static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle=&quot;&quot;)</div><div class="ttdoc">Adding a multi-pad canvas title. Optionally supprts subtitle too.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:1078</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_a590ef712443b8ee990ae896724a00e0e"><div class="ttname"><a href="classCanvasHelper.html#a590ef712443b8ee990ae896724a00e0e">CanvasHelper::addSubtitle</a></div><div class="ttdeci">static void addSubtitle(TVirtualPad *pad, const char *text)</div><div class="ttdoc">Add subtitle to the canvas. lololo.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:404</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_a6249df318a5752838c6d01d8e4f76a1c"><div class="ttname"><a href="classCanvasHelper.html#a6249df318a5752838c6d01d8e4f76a1c">CanvasHelper::setPaveAlignment</a></div><div class="ttdeci">static void setPaveAlignment(TPave *pave, UInt_t align)</div><div class="ttdoc">Used to specify TPave's alignment on the ROOT canvas. Emum variables can be combined:</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:750</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_a73326e8957bd854e62b4ca47f3329198"><div class="ttname"><a href="classCanvasHelper.html#a73326e8957bd854e62b4ca47f3329198">CanvasHelper::saveCanvas</a></div><div class="ttdeci">static void saveCanvas(TCanvas *canvas, UInt_t format)</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:772</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_a7842890600af84bdbc3c7ba5f8f0e52d"><div class="ttname"><a href="classCanvasHelper.html#a7842890600af84bdbc3c7ba5f8f0e52d">CanvasHelper::getInstance</a></div><div class="ttdeci">static CanvasHelper * getInstance()</div><div class="ttdoc">Obtain an instance of the CanvasHelper class.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:120</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_aa47453ce54f7b8b0ca9c037f13396ad9"><div class="ttname"><a href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">CanvasHelper::addTextToStats</a></div><div class="ttdeci">static void addTextToStats(const char *text, TVirtualPad *pad)</div><div class="ttdoc">Used to add a line to the default canvas (pad) statistics box.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:873</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_ad3b55570532953d9dad1c64e4cd254fb"><div class="ttname"><a href="classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb">CanvasHelper::getDefaultPaveStats</a></div><div class="ttdeci">static TPaveStats * getDefaultPaveStats(TVirtualPad *pad)</div><div class="ttdoc">Used to obtain default ROOT statistics box from a canvas with histogram, graph etc....</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:818</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_a3622f03eea23e8b740f12f8177c74cc3"><div class="ttname"><a href="classCanvasHelper.html#a3622f03eea23e8b740f12f8177c74cc3">CanvasHelper::~CanvasHelper</a></div><div class="ttdeci">virtual ~CanvasHelper()</div><div class="ttdoc">Class destructor.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:114</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_a54c6bfbbc89c8dd87da2461c239e3c4c"><div class="ttname"><a href="classCanvasHelper.html#a54c6bfbbc89c8dd87da2461c239e3c4c">CanvasHelper::addMultiCanvasTitle</a></div><div class="ttdeci">static void addMultiCanvasTitle(TCanvas *canvas, const char *title, const char *subtitle=&quot;&quot;)</div><div class="ttdoc">Adding a multi-pad canvas title. Optionally supprts subtitle too.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:1048</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_a590ef712443b8ee990ae896724a00e0e"><div class="ttname"><a href="classCanvasHelper.html#a590ef712443b8ee990ae896724a00e0e">CanvasHelper::addSubtitle</a></div><div class="ttdeci">static void addSubtitle(TVirtualPad *pad, const char *text)</div><div class="ttdoc">Add subtitle to the canvas. lololo.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:403</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_a6249df318a5752838c6d01d8e4f76a1c"><div class="ttname"><a href="classCanvasHelper.html#a6249df318a5752838c6d01d8e4f76a1c">CanvasHelper::setPaveAlignment</a></div><div class="ttdeci">static void setPaveAlignment(TPave *pave, UInt_t align)</div><div class="ttdoc">Used to specify TPave's alignment on the ROOT canvas. Emum variables can be combined:</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:722</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_a73326e8957bd854e62b4ca47f3329198"><div class="ttname"><a href="classCanvasHelper.html#a73326e8957bd854e62b4ca47f3329198">CanvasHelper::saveCanvas</a></div><div class="ttdeci">static void saveCanvas(TCanvas *canvas, UInt_t format)</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:744</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_a7842890600af84bdbc3c7ba5f8f0e52d"><div class="ttname"><a href="classCanvasHelper.html#a7842890600af84bdbc3c7ba5f8f0e52d">CanvasHelper::getInstance</a></div><div class="ttdeci">static CanvasHelper * getInstance()</div><div class="ttdoc">Obtain an instance of the CanvasHelper class.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:119</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_aa47453ce54f7b8b0ca9c037f13396ad9"><div class="ttname"><a href="classCanvasHelper.html#aa47453ce54f7b8b0ca9c037f13396ad9">CanvasHelper::addTextToStats</a></div><div class="ttdeci">static void addTextToStats(const char *text, TVirtualPad *pad)</div><div class="ttdoc">Used to add a line to the default canvas (pad) statistics box.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:845</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_ad3b55570532953d9dad1c64e4cd254fb"><div class="ttname"><a href="classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb">CanvasHelper::getDefaultPaveStats</a></div><div class="ttdeci">static TPaveStats * getDefaultPaveStats(TVirtualPad *pad)</div><div class="ttdoc">Used to obtain default ROOT statistics box from a canvas with histogram, graph etc....</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:790</div></div>
 <div class="ttc" id="aclassCanvasHelper_html_ade239b7879bfff344d7da95aba9f133a"><div class="ttname"><a href="classCanvasHelper.html#ade239b7879bfff344d7da95aba9f133a">CanvasHelper::addCanvas</a></div><div class="ttdeci">void addCanvas(TCanvas *canvas)</div><div class="ttdoc">Register your canvas for processing. Canvas needs to be added after all the primitives are drawn on i...</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:283</div></div>
-<div class="ttc" id="aclassCanvasHelper_html_afe7472640147b085cc66efe9552b3da0"><div class="ttname"><a href="classCanvasHelper.html#afe7472640147b085cc66efe9552b3da0">CanvasHelper::getDefaultLegend</a></div><div class="ttdeci">static TLegend * getDefaultLegend(TVirtualPad *pad)</div><div class="ttdoc">Used to obtain default ROOT legend from a canvas.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:867</div></div>
-<div class="ttc" id="anamespaceRound_html"><div class="ttname"><a href="namespaceRound.html">Round</a></div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:33</div></div>
+<div class="ttc" id="aclassCanvasHelper_html_afe7472640147b085cc66efe9552b3da0"><div class="ttname"><a href="classCanvasHelper.html#afe7472640147b085cc66efe9552b3da0">CanvasHelper::getDefaultLegend</a></div><div class="ttdeci">static TLegend * getDefaultLegend(TVirtualPad *pad)</div><div class="ttdoc">Used to obtain default ROOT legend from a canvas.</div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:839</div></div>
+<div class="ttc" id="anamespaceRound_html"><div class="ttname"><a href="namespaceRound.html">Round</a></div><div class="ttdef"><b>Definition:</b> CanvasHelper.cpp:36</div></div>
 </div><!-- fragment --></div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->
