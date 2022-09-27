@@ -2,3 +2,10 @@
 *.d
 *.so
 *.pcm
+/_build/
+
+# Eclipse
+.cproject
+.project
+
+c1.*
