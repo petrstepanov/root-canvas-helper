@@ -142,7 +142,7 @@ const Int_t CanvasHelper::AXIS_TICK_LENGTH = 20;
 const Int_t CanvasHelper::MARGIN_LEFT = 25;
 const Int_t CanvasHelper::MARGIN_TOP = 30;       // In particular this is for TGaxis::PaintAxis() x10^3 label
 const Int_t CanvasHelper::MARGIN_RIGHT = 40;     // In particular this is for TGaxis::PaintAxis() x10^3 label
-const Int_t CanvasHelper::MARGIN_BOTTOM = 30;
+const Int_t CanvasHelper::MARGIN_BOTTOM = 10;
 
 const Int_t CanvasHelper::TITLE_VSPACE = 25;
 const Int_t CanvasHelper::SUBTITLE_VSPACE = 20;
@@ -607,6 +607,8 @@ Int_t CanvasHelper::getFrameLeftMarginPx(TVirtualPad *pad) {
   Double_t labelWidth = getYAxisMaxLabelWidthPx(pad);
   leftMargin += labelWidth;
 
+  // Add y axis label offset
+  leftMargin += AXIS_LABEL_OFFSET;
   return leftMargin;
 }
 
@@ -661,6 +663,13 @@ Int_t CanvasHelper::getFrameBottomMarginPx(TVirtualPad *pad) {
   if (hasXAxisTitle(pad)) {
     bottomMargin += AXISTITLE_VSPACE;
   }
+
+  // Add x axis label height
+  bottomMargin += FONT_SIZE_NORMAL;
+
+  // Add x axis label offset
+  bottomMargin += AXIS_LABEL_OFFSET;
+
   return bottomMargin;
 }
 
@@ -720,6 +729,7 @@ void CanvasHelper::setPadNDivisions(TVirtualPad *pad) {
 }
 
 void CanvasHelper::setPaveAlignment(TPave *pave, UInt_t align) {
+  if (!pave) return;
   // Bitwise operands in C++
   // https://www.geeksforgeeks.org/bitwise-operators-in-c-cpp/
   // https://stackoverflow.com/questions/21257165/bitwise-how-can-i-check-if-a-binary-number-contains-another
@@ -795,7 +805,10 @@ TPaveStats* CanvasHelper::getDefaultPaveStats(TVirtualPad *pad) {
 
   // SCENARIO 1: Statistics box is produced by histogram. See line THistPainter.cxx:8628 "stats->SetParent(fH);"
   // https://root.cern.ch/doc/master/classTPaveStats.html#autotoc_md223
-  if (pad->GetPrimitive("stats") && ((TPaveStats*) pad->GetPrimitive("stats"))->GetParent()->InheritsFrom("TH1")) {
+  // TObject* o = pad->GetPrimitive("stats");
+  // TPaveStats* ps = (TPaveStats*)o;
+  // TObject* par = ps->GetParent();
+  if (pad->GetPrimitive("stats") && ((TPaveStats*)(pad->GetPrimitive("stats")))->GetParent() && ((TPaveStats*)(pad->GetPrimitive("stats")))->GetParent()->InheritsFrom("TH1")) {
     TH1 *hist = (TH1*) findObjectOnPad(TH1::Class(), pad);
     TPaveStats *pave = (TPaveStats*) (pad->GetPrimitive("stats"));
     pave->SetName("mystats");                     // rename to "mystats"
@@ -916,7 +929,7 @@ void CanvasHelper::convertAxisToPxSize(TAxis *axis, const char type, TVirtualPad
     axis->SetTitleOffset(1.4);
   if (type == 'y') {
     Double_t titleOffsetPx = (Double_t)getFrameLeftMarginPx(pad) - (Double_t)MARGIN_LEFT + 8;
-    Double_t coefficient = 26.; // Guestimated
+    Double_t coefficient = 30.; // Guestimated
     // Extra ratio seems to be needed - guestimated to be ratio of the frame width to pad width ???
     axis->SetTitleOffset(titleOffsetPx / coefficient);
   }

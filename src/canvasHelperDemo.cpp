@@ -86,30 +86,6 @@ void demo1() {
 }
 
 void demo2() {
-  gStyle->SetOptFit(1);
-  gStyle->SetOptStat(1);
-
-  TCanvas *c1 = new TCanvas();
-  TH1F *ha = new TH1F("ha", "Default ROOT Fit Statistics Box", 200, -5, 5);
-  TF1 *f1 = new TF1("f_1", "[2]*TMath::Gaus(x,[0],[1])");
-  f1->SetParameters(-1.061234, 1.235342, 1);
-  ha->FillRandom("f_1", 100);
-  ha->Draw();
-  ha->Fit("gaus");
-
-  TCanvas *c2 = new TCanvas();
-  TH1F *hb = (TH1F*) ha->Clone("hb");
-  hb->SetTitle("Statistics Box with Rounded Parameters");
-  hb->Draw();
-  hb->Fit("gaus", "E");
-
-  TPave *pave = CanvasHelper::getDefaultPaveStats(c2);
-  CanvasHelper::setPaveAlignment(pave, kPaveAlignRight | kPaveAlignTop);
-
-  CanvasHelper::getInstance()->addCanvas(c2);
-}
-
-void demo3() {
 
   // Instantiate and divide canvas
   TCanvas *c = new TCanvas();
@@ -120,19 +96,21 @@ void demo3() {
 
   // PAD 1: draw histogram and fit it
   TVirtualPad *pad1 = c->cd(1);
-  TH1 *h = new TH1D("hist", "Histogram from a Gaussian;Coordinate, m;Events", 100, -5, 15);
-  h->FillRandom("gaus", 10000);
-  h->Draw();
+  TH1 *h1 = new TH1D("d2h1", "Histogram from a Gaussian;Coordinate, m;Events", 100, -5, 15);
+  h1->FillRandom("gaus", 10000);
+  h1->Draw();
 
-  // FEATURE 1: obtain default statistics box from the canvas and align it
-  TPave *pave = CanvasHelper::getDefaultPaveStats(pad1);
-  CanvasHelper::setPaveAlignment(pave, kPaveAlignRight | kPaveAlignTop);
+  TPave *pave1 = CanvasHelper::getDefaultPaveStats(pad1);
+  CanvasHelper::setPaveAlignment(pave1, kPaveAlignRight | kPaveAlignTop);
 
   // PAD 2: draw a graph
   c->cd(2);
-  TH1 *h2 = new TH1D("hist", "Histogram from a Gaussian;Coordinate, m;Events", 100, 3, 15);
+  TH1 *h2 = new TH1D("d2h2", "Histogram from a Gaussian;Coordinate, m;Events", 100, 3, 15);
   h2->FillRandom("gaus", 10000);
   h2->Draw();
+
+  TPave *pave2 = CanvasHelper::getDefaultPaveStats(pad1);
+  CanvasHelper::setPaveAlignment(pave2, kPaveAlignRight | kPaveAlignTop);
 
   // Pass canvas for processing
   CanvasHelper::getInstance()->addCanvas(c);
@@ -144,9 +122,8 @@ void canvasHelperDemo() {
     gSystem->Load("CanvasHelper");
   #endif
 
-  // demo1();
-  // demo2();
-    demo3();
+  demo1();
+  demo2();
 }
 
 #ifndef __CINT__
