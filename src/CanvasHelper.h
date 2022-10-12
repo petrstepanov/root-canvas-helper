@@ -123,7 +123,7 @@ class CanvasHelper: public TObject {
      * @param pad Canvas or a sub-pad containing the legend.
      *
      * @code{.cpp}
-     * TLegend *pave = getDefaultLegend::getDefaultLegend(myCanvas);
+     * TLegend *pave = CanvasHelper::getDefaultLegend(myCanvas);
      * @endcode
      *
      */
