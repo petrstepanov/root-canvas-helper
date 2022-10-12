@@ -873,7 +873,6 @@ void CanvasHelper::addTextToStats(const char *text, TPaveStats *stats, TVirtualP
 
   // Note that "=" is a control character
   TText *newLine = new TLatex(0, 0, text);
-  newLine->
   newLine->SetTextAlign(0);
   newLine->SetTextFont(0);
   newLine->SetTextSize(0);
