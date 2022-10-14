@@ -53,6 +53,10 @@ namespace Round {
   }
 
   std::pair<double, double> valueError(const double value, const double error) {
+    // If error is zero - return as is (avoid infinite loop)
+    if (error == 0){
+      return std::make_pair(value, error);
+    }
     // First we find the decimal point shift
     int decimalPointShift = int(log10(error)); // This will give "-0.6" for 0.0234 error, "3" for
     // For 0 < error < 1 we need to manually shift to the right
@@ -443,7 +447,7 @@ void CanvasHelper::onCanvasResized() {
 
 void CanvasHelper::processCanvas(TCanvas *canvas) {
   // Process canvas itself
-  std::cout << "Processing canvas \"" << canvas->GetName() << "\"" << std::endl;
+  // std::cout << "Processing canvas \"" << canvas->GetName() << "\"" << std::endl;
 
   // If canvas has multi-title added, align child canvas with sub-pads
   alignChildPad(canvas);
@@ -456,7 +460,7 @@ void CanvasHelper::processCanvas(TCanvas *canvas) {
     // We are looking up pads via name not getPad() because getPad() may also give us "_child" pad produces via AddMultiTitle()
     // TVirtualPad *childPad = canvas->GetPad(1);
     if (childPad) {
-      std::cout << "  Found child pad \"" << childPad->GetName() << "\". Processing..." << std::endl;
+      // std::cout << "  Found child pad \"" << childPad->GetName() << "\". Processing..." << std::endl;
       nChildPads = i;
     } else {
       break;
@@ -1095,7 +1099,7 @@ void CanvasHelper::addMultiCanvasTitle(TCanvas *canvas, const char *title, const
     TListIter next(primitives);
     TObject *object;
     while ((object = next())) {
-      object->Dump();
+      // object->Dump();
       childPad->cd();
       if (object->InheritsFrom(TPad::Class())) {
         TPad *subPad = (TPad*) object;
@@ -1131,6 +1135,9 @@ void CanvasHelper::addMultiCanvasTitle(TCanvas *canvas, const char *title, const
   }
 
   alignChildPad(canvas);
+
+  alignTitle(canvas);
+  alignSubtitle(canvas);
 
   canvas->Modified();
   canvas->Update();
