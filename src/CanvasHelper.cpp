@@ -434,6 +434,11 @@ void CanvasHelper::onCanvasResized() {
   // Every Pad will emit this signal. Supposedly child canvas pads as well.
   // We need to listen to only parent canvas signal to eliminate doing things multiple times
   for (auto const &entry : registeredCanvases) {
+    // Pop canvas if not existing anymore
+    // if (entry.first == nullptr){
+    //   registeredCanvases.erase( nullptr );
+    //   continue;
+    // }
     UInt_t currentWidth = entry.first->GetWw();
     UInt_t currentHeight = entry.first->GetWh();
     UInt_t oldWidth = entry.second.first;
