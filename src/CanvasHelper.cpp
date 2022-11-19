@@ -458,27 +458,29 @@ void CanvasHelper::processCanvas(TCanvas *canvas) {
   alignChildPad(canvas);
 
   // Get number of child pads
-  UInt_t nChildPads = 0;
-  for (Int_t i = 1;; i++) {
-    TString childPadName = TString::Format("%s_%d", canvas->GetName(), i);
-    TPad *childPad = (TPad*) gROOT->FindObject(childPadName);
-    // We are looking up pads via name not getPad() because getPad() may also give us "_child" pad produces via AddMultiTitle()
-    // TVirtualPad *childPad = canvas->GetPad(1);
-    if (childPad) {
-      // std::cout << "  Found child pad \"" << childPad->GetName() << "\". Processing..." << std::endl;
-      nChildPads = i;
-    } else {
-      break;
-    }
-  }
+//  UInt_t nSubPads = 0;
+//  for (Int_t i = 1;; i++) {
+//    TVirtualPad *subPad = canvas->GetPad(i);
+//    // We are looking up pads via name not getPad() because getPad() may also give us "_child" pad produces via AddMultiTitle()
+//    // TVirtualPad *childPad = canvas->GetPad(1);
+//    if (subPad) {
+//      // std::cout << "  Found child pad \"" << childPad->GetName() << "\". Processing..." << std::endl;
+//      nSubPads = i;
+//    } else {
+//      break;
+//    }
+//  }
 
   // Find and process child pads
   for (Int_t i = 1;; i++) {
-    TString childPadName = TString::Format("%s_%d", canvas->GetName(), i);
-    TPad *childPad = (TPad*) gROOT->FindObject(childPadName);
-    if (childPad) {
-      childPad->SetFillStyle(EFillStyle::kFEmpty);
-      processPad(childPad);
+    // Check if canvas has multui title and account on it
+    TPad* c = (canvas->GetPad(-1) != nullptr) ? (TPad*)canvas->GetPad(-1) : canvas;
+
+    // If canvas has multi title then his sub pads dont belong to it, but to the "child" pad
+    TVirtualPad *subPad = c->GetPad(i);
+    if (subPad) {
+      subPad->SetFillStyle(EFillStyle::kFEmpty);
+      processPad(subPad);
     } else {
       break;
     }
@@ -1126,6 +1128,7 @@ void CanvasHelper::addMultiCanvasTitle(TCanvas *canvas, const char *title, const
 
   canvas->cd();
   childPad->Draw();
+  ((TPad*)childPad)->SetNumber(-1); // Hack - child pad will have number -1. This way we can access it without name
   // Add title text (fixed size in px)
   TPaveText *t = new TPaveText(0, 0.9, 1, 1, "NBNDC");
   t->SetName("title");
@@ -1149,9 +1152,8 @@ void CanvasHelper::addMultiCanvasTitle(TCanvas *canvas, const char *title, const
 }
 
 void CanvasHelper::alignChildPad(TVirtualPad *canvas) {
-  TString childPadName = TString::Format("%s_child", canvas->GetName());
 
-  TVirtualPad *childPad = (TVirtualPad*) canvas->FindObject(childPadName.Data());
+  TVirtualPad *childPad = (TVirtualPad*) canvas->GetPad(-1);
   if (childPad == nullptr)
     return;
 
