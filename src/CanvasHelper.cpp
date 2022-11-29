@@ -810,6 +810,14 @@ void CanvasHelper::setPaveAlignment(TPave *pave, UInt_t align) {
 }
 
 void CanvasHelper::saveCanvas(TCanvas *canvas, UInt_t format) {
+  // Workaround for the thick lines on the multi-pad
+  // https://root-forum.cern.ch/t/lines-in-the-pdf-file-are-way-too-thick/16510
+  // Line scale should be proportional to the size of the default canvas
+  Double_t canvasWidth = canvas->GetWw();
+  Double_t defaultCanvasWidth = gStyle->GetCanvasDefW();
+  Double_t ratio = canvasWidth/defaultCanvasWidth;
+  gStyle->SetLineScalePS(3./ratio);
+
   TString fileName = canvas->GetName();
   if ((format & kFormatC) == kFormatC) {
     canvas->SaveAs(fileName + ".c");
@@ -824,9 +832,6 @@ void CanvasHelper::saveCanvas(TCanvas *canvas, UInt_t format) {
     canvas->SaveAs(fileName + ".root");
   }
   if ((format & kFormatPdf) == kFormatPdf) {
-    // Workaround for the thick lines on the multi-pad
-    // https://root-forum.cern.ch/t/lines-in-the-pdf-file-are-way-too-thick/16510
-    gStyle->SetLineScalePS(1);
     canvas->SaveAs(fileName + ".pdf");
   }
 }
