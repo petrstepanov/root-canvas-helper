@@ -503,7 +503,7 @@ void CanvasHelper::processCanvas(TCanvas *canvas) {
 //    }
 
   // Update Canvas itself because it may contain title and subtitle
-  // processPad(canvas);
+  processPad(canvas);
 
   // Check if this particular canvas needed to be saved
 //  TObjString* canvasFileName = (TObjString*)canvasesToBeExported->FindObject(canvas);
@@ -724,7 +724,7 @@ void CanvasHelper::setPadMargins(TVirtualPad *pad) {
 // Function prevents double border with left (and potentially bottom axis)
 // TODO: account on existing axis, add maybe left line if needed - rear case
 void CanvasHelper::setPadCustomFrameBorder(TVirtualPad *pad) {
-  TFrame* frame = pad->GetFrame();
+  TFrame* frame = (TFrame*)(pad->GetListOfPrimitives()->FindObject("TFrame"));
   if (!frame) return;
 
   // Remove pad frame background border
