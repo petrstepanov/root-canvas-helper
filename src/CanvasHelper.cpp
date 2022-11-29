@@ -824,6 +824,9 @@ void CanvasHelper::saveCanvas(TCanvas *canvas, UInt_t format) {
     canvas->SaveAs(fileName + ".root");
   }
   if ((format & kFormatPdf) == kFormatPdf) {
+    // Workaround for the thick lines on the multi-pad
+    // https://root-forum.cern.ch/t/lines-in-the-pdf-file-are-way-too-thick/16510
+    gStyle->SetLineScalePS(1);
     canvas->SaveAs(fileName + ".pdf");
   }
 }
