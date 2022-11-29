@@ -810,25 +810,21 @@ void CanvasHelper::setPaveAlignment(TPave *pave, UInt_t align) {
 }
 
 void CanvasHelper::saveCanvas(TCanvas *canvas, UInt_t format) {
+  TString fileName = canvas->GetName();
   if ((format & kFormatC) == kFormatC) {
-    TString fileName = canvas->GetName();
-    fileName += ".c";
-    canvas->SaveAs(fileName);
+    canvas->SaveAs(fileName + ".c");
   }
   if ((format & kFormatPng) == kFormatPng) {
-    TString fileName = canvas->GetName();
-    fileName += ".png";
-    canvas->SaveAs(fileName);
+    canvas->SaveAs(fileName + ".png");
   }
   if ((format & kFormatPs) == kFormatPs) {
-    TString fileName = canvas->GetName();
-    fileName += ".ps";
-    canvas->SaveAs(fileName);
+    canvas->SaveAs(fileName + ".ps");
   }
   if ((format & kFormatROOT) == kFormatROOT) {
-    TString fileName = canvas->GetName();
-    fileName += ".root";
-    canvas->SaveAs(fileName);
+    canvas->SaveAs(fileName + ".root");
+  }
+  if ((format & kFormatPdf) == kFormatPdf) {
+    canvas->SaveAs(fileName + ".pdf");
   }
 }
 

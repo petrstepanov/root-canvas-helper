@@ -49,7 +49,8 @@ enum ECanvasFormatBits {
   kFormatPng = BIT(14),      ///< save canvas as .png
   kFormatPs = BIT(15),       ///< save canvas as .ps
   kFormatROOT = BIT(16),     ///< save canvas as .root
-  kFormatC = BIT(17)         ///< save canvas as .c
+  kFormatC = BIT(17),        ///< save canvas as .c
+  kFormatPdf = BIT(18)       ///< save canvas as .pdf
 };
 
 /**
