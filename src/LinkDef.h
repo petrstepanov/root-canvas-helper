@@ -5,5 +5,6 @@
 #pragma link C++ nestedclasses;
 
 #pragma link C++ class CanvasHelper+;
+#pragma link C++ class TNamedLine+;
 
 #endif

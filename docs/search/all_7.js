@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['setpavealignment_15',['setPaveAlignment',['../classCanvasHelper.html#a6249df318a5752838c6d01d8e4f76a1c',1,'CanvasHelper']]]
+  ['_7ecanvashelper_13',['~CanvasHelper',['../classCanvasHelper.html#a3622f03eea23e8b740f12f8177c74cc3',1,'CanvasHelper']]]
 ];
