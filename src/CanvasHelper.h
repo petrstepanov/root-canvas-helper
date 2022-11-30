@@ -9,7 +9,10 @@
 #include <TPaveStats.h>
 #include <TLegend.h>
 #include <TMap.h>
+#include <TNamed.h>
+#include <TLine.h>
 #include <TQObject.h>
+
 #include <utility>
 #include <map>
 #include <string>
@@ -46,7 +49,25 @@ enum ECanvasFormatBits {
   kFormatPng = BIT(14),      ///< save canvas as .png
   kFormatPs = BIT(15),       ///< save canvas as .ps
   kFormatROOT = BIT(16),     ///< save canvas as .root
-  kFormatC = BIT(17)         ///< save canvas as .c
+  kFormatC = BIT(17),        ///< save canvas as .c
+  kFormatPdf = BIT(18)       ///< save canvas as .pdf
+};
+
+/**
+ * @class TNamedLine TNamedLine.h "TNamedLine.h"
+ * ROOT TLine that has a name to access it on the pad
+ */
+class TNamedLine: public TLine {
+  protected:
+    TString fName;
+
+  public:
+    TNamedLine(const char *name, Double_t x1, Double_t y1, Double_t x2, Double_t y2);
+    ~TNamedLine();
+
+    const char *GetName() const override { return fName.Data(); }
+
+  ClassDef(TNamedLine, 1)
 };
 
 /**
@@ -262,6 +283,8 @@ class CanvasHelper: public TObject {
     static void setPadNDivisions(TVirtualPad *pad);
     void convertAxisToPxSize(TAxis *axis, const char type, TVirtualPad *pad);
 
+    static void setPadCustomFrameBorder(TVirtualPad *pad);
+
     static Double_t getPadWidthPx(TVirtualPad *pad);
     static Double_t getPadHeightPx(TVirtualPad *pad);
 
@@ -279,9 +302,8 @@ class CanvasHelper: public TObject {
   public:
     // Slot for canvas resizing (need to be public)
     void onCanvasResized();
-    //
+
   ClassDef(CanvasHelper, 0)
-}
-;
+};
 
 #endif

@@ -31,7 +31,13 @@
 #include <chrono>
 #include <thread>
 
-ClassImp(CanvasHelper);
+ClassImp(TNamedLine);
+
+TNamedLine::TNamedLine(const char* name, Double_t x1, Double_t y1, Double_t x2, Double_t y2) : TLine(x1, y1, x2, y2){
+  fName  = name;
+};
+
+TNamedLine::~TNamedLine(){};
 
 namespace Round {
   int getFirstDigit(double number) {
@@ -104,6 +110,8 @@ namespace Round {
     }
   }
 }
+
+ClassImp(CanvasHelper);
 
 // Instance
 CanvasHelper *CanvasHelper::fgInstance = nullptr;
@@ -530,7 +538,7 @@ void CanvasHelper::processPad(TVirtualPad *pad) {
   alignSubtitle(pad);
   alignAllPaves(pad);
   setPadMargins(pad);
-
+  setPadCustomFrameBorder(pad); // should go after setPadMargins();
   setPadNDivisions(pad);
 
   pad->Modified();
@@ -585,7 +593,7 @@ void CanvasHelper::alignAllPaves(TVirtualPad *pad) {
 
     if (pave->TestBit(kPaveAlignLeft)) {
       Int_t leftMargin = getFrameLeftMarginPx(pad);
-      pave->SetX1NDC(pxToNdcHorizontal(leftMargin, pad));
+      pave->SetX1NDC(pxToNdcHorizontal(leftMargin - 1, pad));  // -1 accounts on pixel perfect alignment (replace with border?)
       pave->SetX2NDC(pxToNdcHorizontal(leftMargin + paveWidthPx, pad));
     }
     if (pave->TestBit(kPaveAlignRight)) {
@@ -596,7 +604,7 @@ void CanvasHelper::alignAllPaves(TVirtualPad *pad) {
     Int_t paveHeightPx = getPaveLines(pave) * PAVELINE_VSPACE;
     if (pave->TestBit(kPaveAlignTop)) {
       Int_t topMargin = getFrameTopMarginPx(pad);
-      pave->SetY2NDC(1 - pxToNdcVertical(topMargin, pad));
+      pave->SetY2NDC(1 - pxToNdcVertical(topMargin - 1, pad));
       pave->SetY1NDC(1 - pxToNdcVertical(topMargin + paveHeightPx, pad));
     }
     if (pave->TestBit(kPaveAlignBottom)) {
@@ -713,6 +721,45 @@ void CanvasHelper::setPadMargins(TVirtualPad *pad) {
   // if (frame) frame->SetY2(pxToNdcVertical(bottomMargin, pad));
 }
 
+// Function prevents double border with left (and potentially bottom axis)
+// TODO: account on existing axis, add maybe left line if needed - rear case
+void CanvasHelper::setPadCustomFrameBorder(TVirtualPad *pad) {
+  TFrame* frame = (TFrame*)(pad->GetListOfPrimitives()->FindObject("TFrame"));
+  if (!frame) return;
+
+  // Remove pad frame background border
+  if (frame->GetFillStyle() != EFillStyle::kFEmpty) frame->SetFillStyle(EFillStyle::kFEmpty);
+  if (frame->GetLineWidth() != 0) frame->SetLineWidth(0);
+
+  // Draw or update custom frame made from two lines - top and right
+  // Top line
+  if (pad->GetListOfPrimitives()->FindObject("frameTopLine") == nullptr){
+    TNamedLine* l = new TNamedLine("frameTopLine", pad->GetLeftMargin(), 1-pad->GetTopMargin(), 1-pad->GetRightMargin(), 1-pad->GetTopMargin());
+    l->SetNDC();
+    pad->GetListOfPrimitives()->AddAfter(frame, l);
+  } else {
+    TLine* l = (TLine*)(pad->GetListOfPrimitives()->FindObject("frameTopLine"));
+    l->SetX1(pad->GetLeftMargin());
+    l->SetY1(1-pad->GetTopMargin());
+    l->SetX2(1-pad->GetRightMargin());
+    l->SetY2(1 - pad->GetTopMargin());
+  }
+  // Right Line
+  if (pad->GetListOfPrimitives()->FindObject("frameRightLine") == nullptr){
+    TNamedLine* l = new TNamedLine("frameRightLine", 1-pad->GetRightMargin(), 1-pad->GetTopMargin(), 1-pad->GetRightMargin(), pad->GetBottomMargin());
+    l->SetNDC();
+    pad->GetListOfPrimitives()->AddAfter(frame, l);
+  } else {
+    TLine* l = (TLine*)(pad->GetListOfPrimitives()->FindObject("frameRightLine"));
+    l->SetX1(1-pad->GetRightMargin());
+    l->SetY1(1-pad->GetTopMargin());
+    l->SetX2(1-pad->GetRightMargin());
+    l->SetY2(pad->GetBottomMargin());
+  }
+
+  pad->GetListOfPrimitives()->Print();
+}
+
 void CanvasHelper::setPadNDivisions(TVirtualPad *pad) {
   std::pair<TAxis*, TAxis*> axis = getPadXYAxis(pad);
 
@@ -763,25 +810,29 @@ void CanvasHelper::setPaveAlignment(TPave *pave, UInt_t align) {
 }
 
 void CanvasHelper::saveCanvas(TCanvas *canvas, UInt_t format) {
+  // Workaround for the thick lines on the multi-pad
+  // https://root-forum.cern.ch/t/lines-in-the-pdf-file-are-way-too-thick/16510
+  // Line scale should be proportional to the size of the default canvas
+  Double_t canvasWidth = canvas->GetWw();
+  Double_t defaultCanvasWidth = gStyle->GetCanvasDefW();
+  Double_t ratio = canvasWidth/defaultCanvasWidth;
+  gStyle->SetLineScalePS(3./ratio);
+
+  TString fileName = canvas->GetName();
   if ((format & kFormatC) == kFormatC) {
-    TString fileName = canvas->GetName();
-    fileName += ".c";
-    canvas->SaveAs(fileName);
+    canvas->SaveAs(fileName + ".c");
   }
   if ((format & kFormatPng) == kFormatPng) {
-    TString fileName = canvas->GetName();
-    fileName += ".png";
-    canvas->SaveAs(fileName);
+    canvas->SaveAs(fileName + ".png");
   }
   if ((format & kFormatPs) == kFormatPs) {
-    TString fileName = canvas->GetName();
-    fileName += ".ps";
-    canvas->SaveAs(fileName);
+    canvas->SaveAs(fileName + ".ps");
   }
   if ((format & kFormatROOT) == kFormatROOT) {
-    TString fileName = canvas->GetName();
-    fileName += ".root";
-    canvas->SaveAs(fileName);
+    canvas->SaveAs(fileName + ".root");
+  }
+  if ((format & kFormatPdf) == kFormatPdf) {
+    canvas->SaveAs(fileName + ".pdf");
   }
 }
 

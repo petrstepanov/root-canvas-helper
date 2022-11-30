@@ -15,6 +15,7 @@ var NAVTREEINDEX0 =
 "classCanvasHelper.html#ad3b55570532953d9dad1c64e4cd254fb":[2,0,0,7],
 "classCanvasHelper.html#ade239b7879bfff344d7da95aba9f133a":[2,0,0,1],
 "classCanvasHelper.html#afe7472640147b085cc66efe9552b3da0":[2,0,0,6],
+"classTNamedLine.html":[2,0,1],
 "classes.html":[2,1],
 "dir_68267d1309a1af8e8297ef4c3efbcdba.html":[3,0,0],
 "files.html":[3,0],
