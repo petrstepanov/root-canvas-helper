@@ -581,14 +581,15 @@ void CanvasHelper::alignAllPaves(TVirtualPad *pad) {
       Round::paveTextValueErrors(paveText);
     }
 
-    // Estimate pave width (TODO - for legend)
+    // Estimate pave width
     Double_t paveWidthPx = 300;
     if (pave->InheritsFrom(TPaveText::Class())) {
       TPaveText *paveText = (TPaveText*) pave;
       paveWidthPx = (Int_t) getPaveTextWidthPx(paveText);
     } else if (pave->InheritsFrom(TLegend::Class())) {
-      TLegend *paveText = (TLegend*) pave;
-      paveWidthPx = (Int_t) getLegendWidthPx(paveText);
+      TLegend *legend = (TLegend*) pave;
+      paveWidthPx = (Int_t) getLegendWidthPx(legend);
+      paveWidthPx = paveWidthPx * legend->GetNColumns();
     }
 
     if (pave->TestBit(kPaveAlignLeft)) {
@@ -601,7 +602,17 @@ void CanvasHelper::alignAllPaves(TVirtualPad *pad) {
       pave->SetX2NDC(1 - pxToNdcHorizontal(rightMargin, pad));
       pave->SetX1NDC(1 - pxToNdcHorizontal(rightMargin + paveWidthPx, pad));
     }
-    Int_t paveHeightPx = getPaveLines(pave) * PAVELINE_VSPACE;
+
+    // Calculate and align height
+    Int_t paveHeightPx = 100;
+    if (pave->InheritsFrom(TPaveText::Class())) {
+      TPaveText *paveText = (TPaveText*) pave;
+      paveHeightPx = getPaveLines(pave) * PAVELINE_VSPACE;
+    } else if (pave->InheritsFrom(TLegend::Class())) {
+      TLegend *legend = (TLegend*) pave;
+      paveHeightPx = legend->GetNRows() * PAVELINE_VSPACE;
+    }
+
     if (pave->TestBit(kPaveAlignTop)) {
       Int_t topMargin = getFrameTopMarginPx(pad);
       pave->SetY2NDC(1 - pxToNdcVertical(topMargin - 1, pad));
