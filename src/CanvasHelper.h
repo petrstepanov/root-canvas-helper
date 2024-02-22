@@ -65,7 +65,7 @@ class TNamedLine: public TLine {
     TNamedLine(const char *name, Double_t x1, Double_t y1, Double_t x2, Double_t y2);
     ~TNamedLine();
 
-    const char *GetName() const override { return fName.Data(); }
+    const char *GetName() const { return fName.Data(); }
 
   ClassDef(TNamedLine, 1)
 };
