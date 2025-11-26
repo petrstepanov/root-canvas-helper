@@ -8,6 +8,7 @@
 #include <TH1.h>
 #include <TF1.h>
 #include <TGraph.h>
+#include <TMultiGraph.h>
 #include <TRandom3.h>
 
 void demo1() {
@@ -31,12 +32,71 @@ void demo1() {
   TPave *pave = CanvasHelper::getDefaultPaveStats(pad1);
   CanvasHelper::setPaveAlignment(pave, kPaveAlignRight | kPaveAlignTop);
 
-  // PAD 2: draw a graph
+  // PAD 2: draw a TMultiGraph from ROOt manual
+  // https://root.cern.ch/doc/master/classTMultiGraph.html
   c->cd(2);
+  /*
   TGraph *g = new TGraph(h);
   g->SetTitle("Graph from ROOT Manual; Array indexes; Array values");
   g->Draw();
+  */
+  {
+      auto mg = new TMultiGraph("mg","mg");
 
+      const Int_t size = 10;
+
+      double px[size];
+      double py1[size];
+      double py2[size];
+      double py3[size];
+
+      for ( int i = 0; i <  size ; ++i ) {
+         px[i] = i;
+         py1[i] = size - i;
+         py2[i] = size - 0.5 * i;
+         py3[i] = size - 0.6 * i;
+      }
+
+      auto gr1 = new TGraph( size, px, py1 );
+      gr1->SetName("gr1");
+      gr1->SetTitle("graph 1");
+      gr1->SetMarkerStyle(21);
+      gr1->SetDrawOption("AP");
+      gr1->SetLineColor(2);
+      gr1->SetLineWidth(4);
+      gr1->SetFillStyle(0);
+
+      auto gr2 = new TGraph( size, px, py2 );
+      gr2->SetName("gr2");
+      gr2->SetTitle("graph 2");
+      gr2->SetMarkerStyle(22);
+      gr2->SetMarkerColor(2);
+      gr2->SetDrawOption("P");
+      gr2->SetLineColor(3);
+      gr2->SetLineWidth(4);
+      gr2->SetFillStyle(0);
+
+      auto gr3 = new TGraph( size, px, py3 );
+      gr3->SetName("gr3");
+      gr3->SetTitle("graph 3");
+      gr3->SetMarkerStyle(23);
+      gr3->SetLineColor(4);
+      gr3->SetLineWidth(4);
+      gr3->SetFillStyle(0);
+
+      mg->Add(gr1);
+      mg->Add(gr2);
+      // Line below is confusing - ROOT has issue with building legend for MultiGraph
+      // Workaround is to Draw() last graph, instead of Add()
+      gr3->Draw("ALP");
+      mg->Draw("LP");
+
+      TVirtualPad* p2 = c->cd(2);
+      p2->BuildLegend();
+
+      TLegend *legend = CanvasHelper::getDefaultLegend(p2);
+      CanvasHelper::setPaveAlignment(legend, kPaveAlignRight | kPaveAlignTop);
+  }
   // PAD 3: draw a function
   c->cd(3);
   TF1 *fa1 = new TF1("fa1", "sin(x)/x", 0, 10);
